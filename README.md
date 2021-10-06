@@ -1,5 +1,9 @@
 ![header](https://fintecsystems.com/iOS_SDK_Header.jpg)
+
 # XS2AiOS - Native iOS SDK for XS2A
+![Platform](https://img.shields.io/badge/platform-iOS-1d72b8.svg)
+![Languages](https://img.shields.io/badge/languages-swift-1d72b8.svg)
+![Swift Package Manager](https://img.shields.io/badge/SPM-supported-1d72b8.svg)
 
 This iOS SDK allows for the integration of XS2A into native iOS apps.
 An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also available.
@@ -8,11 +12,20 @@ An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also availabl
 ### Demo Screencast
 <img src="https://fintecsystems.com/ios_sdk_testbank_screencast.webp" alt="Screencast Demo" height="400"/>
 
+
 ## How to Integrate
+
+### Requirements
+
+- iOS >= 11.0
 
 ### Include the Module via Swift Package Manager
 Use Xcode's `File -> Swift Packages -> Add Package Dependency` (Xcode 12) or `File -> Add Packages...` (Xcode 13) to add this package.
-Use the URL of this repository (`https://github.com/FinTecSystems/xs2a-ios`) for this.
+Use the URL of this repository for this:
+
+```
+https://github.com/FinTecSystems/xs2a-ios
+```
 
 ### Import the Module
 ```swift
@@ -91,4 +104,4 @@ var warningStyle: AlertStyle
 var infoStyle: AlertStyle
 
 ```
-![Styling API](https://fintecsystems.com/StylingAPI.png)
+![Styling API](https://fintecsystems.com/StylingAPI_v2.png)
