@@ -1,0 +1,15 @@
+"Yes" = "Ja";
+"No" = "Nein";
+"Notice" = "Hinweis";
+"Choose" = "Wählen ...";
+"Next" = "Weiter";
+"Alert.Close" = "Schließen";
+"Alert.Imprint.Title" = "Impressum";
+"Alert.Imprint.Message" = "FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nAmtsgericht München\nHRB 210653\n\nAufsichtsbehörde: Bundesanstalt für Finanzdienstleistungsaufsicht.";
+"Alert.Imprint.LinkText" = "Mehr Erfahren";
+"Alert.Imprint.Link" = "https://fintecsystems.com/psd2-certified-siegel/";
+"Alert.Abort.Title" = "Abbrechen";
+"Alert.Abort.Message" = "Möchten Sie abbrechen?";
+"AutocompleteView.Notice" = "Suchen Sie Ihre Bank nach Name, BLZ oder BIC, oder geben Sie Ihre IBAN ein.";
+"AutocompleteView.IBANTypingNotice" = "Fahren Sie mit der Eingabe Ihrer IBAN fort ...";
+"AutocompleteView.IBANTooLongNotice" = "Ihre IBAN scheint zu lang, bitte überprüfen Sie diese.";

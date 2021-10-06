@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "NVActivityIndicatorView",
+        "repositoryURL": "https://github.com/ninjaprox/NVActivityIndicatorView.git",
+        "state": {
+          "branch": null,
+          "revision": "bcb52371f2259254bac6690f92bb474a61768c47",
+          "version": "5.1.1"
+        }
+      },
+      {
+        "package": "SwiftyJSON",
+        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
+        "state": {
+          "branch": null,
+          "revision": "2b6054efa051565954e1d2b9da831680026cd768",
+          "version": "4.3.0"
+        }
+      },
+      {
+        "package": "XS2AiOSNetService",
+        "repositoryURL": "https://gitlab.fintec.io/felix.fritz/xs2aiosnetservice_test",
+        "state": {
+          "branch": null,
+          "revision": "2cac2e2c8aed218d180b15f232d266ee7b50cded",
+          "version": "1.0.10"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
