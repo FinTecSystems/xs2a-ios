@@ -342,9 +342,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		case .abort:
 			result = .failure(.userAborted)
 			view.subviews.forEach({ $0.removeFromSuperview() })
-			self.presentingViewController?.dismiss(animated: true, completion: {
-				self.completionHandler()
-			})
+			
+			dimissAndComplete();
+
 			isBusy = false
 		case .submit:
 			let validation = validateForm()
@@ -403,29 +403,18 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			case .success(let formElements):
 				self.setupViews(formElements: formElements)
 				self.isBusy = false
-				break
+				
+				return
 			case .finish:
 				self.result = .success(.finish)
-				
-				self.presentingViewController?.dismiss(animated: true, completion: {
-					self.completionHandler()
-				})
-				self.isBusy = false
 			case .finishWithCredentials(let credentials):
 				self.result = .success(.finishWithCredentials(credentials))
-				
-				self.presentingViewController?.dismiss(animated: true, completion: {
-					self.completionHandler()
-				})
-				self.isBusy = false
 			case .failure(_):
 				self.result = .failure(.networkError)
-
-				self.presentingViewController?.dismiss(animated: true, completion: {
-					self.completionHandler()
-				})
-				self.isBusy = false
 			}
+			
+			self.dimissAndComplete();
+			self.isBusy = false
 		}
 	}
 	
@@ -442,6 +431,18 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			permanentCompletion?(.failure(.networkError))
 		case .none:
 			return
+		}
+	}
+	
+	/// Checks if this ViewController has been presented and dismisses itself,
+	/// calls the completionHandler in any case to to notify host app
+	private func dimissAndComplete() {
+		if (self.presentingViewController != nil) {
+			self.presentingViewController?.dismiss(animated: true, completion: {
+				self.completionHandler()
+			})
+		} else {
+			self.completionHandler()
 		}
 	}
 	
@@ -557,9 +558,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				style: .cancel,
 				handler: { action in
 					self.result = .failure(.userAborted)
-					self.presentingViewController?.dismiss(animated: true, completion: {
-						self.completionHandler()
-					})
+					self.dimissAndComplete();
 				}
 			)
 		)
@@ -604,25 +603,17 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			switch result {
 			case .success(let formElements):
 				self.setupViews(formElements: formElements)
-				break
+				
+				return
 			case .finish:
 				self.result = .success(.finish)
-				
-				self.presentingViewController?.dismiss(animated: true, completion: {
-					self.completionHandler()
-				})
 			case .finishWithCredentials(let credentials):
 				self.result = .success(.finishWithCredentials(credentials))
-				
-				self.presentingViewController?.dismiss(animated: true, completion: {
-					self.completionHandler()
-				})
 			case .failure(_):
 				self.result = .failure(.networkError)
-				self.presentingViewController?.dismiss(animated: true, completion: {
-					self.completionHandler()
-				})
 			}
+			
+			self.dimissAndComplete();
 		})
 	}
 }
