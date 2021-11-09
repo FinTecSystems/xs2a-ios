@@ -12,6 +12,8 @@ Pod::Spec.new do |s|
   s.dependency		'NVActivityIndicatorView', '5.1.1'
   s.dependency		'XS2AiOSNetService', '1.0.4'
 
+  s.cocoapods_version = '>= 1.10.0'
+
   s.ios.deployment_target = '11.0'
   s.swift_version = '5.3'
 
