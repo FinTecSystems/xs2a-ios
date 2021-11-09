@@ -5,7 +5,11 @@ private class BundleFinder {}
 extension Foundation.Bundle {
 	/// Returns the resource bundle associated with the current Swift module.
 	static var current: Bundle = {
-		let bundleName = "XS2AiOS_XS2AiOS"
+		#if SWIFT_PACKAGE
+			let bundleName = "XS2AiOS_XS2AiOS"
+		#else
+			let bundleName = "XS2AiOS"
+		#endif
 
 		let candidates = [
 			// Bundle should be present here when the package is linked into an App.
@@ -23,6 +27,6 @@ extension Foundation.Bundle {
 			}
 		}
 
-		fatalError("unable to find bundle named XS2AiOS_XS2AiOS")
+		fatalError("unable to find bundle named XS2AiOS")
 	}()
 }
