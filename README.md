@@ -34,6 +34,8 @@ Include the pod in your Podfile:
 pod "XS2AiOS"
 ```
 
+Then run `pod install`. In some cases you might have to run `pod install --repo-update`.
+
 ### Import the Module
 ```swift
 import XS2AiOS
