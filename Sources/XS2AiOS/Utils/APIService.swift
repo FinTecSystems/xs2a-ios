@@ -63,7 +63,7 @@ class APIService {
 	/// Function for making the initial call to the XS2A backend
 	func initCall(completion: @escaping (APIResponseType) -> Void) {
 		let payload: [String:Any] = [
-			"version": "ios_sdk_1.0.1",
+			"version": "ios_sdk_1.0.4",
 			"client": "ios_sdk",
 		]
 
@@ -87,7 +87,7 @@ class APIService {
 				let deviceLocalization = String(Locale.preferredLanguages[0].prefix(2))
 
 				/// Check if we support the device language
-				if Bundle.module.localizations.contains(deviceLocalization) && languageFromServer != deviceLocalization {
+				if (["de", "en", "es", "fr", "it"].contains(deviceLocalization) && languageFromServer != deviceLocalization) {
 					/// Language sent from server is not device language, but we know we support the device language, so lets change it
 					self.notifyServerOfLanguageChange(newLocalization: deviceLocalization, completion: completion)
 					

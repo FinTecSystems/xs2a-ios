@@ -20,7 +20,7 @@ class FlickerContainer: UIView {
 		self.init(frame: .zero)
 		
 		if withTriangle == true {
-			var triangle = UIImage(named: "flicker_triangle", in: .module, compatibleWith: nil)
+			var triangle = UIImage(named: "flicker_triangle", in: .current, compatibleWith: nil)
 			
 			if alignment == .vertical {
 				triangle = UIImage(cgImage: triangle!.cgImage!, scale: 1.0, orientation: .right)

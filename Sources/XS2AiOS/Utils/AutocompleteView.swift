@@ -167,7 +167,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 			resultTable.isHidden = true
 		}
 
-		let nib = UINib(nibName: "ResultCell", bundle: .module)
+		let nib = UINib(nibName: "ResultCell", bundle: .current)
 		resultTable.register(nib, forCellReuseIdentifier: "resultCell")
 		resultTable.delegate = self
 		resultTable.dataSource = self
