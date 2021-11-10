@@ -111,11 +111,6 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDe
 		]
 	}
 	
-	func validate() -> Bool {
-		return true
-	}
-
-	
 	@objc func buttonTapped() {
 		view.superview?.endEditing(true)
 		triggerHapticFeedback(style: .light)

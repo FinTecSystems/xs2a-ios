@@ -16,8 +16,6 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	
 	private let name: String
 	private let label: String
-	private var required: Bool = false
-	private let maxlength: Int?
 	private let autocompleteAction: String?
 	let index: Int
 	let multiFormName: String?
@@ -31,8 +29,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	   - name: The name of this text line
 	   - label: The label of this text line
 	   - disabled: Boolean indicating whether the text field is disabled
-	   - required: Boolean indicating whether the text field is required (textlength > 0)
-	   - maxlength: The maxlength of character of this text field
+	   - invalid: Boolean indicating whether the text field is invalid
 	   - autocompleteAction: String used in case this field is autocompleted
 	   - value: A prefilled value for this text field
 	   - placeholder: The placeholder for this text field
@@ -40,18 +37,15 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, label: String, disabled: Bool, required: Bool, maxlength: Int?, autocompleteAction: String?, value: String, placeholder: String, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, multiFormName: String?, multiFormValue: String?) {
 		self.name = name
 		self.label = label
 		self.labelElement.text = label
 		self.index = index
-		self.required = required
-		self.maxlength = maxlength
 		self.autocompleteAction = autocompleteAction
 		self.multiFormName = multiFormName
 		self.multiFormValue = multiFormValue
 		
-		textfieldElement.maxlength = maxlength
 		textfieldElement.text = value
 		textfieldElement.attributedPlaceholder = NSAttributedString(
 			string: placeholder,
@@ -63,6 +57,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 			
 			/// Equal to .systemGray4
 			textfieldElement.backgroundColor = UIColor(red: 0.8196078431372549, green: 0.8196078431372549, blue: 0.8392156862745098, alpha: 1.0)
+		}
+		
+		if invalid {
+			textfieldElement.styleTextfield(style: .error)
 		}
 		
 		textfieldElement.autocorrectionType = .no
@@ -81,8 +79,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 			let autocompleteVC = AutocompleteView(
 				countryId: actionDelegate?.getCountryId() ?? "DE",
 				label: self.label,
-				prefilledText: self.textfieldElement.text,
-				maxlength: self.maxlength
+				prefilledText: self.textfieldElement.text
 			)
 			
 			autocompleteVC.notificationDelegate = self
@@ -143,46 +140,5 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		}
 		
 		return fieldPayload
-	}
-	
-	private func validateField() -> Bool {
-		if required == false {
-			return true
-		}
-		
-
-		if let textFieldText = textfieldElement.text {
-			let count = textFieldText.count
-
-			guard let maxlength = maxlength else {
-				/// if we don't have a maxlength set but the field is required,
-				/// simply check if the field is empty
-				return !textFieldText.isEmpty
-			}
-			
-			if maxlength > 0 {
-				/// maxlength can be 0, meaning no maxlength
-				return count > 0 && count <= maxlength
-			} else {
-				/// maxlength is 0
-				/// simply check if the field is empty
-				return !textFieldText.isEmpty
-			}
-		} else {
-			/// field is required but text is nil
-			return false
-		}
-	}
-	
-	func validate() -> Bool {
-		let result = validateField()
-		
-		if result == false {
-			textfieldElement.styleTextfield(style: .error)
-		} else {
-			textfieldElement.styleTextfield(style: .normal)
-		}
-		
-		return result
 	}
 }

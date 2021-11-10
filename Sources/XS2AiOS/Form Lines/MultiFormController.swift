@@ -106,8 +106,4 @@ class MultiFormController: UIViewController, FormLine, ExposableFormElement {
 			name: selectedMultiFormValue
 		]
 	}
-	
-	func validate() -> Bool {
-		return true
-	}
 }

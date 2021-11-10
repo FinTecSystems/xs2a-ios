@@ -19,11 +19,12 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	   - label: The label of this password line
 	   - disabled: Boolean indicating whether the input is disabled
 	   - placeholder: Placeholder for the input
+	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, label: String, disabled: Bool, placeholder: String, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, multiFormName: String?, multiFormValue: String?) {
 		self.name = name
 		self.labelElement.text = label
 		self.disabled = disabled
@@ -41,6 +42,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 
 		textfieldElement.isSecureTextEntry = true
 		textfieldElement.parentDelegate = self
+		
+		if invalid {
+			textfieldElement.styleTextfield(style: .error)
+		}
 	}
 	
 	required init?(coder: NSCoder) {
@@ -81,25 +86,5 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		return [
 			name: textfieldElement.text ?? "",
 		]
-	}
-	
-	private func validateField() -> Bool {
-		guard let textFieldText = textfieldElement.text else {
-			return false
-		}
-
-		return textFieldText.count > 0
-	}
-	
-	func validate() -> Bool {
-		let result = validateField()
-		
-		if result == false {
-			textfieldElement.styleTextfield(style: .error)
-		} else {
-			textfieldElement.styleTextfield(style: .normal)
-		}
-		
-		return result
 	}
 }

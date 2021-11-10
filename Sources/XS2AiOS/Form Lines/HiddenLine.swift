@@ -31,8 +31,4 @@ class HiddenLine: UIViewController, FormLine, ExposableFormElement {
 	func exposableFields() -> Dictionary<String, Any>? {
 		return [name: value]
 	}
-	
-	func validate() -> Bool {
-		return true
-	}
 }

@@ -19,11 +19,12 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	   - label: The text for the label
 	   - imageData: The base64 encoded image data
 	   - placeholder: The placeholder for the input field
+	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, label: String, imageData: String, placeholder: String, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int, multiFormName: String?, multiFormValue: String?) {
 		self.name = name
 		self.labelElement.text = label
 		self.index = index
@@ -39,6 +40,10 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 		}
 
 		textfieldElement.parentDelegate = self
+		
+		if invalid {
+			textfieldElement.styleTextfield(style: .error)
+		}
 	}
 	
 	
@@ -95,21 +100,5 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 			textfieldElement.layer.borderWidth = 0
 			textfieldElement.layer.add(getBorderWidthAnimation(type: .didEnd), forKey: "Width")
 		}
-	}
-	
-	private func validateField() -> Bool {
-		return true
-	}
-	
-	func validate() -> Bool {
-		let result = validateField()
-		
-		if result == false {
-			styleTextfield(style: .error)
-		} else {
-			styleTextfield(style: .normal)
-		}
-		
-		return result
 	}
 }

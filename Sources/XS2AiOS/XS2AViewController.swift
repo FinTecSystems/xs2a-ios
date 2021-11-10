@@ -193,35 +193,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		])
 	}
 	
-	/// Function for validiting the current fields
-	/// Called after the user presses submit
-	private func validateForm() -> Bool {
-		var validated = true
-
-		for child in self.children {
-			if child.view.isHidden {
-				continue
-			}
-
-			let hasExposableFields = child as? ExposableFormElement
-			if hasExposableFields != nil {
-				let exposedClass = child as! ExposableFormElement
-				let validation = exposedClass.validate()
-				if (!validation) {
-					validated = false
-					let generator = UINotificationFeedbackGenerator()
-					generator.notificationOccurred(.error)
-					hideLoadingIndicator()
-					break
-				}
-			}
-		}
-
-		return validated
-	}
-	
 	/// Function for serializing the current form
-	/// Called after validateForm
 	private func serializeForm() -> Dictionary<String, Any> {
 		var payload: Dictionary<String, Any> = [:]
 		for child in self.children {
@@ -274,6 +246,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	   - textField: The textfield calling this method
 	*/
 	func findNextResponder(index: Int, textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+
 		for (classIndex, instantiatedClass) in self.children.enumerated() {
 			if classIndex <= index {
 				// we can skip form elements that are above the form element that calls this function
@@ -297,14 +271,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			} else if asFlickerLine != nil {
 				asFlickerLine?.textfieldElement.becomeFirstResponder()
 				break
-			} else {
-				textField.resignFirstResponder()
-				
-				return true
 			}
 		}
 
-		return false
+		return true
 	}
 
 	/**
@@ -328,17 +298,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 		switch actionType {
 		case .restart:
-			payload["action"] = "restart"
-			handleFormSubmit(payload: payload)
+			handleFormSubmit(action: "restart")
 		case .switch_login_tabs:
-			var payload = serializeForm()
-
-			/// For this actionType, we most likely get additionalPayload
-			if let additionalPayload = additionalPayload {
-				payload.merge(additionalPayload){ (_, additional) in additional }
-			}
-			payload["action"] = "switch-login-tabs"
-			handleFormSubmit(payload: payload)
+			handleFormSubmit(action: "switch-login-tabs", additionalPayload: additionalPayload)
 		case .abort:
 			result = .failure(.userAborted)
 			view.subviews.forEach({ $0.removeFromSuperview() })
@@ -347,44 +309,15 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 			isBusy = false
 		case .submit:
-			let validation = validateForm()
-			if validation {
-				var payload = serializeForm()
-				payload["action"] = "submit"
-				handleFormSubmit(payload: payload)
-			} else {
-				isBusy = false
-			}
+			handleFormSubmit(action: "submit")
 		case .linkAutosubmit:
-			var payload = serializeForm()
-
-			/// For this actionType, we get additionalPayload
-			if let additionalPayload = additionalPayload {
-				payload.merge(additionalPayload){ (_, additional) in additional }
-			}
-			payload["action"] = "submit"
-			handleFormSubmit(payload: payload)
+			handleFormSubmit(action: "submit", additionalPayload: additionalPayload)
 		case .autosubmit:
-			let validation = validateForm()
-			if validation {
-				var payload = serializeForm()
-				payload["action"] = "autosubmit"
-				handleFormSubmit(payload: payload)
-			} else {
-				isBusy = false
-			}
+			handleFormSubmit(action: "autosubmit")
 		case .back:
-			payload["action"] = "back"
-			handleFormSubmit(payload: payload)
+			handleFormSubmit(action: "back")
 		case .redirect:
-			let validation = validateForm()
-			if validation {
-				var payload = serializeForm()
-				payload["action"] = "post-code"
-				handleFormSubmit(payload: payload)
-			} else {
-				isBusy = false
-			}
+			handleFormSubmit(action: "post-code")
 		default:
 			isBusy = false
 			return
@@ -397,7 +330,15 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	 - Parameters:
 	   - payload: The payload to be send to the backend
 	*/
-	private func handleFormSubmit(payload: Dictionary<String, Any>) {
+	private func handleFormSubmit(action: String = "submit", additionalPayload: Dictionary<String, Any>? = [:]) {
+		var payload = serializeForm()
+
+		if let additionalPayload = additionalPayload {
+			payload.merge(additionalPayload){ (_, additional) in additional }
+		}
+		
+		payload["action"] = action
+
 		self.ApiService.postBody(payload: payload) { result in
 			switch result {
 			case .success(let formElements):

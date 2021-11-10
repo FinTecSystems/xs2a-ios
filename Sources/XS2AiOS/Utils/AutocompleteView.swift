@@ -109,12 +109,11 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		dismiss(animated: true, completion: nil)
 	}
 	
-	init(countryId: String, label: String, prefilledText: String?, maxlength: Int?) {
+	init(countryId: String, label: String, prefilledText: String?) {
 		self.countryId = countryId
 		self.label.text = label
 		self.infoLabel.text = Strings.AutocompleteView.notice
 		self.infoLabel.numberOfLines = 3
-		self.searchField.maxlength = maxlength
 		self.searchField.autocorrectionType = .no
 		self.nextButton = UIButton.make(buttonType: .submit)
 		self.nextButton.setTitle(Strings.next, for: .normal)

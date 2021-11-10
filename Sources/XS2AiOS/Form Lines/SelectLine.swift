@@ -21,10 +21,11 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 	   - label: The label for this select line
 	   - selected: The key of the (pre)selected option
 	   - name: The name for this select line
+	   - invalid: If this select is invalid
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(options: Dictionary<String, Any>, label: String, selected: String, name: String, multiFormName: String?, multiFormValue: String?) {
+	init(options: Dictionary<String, Any>, label: String, selected: String, name: String, invalid: Bool, multiFormName: String?, multiFormValue: String?) {
 		/// Add default disabled row
 		self.options.append((id: "disabled", label: Strings.choose))
 
@@ -48,6 +49,10 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		}
 		
 		labelElement.text = label
+		
+		if invalid {
+			textfieldElement.styleTextfield(style: .error)
+		}
 		
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -130,25 +135,5 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		textfieldElement.text = options[row].label as? String
 		selectedElementId = options[row].id
 		textfieldElement.resignFirstResponder()
-	}
-
-	
-	func validateField() -> Bool {
-		let index = options.firstIndex { (id, label) -> Bool in
-			return id == selectedElementId
-		}
-
-		return selectedElementId != nil && index != nil
-	}
-	
-	func validate() -> Bool {
-		let result = validateField()
-		if result == false {
-			textfieldElement.styleTextfield(style: .error)
-		} else {
-			textfieldElement.styleTextfield(style: .normal)
-		}
-		
-		return result
 	}
 }

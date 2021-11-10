@@ -35,11 +35,12 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	   - name: The name of the flicker line
 	   - code: Flicker data encoded in an array of arrays of integers, where 1 indicates on and 0 off
 	   - label: The label for the input element
+	   - invalid:If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, code: Array<Array<Int>>, label: String, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int, multiFormName: String?, multiFormValue: String?) {
 		self.name = name
 		self.code = code
 		self.index = index
@@ -50,6 +51,10 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		super.init(nibName: nil, bundle: nil)
 		
 		textfieldElement.parentDelegate = self
+		
+		if invalid {
+			textfieldElement.styleTextfield(style: .error)
+		}
 	}
 	
 	required init?(coder: NSCoder) {
@@ -89,10 +94,6 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		return [
 			name: textfieldElement.text ?? ""
 		]
-	}
-	
-	func validate() -> Bool {
-		return textfieldElement.text?.count ?? 0 > 0
 	}
 	
 

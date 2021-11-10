@@ -73,10 +73,6 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 		]
 	}
 	
-	func validate() -> Bool {
-		return true
-	}
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
