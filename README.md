@@ -1,9 +1,11 @@
 ![header](https://fintecsystems.com/iOS_SDK_Header.jpg)
 
 # XS2AiOS - Native iOS SDK for XS2A
+![License](https://img.shields.io/badge/license-MIT%20%2B%20file%20LICENSE-1d72b8.svg)
 ![Platform](https://img.shields.io/badge/platform-iOS-1d72b8.svg)
 ![Languages](https://img.shields.io/badge/languages-swift-1d72b8.svg)
 ![Swift Package Manager](https://img.shields.io/badge/SPM-supported-1d72b8.svg)
+![Cocoapods](https://img.shields.io/cocoapods/v/XS2AiOS?color=1d72b8&logo=FinTecSystems&logoColor=1d72b8)
 
 This iOS SDK allows for the integration of XS2A into native iOS apps.
 An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also available.
