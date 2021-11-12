@@ -11,13 +11,14 @@ protocol TextfieldParentDelegate {
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool
 }
 
-class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate {
+class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, LoginCredentialFormLine {
 	var actionDelegate: ActionDelegate?
 	
-	private let name: String
+	let name: String
 	private let label: String
 	private let autocompleteAction: String?
 	let index: Int
+	let isLoginCredential: Bool
 	let multiFormName: String?
 	let multiFormValue: String?
 
@@ -34,15 +35,17 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	   - value: A prefilled value for this text field
 	   - placeholder: The placeholder for this text field
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
+	   - isLoginCredential: If this field is a login credential
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool, multiFormName: String?, multiFormValue: String?) {
 		self.name = name
 		self.label = label
 		self.labelElement.text = label
-		self.index = index
 		self.autocompleteAction = autocompleteAction
+		self.index = index
+		self.isLoginCredential = isLoginCredential
 		self.multiFormName = multiFormName
 		self.multiFormValue = multiFormValue
 		

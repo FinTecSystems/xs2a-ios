@@ -16,12 +16,13 @@ let package = Package(
 	dependencies: [
 		.package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
 		.package(url: "https://github.com/ninjaprox/NVActivityIndicatorView.git", from: "5.1.1"),
-		.package(name: "XS2AiOSNetService", url: "https://github.com/FinTecSystems/xs2a-ios-netservice.git", from: "1.0.4")
+		.package(name: "XS2AiOSNetService", url: "https://github.com/FinTecSystems/xs2a-ios-netservice.git", from: "1.0.4"),
+		.package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.2")
 	],
 	targets: [
 		.target(
 			name: "XS2AiOS",
-			dependencies: ["SwiftyJSON", "NVActivityIndicatorView", "XS2AiOSNetService"],
+			dependencies: ["SwiftyJSON", "NVActivityIndicatorView", "XS2AiOSNetService", "KeychainAccess"],
 			resources: [
 				.process("Resources")
 			]

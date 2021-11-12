@@ -35,6 +35,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 	
 	/// "form" is an array of multiple form lines to be rendered
 	let form = json["form"]
+	print(form)
 	/// Array containing the form lines to be returned
 	var formClasses: [FormLine] = []
 
@@ -59,6 +60,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							value: formElement["value"].stringValue,
 							placeholder: formElement["placeholder"].stringValue,
 							index: formElementIndex,
+							isLoginCredential: formElement["login_credential"].boolValue,
 							multiFormName: multiFormName,
 							multiFormValue: multiFormValue
 						)
@@ -153,6 +155,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							placeholder: formElement["placeholder"].stringValue,
 							invalid: formElement["invalid"].boolValue,
 							index: formElementIndex,
+							isLoginCredential: formElement["login_credential"].boolValue,
 							multiFormName: multiFormName,
 							multiFormValue: multiFormValue
 						)

@@ -1,12 +1,13 @@
 import UIKit
 
-class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate {
+class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate, LoginCredentialFormLine {
 	var actionDelegate: ActionDelegate?
 	
-	private let name: String
-	let index: Int
+	let name: String
 	private let disabled: Bool?
 
+	let index: Int
+	let isLoginCredential: Bool
 	let multiFormName: String?
 	let multiFormValue: String?
 
@@ -21,14 +22,16 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	   - placeholder: Placeholder for the input
 	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
+	   - isLoginCredential: If this field is a login credential
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, isLoginCredential: Bool, multiFormName: String?, multiFormValue: String?) {
 		self.name = name
 		self.labelElement.text = label
 		self.disabled = disabled
 		self.index = index
+		self.isLoginCredential = isLoginCredential
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(
 			string: placeholder,
 			attributes: [

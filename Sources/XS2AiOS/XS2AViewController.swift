@@ -1,4 +1,5 @@
 import UIKit
+import KeychainAccess
 
 /// Delegate used for communicating between this ViewController and the different FormLines
 protocol ActionDelegate {
@@ -25,6 +26,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Instance of APIService
 	/// Used for making network requests
 	private let ApiService: APIService
+	
+	private let keychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
 
 	/// The top level view of this ViewController
 	/// It wraps all the other subviews and expands if necessary (e.g. keyboard open)
@@ -200,6 +203,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			if child.view.isHidden {
 				continue
 			}
+			
 
 			let hasExposableFields = child as? ExposableFormElement
 			if hasExposableFields != nil {
@@ -324,6 +328,38 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 	}
 	
+	private func checkIfStoragable(payload: Dictionary<String, Any>? = [:], completion: @escaping () -> Void) {
+		guard let payload = payload else {
+			return
+		}
+
+		
+		var parametersToStore: Dictionary<String, String> = [:]
+		
+		for child in self.children {
+			if let formLine = child as? LoginCredentialFormLine {
+				parametersToStore[formLine.name] = payload[formLine.name] as? String
+			}
+		}
+
+		if !parametersToStore.isEmpty {
+			parametersToStore.forEach { (key: String, value: String) in
+				DispatchQueue.global().async {
+					do {
+						// Should be the secret invalidated when passcode is removed? If not then use `.WhenUnlocked`
+						try self.keychain
+							.accessibility(.whenUnlockedThisDeviceOnly, authenticationPolicy: [.devicePasscode])
+							.set(value, key: key)
+					} catch let error {
+						print(error)
+						// Error handling if needed...
+					}
+				}
+			}
+		}
+		completion()
+	}
+	
 	/**
 	 Function used for handling the submission of the form to the server
 	 Delegates the different outcomes (e.g. setting up the next view or notifying the host app
@@ -342,10 +378,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		self.ApiService.postBody(payload: payload) { result in
 			switch result {
 			case .success(let formElements):
-				self.setupViews(formElements: formElements)
-				self.isBusy = false
-				
-				return
+				self.checkIfStoragable(payload: payload) {
+					self.setupViews(formElements: formElements)
+					self.isBusy = false
+						
+					return
+				}
 			case .finish:
 				self.result = .success(.finish)
 			case .finishWithCredentials(let credentials):
