@@ -529,6 +529,15 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		if #available(iOS 13.0, *) {
 			overrideUserInterfaceStyle = .light
 		}
+		
+		// Override the navigation bar appearance from iOS 15
+		if #available(iOS 15.0, *) {
+			let navigationBarAppearance = UINavigationBarAppearance()
+			navigationBarAppearance.configureWithDefaultBackground()
+			UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+			UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+			UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+		}
 
 		self.view.backgroundColor = XS2AiOS.shared.styleProvider.backgroundColor
 
