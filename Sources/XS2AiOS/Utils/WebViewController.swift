@@ -49,8 +49,18 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 		webView = WKWebView(frame: frame, configuration: config)
 		webView.navigationDelegate = self
+
+		/// Set the title for the wrapping navigation controller to display
+		self.navigationItem.title = url.host
+
+		let backButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(backbuttonPressed))
+		self.navigationItem.leftBarButtonItem = backButton
 		
 		view = webView
+	}
+
+	@objc func backbuttonPressed() {
+		self.dismiss(animated: true, completion: nil)
 	}
 	
 	override func viewDidLoad() {
