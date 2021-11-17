@@ -52,7 +52,10 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 		
 		let webview = WebViewController(url: urlToOpen)
 		webview.redirectActionDelegate = self
-		self.present(webview, animated: true, completion: nil)
+		
+		/// We wrap the webview in a navigation controller so we can use its navigation bar for displaying the URL
+		let navigationController = UINavigationController(rootViewController: webview)
+		self.present(navigationController, animated: true, completion: nil)
 	}
 	
 	func sendAction(redirectActionType: RedirectActionTypes) {
