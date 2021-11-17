@@ -49,6 +49,8 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 		webView = WKWebView(frame: frame, configuration: config)
 		webView.navigationDelegate = self
+		
+		webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
 
 		/// Set the title for the wrapping navigation controller to display
 		self.navigationItem.title = url.host
@@ -57,6 +59,15 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		self.navigationItem.leftBarButtonItem = backButton
 		
 		view = webView
+	}
+	
+	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+		if let key = change?[NSKeyValueChangeKey.newKey] {
+			if let keyURL = URL(string: String(describing: key)) {
+				self.navigationItem.title = keyURL.host
+			}
+
+		}
 	}
 
 	@objc func backbuttonPressed() {
