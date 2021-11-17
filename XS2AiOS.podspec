@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'XS2AiOS'
-  s.version          = '1.1.1'
+  s.version          = '1.1.2'
   s.summary          = 'Native integration of FinTecSystems XS2A API for your iOS apps.'
 
   s.homepage         = 'https://github.com/FinTecSystems/xs2a-ios'
