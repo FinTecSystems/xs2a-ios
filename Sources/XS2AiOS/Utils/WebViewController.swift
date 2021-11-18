@@ -55,7 +55,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		/// Set the title for the wrapping navigation controller to display
 		self.navigationItem.title = url.host
 
-		let backButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(backbuttonPressed))
+		let backButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonPressed))
 		self.navigationItem.leftBarButtonItem = backButton
 		
 		view = webView
@@ -70,22 +70,28 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		}
 	}
 	
-	private func getMenuButton(isSecure: Bool) -> UIBarButtonItem {
+	private func getSecureIcon(isSecure: Bool) -> UIBarButtonItem {
+		let iconImage = UIImage(named: isSecure ? "lock" : "lock_slash", in: .current, compatibleWith: nil)
+		
 		let barButton = UIButton(type: .custom)
 		barButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-		barButton.setImage(UIImage(named: isSecure ? "lock" : "lock_slash", in: .current, compatibleWith: nil), for: .normal)
+		barButton.setImage(iconImage, for: .normal)
 
 		let barButtonItem = UIBarButtonItem(customView: barButton)
-		let currWidth = barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-		currWidth?.isActive = true
-		let currHeight = barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-		currHeight?.isActive = true
+		
+		if let barButtonItemCustomView = barButtonItem.customView {
+			NSLayoutConstraint.activate([
+				barButtonItemCustomView.widthAnchor.constraint(equalToConstant: 24),
+				barButtonItemCustomView.heightAnchor.constraint(equalToConstant: 24)
+			])
+		}
 		
 		return barButtonItem
 	}
 	
+	/// Function called after every navigation
+	/// Checks for status of the loaded sites certificate and displays and lock icon depending on the status
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-		/// Check for a secure connection
 		if let serverTrust = self.webView.serverTrust {
 			DispatchQueue.global().async {
 				var isSecure = false
@@ -109,13 +115,15 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 				
 				/// Update UI to reflect security status
 				DispatchQueue.main.async {
-					self.navigationItem.rightBarButtonItem = self.getMenuButton(isSecure: isSecure)
+					self.navigationItem.rightBarButtonItem = self.getSecureIcon(isSecure: isSecure)
 				}
 			}
+		} else {
+			self.navigationItem.rightBarButtonItem = self.getSecureIcon(isSecure: false)
 		}
 	}
 
-	@objc func backbuttonPressed() {
+	@objc func closeButtonPressed() {
 		self.dismiss(animated: true, completion: nil)
 	}
 	
