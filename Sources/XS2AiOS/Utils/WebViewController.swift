@@ -50,7 +50,81 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		webView = WKWebView(frame: frame, configuration: config)
 		webView.navigationDelegate = self
 		
+		webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+
+		/// Set the title for the wrapping navigation controller to display
+		self.navigationItem.title = url.host
+
+		let backButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonPressed))
+		self.navigationItem.leftBarButtonItem = backButton
+		
 		view = webView
+	}
+	
+	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+		if let key = change?[NSKeyValueChangeKey.newKey] {
+			if let keyURL = URL(string: String(describing: key)) {
+				self.navigationItem.title = keyURL.host
+			}
+
+		}
+	}
+	
+	private func getSecureIcon(isSecure: Bool) -> UIBarButtonItem {
+		let iconImage = UIImage(named: isSecure ? "lock" : "lock_slash", in: .current, compatibleWith: nil)
+		
+		let barButton = UIButton(type: .custom)
+		barButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+		barButton.setImage(iconImage, for: .normal)
+
+		let barButtonItem = UIBarButtonItem(customView: barButton)
+		
+		if let barButtonItemCustomView = barButtonItem.customView {
+			NSLayoutConstraint.activate([
+				barButtonItemCustomView.widthAnchor.constraint(equalToConstant: 24),
+				barButtonItemCustomView.heightAnchor.constraint(equalToConstant: 24)
+			])
+		}
+		
+		return barButtonItem
+	}
+	
+	/// Function called after every navigation
+	/// Checks for status of the loaded sites certificate and displays and lock icon depending on the status
+	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+		if let serverTrust = self.webView.serverTrust {
+			DispatchQueue.global().async {
+				var isSecure = false
+
+				if #available(iOS 13.0, *) {
+					SecTrustEvaluateAsyncWithError(serverTrust, DispatchQueue.global()) {
+						trust, result, error in
+
+						if result {
+							isSecure = true
+						}
+					}
+				} else {
+					var trustResult: SecTrustResultType = .invalid
+					SecTrustEvaluate(serverTrust, &trustResult)
+
+					if (trustResult == .proceed || trustResult == .unspecified) {
+						isSecure = true
+					}
+				}
+				
+				/// Update UI to reflect security status
+				DispatchQueue.main.async {
+					self.navigationItem.rightBarButtonItem = self.getSecureIcon(isSecure: isSecure)
+				}
+			}
+		} else {
+			self.navigationItem.rightBarButtonItem = self.getSecureIcon(isSecure: false)
+		}
+	}
+
+	@objc func closeButtonPressed() {
+		self.dismiss(animated: true, completion: nil)
 	}
 	
 	override func viewDidLoad() {
