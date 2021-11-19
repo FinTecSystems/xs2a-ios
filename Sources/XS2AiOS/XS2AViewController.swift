@@ -328,6 +328,35 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 	}
 	
+	private func getKeychainItem(itemName: String, completion: @escaping (String?) -> Void?) {
+		DispatchQueue.global().async {
+			do {
+				let item = try self.keychain
+					.authenticationPrompt("Authenticate to login to server")
+					.get(itemName)
+
+				completion(item)
+			} catch let error {
+				print(error)
+				completion(nil)
+			}
+		}
+	}
+	
+	private func checkForStoredCredentials(payload: [FormLine], completion: @escaping () -> Void) {
+		for formLine in payload {
+			if let loginCredentialLine = formLine as? LoginCredentialFormLine {
+				getKeychainItem(itemName: loginCredentialLine.name) { (item) in
+					DispatchQueue.main.async {
+						loginCredentialLine.setValue(value: item!)
+					}
+				}
+			}
+		}
+
+		completion()
+	}
+	
 	private func checkIfStoragable(payload: Dictionary<String, Any>? = [:], completion: @escaping () -> Void) {
 		guard let payload = payload else {
 			return
@@ -347,9 +376,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				DispatchQueue.global().async {
 					do {
 						// Should be the secret invalidated when passcode is removed? If not then use `.WhenUnlocked`
-						try self.keychain
-							.accessibility(.whenUnlockedThisDeviceOnly, authenticationPolicy: [.devicePasscode])
-							.set(value, key: key)
+						if #available(iOS 11.3, *) {
+							try self.keychain
+								.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: [.biometryAny])
+								.set(value, key: key)
+						} else {
+							// Fallback on earlier versions
+						}
 					} catch let error {
 						print(error)
 						// Error handling if needed...
@@ -378,12 +411,19 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		self.ApiService.postBody(payload: payload) { result in
 			switch result {
 			case .success(let formElements):
-				self.checkIfStoragable(payload: payload) {
-					self.setupViews(formElements: formElements)
-					self.isBusy = false
-						
-					return
+				self.hideLoadingIndicator()
+				self.showStoreCrendentialsAlert() { (shouldStore) in
+					if shouldStore {
+						self.checkIfStoragable(payload: payload) {
+							self.setupViews(formElements: formElements)
+							self.isBusy = false
+						}
+					} else {
+						self.setupViews(formElements: formElements)
+						self.isBusy = false
+					}
 				}
+				return
 			case .finish:
 				self.result = .success(.finish)
 			case .finishWithCredentials(let credentials):
@@ -545,6 +585,40 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		self.present(alert, animated: true, completion: nil)
 	}
 	
+	private func showStoreCrendentialsAlert(completion: @escaping (Bool) -> Void) {
+		let alert = UIAlertController(
+			title: "Speichern",
+			message: "Möchten Sie ihren Login speichern?",
+			preferredStyle: .alert
+		)
+		
+		alert.addAction(
+			UIAlertAction(
+				title: Strings.no,
+				style: .default,
+				handler: { action in
+					alert.dismiss(animated: true, completion: nil)
+					
+					completion(false)
+				}
+			)
+		)
+		
+		alert.addAction(
+			UIAlertAction(
+				title: Strings.yes,
+				style: .cancel,
+				handler: { action in
+					alert.dismiss(animated: true, completion: nil)
+					
+					completion(true)
+				}
+			)
+		)
+		
+		self.present(alert, animated: true, completion: nil)
+	}
+	
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -590,7 +664,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		self.ApiService.initCall(completion: { result in
 			switch result {
 			case .success(let formElements):
-				self.setupViews(formElements: formElements)
+				self.checkForStoredCredentials(payload: formElements) {
+					self.setupViews(formElements: formElements)
+				}
 				
 				return
 			case .finish:

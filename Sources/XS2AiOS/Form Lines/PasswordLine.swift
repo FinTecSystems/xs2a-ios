@@ -59,6 +59,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		return true
 	}
 	
+	func setValue(value: String) {
+		textfieldElement.text = value
+	}
+	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		let shouldReturn = actionDelegate?.findNextResponder(index: self.index, textField: textField)
 		

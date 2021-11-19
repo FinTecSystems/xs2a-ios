@@ -76,6 +76,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		textfieldElement.parentDelegate = self
 	}
 	
+	func setValue(value: String) {
+		textfieldElement.text = value
+	}
+	
 	func shouldBeginEditing() -> Bool {
 		if self.autocompleteAction?.isEmpty == false {
 			/// This TextLine is to be autocompleted
