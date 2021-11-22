@@ -21,6 +21,10 @@ An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also availabl
 
 - iOS >= 11.0
 
+### Estimated Binary Size
+
+When measured with [cocoapods-size](https://github.com/google/cocoapods-size), the added size to the binary is reported being ~2,27 Megabytes.
+
 ### Include the Module via Swift Package Manager (Preferred)
 Use Xcode's `File -> Swift Packages -> Add Package Dependency` (Xcode 12) or `File -> Add Packages...` (Xcode 13) to add this package.
 Use the URL of this repository for this:
