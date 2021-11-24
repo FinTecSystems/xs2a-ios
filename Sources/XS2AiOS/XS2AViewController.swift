@@ -1,5 +1,6 @@
 import UIKit
 import KeychainAccess
+import LocalAuthentication
 
 /// Delegate used for communicating between this ViewController and the different FormLines
 protocol ActionDelegate {
@@ -58,11 +59,27 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		return stackView
 	}()
 	
+	/// Authentication Context
+	private lazy var context: LAContext = {
+		let mainContext = LAContext()
+		if #available(iOS 9.0, *) {
+			mainContext.touchIDAuthenticationAllowableReuseDuration = 60
+		}
+
+		return mainContext
+	}()
+	
 	/// Initializer called by host app
 	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError>) -> Void) {
 		self.ApiService = xs2a.apiService
 		self.permanentCompletion = completion
 		super.init(nibName: nil, bundle: nil)
+		
+//		do {
+//			try? keychain.removeAll()
+//		} catch {
+//
+//		}
 	}
 	
 
@@ -76,10 +93,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				}
 			})
 			self.children.forEach({ $0.removeFromParent() })
-			self.hideLoadingIndicator()
-			completion()
-			
-			return
+			self.hideLoadingIndicator {
+				completion()
+				
+				return
+			}
 		}
 		
 		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut) {
@@ -92,8 +110,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			self.stackView.layoutIfNeeded()
 		} completion: { (_) in
 			self.children.forEach({ $0.removeFromParent() })
-			self.hideLoadingIndicator()
-			completion()
+			self.hideLoadingIndicator {
+				completion()
+			}
 		}
 	}
 	
@@ -103,7 +122,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	   - formElements: Array of form elements to show
 	   - shouldAnimate: A boolean indicating whether to animate or not
 	*/
-	private func setupViews(formElements: [FormLine], shouldAnimate: Bool = true) {
+	private func setupViews(formElements: [FormLine], shouldAnimate: Bool = true, completion: @escaping () -> Void) {
 		/// If the batch of formElements to setup contains an AutosubmitLine, we skip animations (see further down)
 		let containsAutoSubmit = formElements.contains(where: { $0 is AutosubmitLine })
 
@@ -164,7 +183,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				}
 				
 				self.stackView.setCustomSpacing(CGFloat(12), after: initializedView)
+				
 			}
+			
+			completion()
 		}
 	}
 	
@@ -328,36 +350,53 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 	}
 	
-	private func getKeychainItem(itemName: String, completion: @escaping (String?) -> Void?) {
-		DispatchQueue.global().async {
-			do {
-				let item = try self.keychain
-					.authenticationPrompt("Authenticate to login to server")
-					.get(itemName)
+	private func getKeychainItem(itemName: String, completion: @escaping (String?) -> Void) {
+		print("GETTING: \(itemName)")
+		do {
+			let item = try self.keychain
+				.authenticationPrompt("Authenticate to login to server")
+				.authenticationContext(self.context)
+				.get(itemName)
 
-				completion(item)
-			} catch let error {
-				print(error)
-				completion(nil)
-			}
+			print("Returning: \(item)")
+			completion(item)
+		} catch let error {
+			print(error)
+			completion(nil)
 		}
 	}
 	
-	private func checkForStoredCredentials(payload: [FormLine], completion: @escaping () -> Void) {
-		for formLine in payload {
-			if let loginCredentialLine = formLine as? LoginCredentialFormLine {
-				getKeychainItem(itemName: loginCredentialLine.name) { (item) in
-					DispatchQueue.main.async {
-						loginCredentialLine.setValue(value: item!)
+	private func checkForStoredCredentials(payload: [FormLine], completion: @escaping (Bool) -> Void) {
+		let myGroup = DispatchGroup()
+		var prefilled = false
+		DispatchQueue.global().async {
+			for formLine in payload {
+				myGroup.enter()
+				if let loginCredentialLine = formLine as? LoginCredentialFormLine {
+					self.getKeychainItem(itemName: loginCredentialLine.name) { (item) in
+						if let loginCredentialItem = item {
+							DispatchQueue.main.async {
+								loginCredentialLine.setValue(value: loginCredentialItem)
+								prefilled = true
+								myGroup.leave()
+							}
+						} else {
+							myGroup.leave()
+						}
 					}
+				} else {
+					myGroup.leave()
 				}
 			}
+			myGroup.notify(queue: .main) {
+				completion(prefilled)
+			}
 		}
 
-		completion()
+//		completion()
 	}
 	
-	private func checkIfStoragable(payload: Dictionary<String, Any>? = [:], completion: @escaping () -> Void) {
+	private func storeCredentials(payload: Dictionary<String, Any>? = [:]) {
 		guard let payload = payload else {
 			return
 		}
@@ -367,7 +406,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		
 		for child in self.children {
 			if let formLine = child as? LoginCredentialFormLine {
-				parametersToStore[formLine.name] = payload[formLine.name] as? String
+				if formLine.isLoginCredential {
+					if let asString = payload[formLine.name] as? String {
+						parametersToStore[formLine.name] = asString
+					} else if let asBool = payload[formLine.name] as? Bool {
+						parametersToStore[formLine.name] = String(asBool)
+					}
+				}
 			}
 		}
 
@@ -379,6 +424,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 						if #available(iOS 11.3, *) {
 							try self.keychain
 								.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: [.biometryAny])
+								.authenticationContext(self.context)
 								.set(value, key: key)
 						} else {
 							// Fallback on earlier versions
@@ -390,7 +436,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				}
 			}
 		}
-		completion()
 	}
 	
 	/**
@@ -401,28 +446,30 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	*/
 	private func handleFormSubmit(action: String = "submit", additionalPayload: Dictionary<String, Any>? = [:]) {
 		var payload = serializeForm()
-
+		print(payload)
 		if let additionalPayload = additionalPayload {
 			payload.merge(additionalPayload){ (_, additional) in additional }
 		}
 		
 		payload["action"] = action
-
+		
+		// Check if store credentials notice checkbox is part of payload and is checked
+		let storeCredentials = payload.contains { (key, value) in
+			return key == "store_credentials" && value as? Bool == true
+		}
+		
 		self.ApiService.postBody(payload: payload) { result in
 			switch result {
 			case .success(let formElements):
-				self.hideLoadingIndicator()
-				self.showStoreCrendentialsAlert() { (shouldStore) in
-					if shouldStore {
-						self.checkIfStoragable(payload: payload) {
-							self.setupViews(formElements: formElements)
-							self.isBusy = false
-						}
-					} else {
-						self.setupViews(formElements: formElements)
-						self.isBusy = false
-					}
+				if storeCredentials {
+					self.storeCredentials(payload: payload)
 				}
+
+				self.setupViews(formElements: formElements) {
+					
+				}
+				self.isBusy = false
+				
 				return
 			case .finish:
 				self.result = .success(.finish)
@@ -435,6 +482,45 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			self.dimissAndComplete();
 			self.isBusy = false
 		}
+
+//		self.ApiService.postBody(payload: payload) { result in
+//			switch result {
+//			case .success(let formElements):
+//				self.hideLoadingIndicator {
+//					let hasLoginCredentials = self.checkContainsLoginCredentials()
+//
+//					if hasLoginCredentials {
+//						self.showStoreCrendentialsAlert() { (shouldStore) in
+//							if shouldStore {
+//								self.storeCredentials(payload: payload) {
+//									self.setupViews(formElements: formElements)
+//									self.isBusy = false
+//								}
+//							} else {
+//								self.setupViews(formElements: formElements)
+//								self.isBusy = false
+//							}
+//
+//							return
+//						}
+//					} else {
+//						self.setupViews(formElements: formElements)
+//						self.isBusy = false
+//					}
+//				}
+//
+//				return
+//			case .finish:
+//				self.result = .success(.finish)
+//			case .finishWithCredentials(let credentials):
+//				self.result = .success(.finishWithCredentials(credentials))
+//			case .failure(_):
+//				self.result = .failure(.networkError)
+//			}
+//
+//			self.dimissAndComplete();
+//			self.isBusy = false
+//		}
 	}
 	
 	/// Completion handler for the final response from the backend
@@ -664,8 +750,14 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		self.ApiService.initCall(completion: { result in
 			switch result {
 			case .success(let formElements):
-				self.checkForStoredCredentials(payload: formElements) {
-					self.setupViews(formElements: formElements)
+				self.setupViews(formElements: formElements) {
+					self.checkForStoredCredentials(payload: formElements) { prefilled in
+						print("CHILDREN: ")
+						print(self.children)
+						if prefilled {
+							self.sendAction(actionType: .submit)
+						}
+					}
 				}
 				
 				return

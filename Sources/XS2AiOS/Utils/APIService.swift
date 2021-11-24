@@ -122,6 +122,8 @@ class APIService {
 	/// Function for posting to the backend
 	/// All networking requests pass through this function
 	func postBody(payload: Dictionary<String, Any>, completion: @escaping (APIResponseType) -> Void) {
+		print("SENDING:")
+		print(payload)
 		post(body: payload, completion: { result, error in
 			if let error = error {
 				completion(.failure(error))

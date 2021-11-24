@@ -8,7 +8,7 @@ enum FlickerAlignment {
 class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate {
 	var actionDelegate: ActionDelegate?
 	
-	private let name: String
+	internal let name: String
 	private let index: Int
 	
 	/**

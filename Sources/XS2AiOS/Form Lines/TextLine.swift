@@ -14,7 +14,7 @@ protocol TextfieldParentDelegate {
 class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, LoginCredentialFormLine {
 	var actionDelegate: ActionDelegate?
 	
-	let name: String
+	internal let name: String
 	private let label: String
 	private let autocompleteAction: String?
 	let index: Int

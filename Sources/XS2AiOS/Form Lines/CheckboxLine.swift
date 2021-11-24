@@ -6,11 +6,13 @@ protocol OpenLinkDelegate {
 	func openAlert(content: String)
 }
 
-class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDelegate {
+class CheckboxLine: UIViewController, FormLine, ExposableFormElement, LoginCredentialFormLine, OpenLinkDelegate {
+	var isLoginCredential: Bool
+	
 	var actionDelegate: ActionDelegate?
 	
 	/// The name of this checkbox line
-	private let name: String
+	internal let name: String
 	
 	/// Boolean indicating whether the element is disabled
 	private let disabled: Bool
@@ -33,6 +35,11 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDe
 
 		return label
 	}()
+	
+	func setValue(value: String) {
+		print("setting checked")
+		checked = true
+	}
 
 	
 	var checked: Bool = false {
@@ -53,10 +60,11 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDe
 	   - checked: Boolean indicating whether the checkbox is checked
 	   - name: The name of the checkbox line
 	   - disabled: Boolean indicating whether the element is disabled (if true, `checked` can not be changed)
+	   - isLoginCredential: If this is a LoginCredential
 	   - multiFormName: The name of the multi form this element is part of (if any)
 	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(label: String, checked: Bool, name: String, disabled: Bool, multiFormName: String?, multiFormValue: String?) {
+	init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool, multiFormName: String?, multiFormValue: String?) {
 		self.multiFormName = multiFormName
 		self.multiFormValue = multiFormValue
 		self.checked = checked
@@ -73,7 +81,7 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDe
 		
 		button.tintColor = XS2AiOS.shared.styleProvider.tintColor
 
-		
+		self.isLoginCredential = isLoginCredential
 		self.disabled = disabled
 		if disabled == true {
 			button.isEnabled = false
@@ -87,7 +95,6 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDe
 		
 		super.init(nibName: nil, bundle: nil)
 		labelElement.openLinkDelegate = self
-
 	}
 	
 	/// Function for opening in-app webview when links inside the checkbox' paragraph are tapped

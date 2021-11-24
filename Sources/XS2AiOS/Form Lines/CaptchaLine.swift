@@ -3,7 +3,7 @@ import UIKit
 class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextFieldDelegate, TextfieldParentDelegate {
 	var actionDelegate: ActionDelegate?
 	
-	private let name: String
+	internal let name: String
 	let index: Int
 	let multiFormName: String?
 	let multiFormValue: String?
