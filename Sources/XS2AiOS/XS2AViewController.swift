@@ -93,11 +93,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				}
 			})
 			self.children.forEach({ $0.removeFromParent() })
-			self.hideLoadingIndicator {
-				completion()
-				
-				return
-			}
+			self.hideLoadingIndicator()
+			completion()
+			
+			return
 		}
 		
 		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut) {
@@ -110,9 +109,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			self.stackView.layoutIfNeeded()
 		} completion: { (_) in
 			self.children.forEach({ $0.removeFromParent() })
-			self.hideLoadingIndicator {
-				completion()
-			}
+			self.hideLoadingIndicator()
+			completion()
 		}
 	}
 	
@@ -351,14 +349,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	private func getKeychainItem(itemName: String, completion: @escaping (String?) -> Void) {
-		print("GETTING: \(itemName)")
 		do {
 			let item = try self.keychain
 				.authenticationPrompt("Authenticate to login to server")
 				.authenticationContext(self.context)
 				.get(itemName)
 
-			print("Returning: \(item)")
 			completion(item)
 		} catch let error {
 			print(error)
@@ -367,33 +363,29 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	private func checkForStoredCredentials(payload: [FormLine], completion: @escaping (Bool) -> Void) {
-		let myGroup = DispatchGroup()
+		let dispatchGroup = DispatchGroup()
 		var prefilled = false
+
 		DispatchQueue.global().async {
 			for formLine in payload {
-				myGroup.enter()
+				dispatchGroup.enter()
 				if let loginCredentialLine = formLine as? LoginCredentialFormLine {
 					self.getKeychainItem(itemName: loginCredentialLine.name) { (item) in
 						if let loginCredentialItem = item {
 							DispatchQueue.main.async {
 								loginCredentialLine.setValue(value: loginCredentialItem)
 								prefilled = true
-								myGroup.leave()
 							}
-						} else {
-							myGroup.leave()
 						}
 					}
-				} else {
-					myGroup.leave()
 				}
+				dispatchGroup.leave()
 			}
-			myGroup.notify(queue: .main) {
+
+			dispatchGroup.notify(queue: .main) {
 				completion(prefilled)
 			}
 		}
-
-//		completion()
 	}
 	
 	private func storeCredentials(payload: Dictionary<String, Any>? = [:]) {
