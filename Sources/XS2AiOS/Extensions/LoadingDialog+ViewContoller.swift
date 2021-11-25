@@ -25,10 +25,9 @@ extension UIViewController {
 		present(ProgressDialog.alert, animated: true, completion: nil)
 	}
 
-	func hideLoadingIndicator(completion: @escaping () -> Void){
+	func hideLoadingIndicator(){
 		ProgressDialog.alert.dismiss(animated: true) {
 			ProgressDialog.indicatorView.stopAnimating()
-			completion()
 		}
 
 	}
