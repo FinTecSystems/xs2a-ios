@@ -9,7 +9,11 @@ protocol ActionDelegate {
 	func openAlert(content: String)
 }
 
-public class XS2AViewController: UIViewController, UIAdaptivePresentationControllerDelegate, ActionDelegate {
+protocol NetworkNotificationDelegate {
+	func cancelNetworkTask() -> Void
+}
+
+public class XS2AViewController: UIViewController, UIAdaptivePresentationControllerDelegate, ActionDelegate, NetworkNotificationDelegate {
 	/// If the SDK is currently busy with networking
 	private var isBusy = false
 
@@ -114,6 +118,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 				/// We set the actionDelegate to this ViewController which handles all actions
 				currentFormElement.actionDelegate = self
+				
+				if currentFormElement is AutosubmitLine {
+					if let asAutosubmitLine = currentFormElement as? AutosubmitLine {
+						asAutosubmitLine.networkDelegate = self
+					}
+				}
 
 				guard let initializedView = currentFormElement.view else {
 					continue
@@ -275,6 +285,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 
 		return true
+	}
+	
+	func cancelNetworkTask() {
+		ApiService.cancelTask()
+		isBusy = false
 	}
 
 	/**

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'XS2AiOS'
-  s.version          = '1.1.3'
+  s.version          = '1.1.4'
   s.summary          = 'Native integration of FinTecSystems XS2A API for your iOS apps.'
 
   s.homepage         = 'https://github.com/FinTecSystems/xs2a-ios'
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.dependency		'SwiftyJSON', '5.0.1'
   s.dependency		'NVActivityIndicatorView', '5.1.1'
-  s.dependency		'XS2AiOSNetService', '1.0.4'
+  s.dependency		'XS2AiOSNetService', '1.0.5'
 
   s.cocoapods_version = '>= 1.10.0'
 

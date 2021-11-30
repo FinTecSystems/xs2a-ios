@@ -3,6 +3,7 @@ import NVActivityIndicatorView
 
 class AutosubmitLine: UIViewController, FormLine {
 	var actionDelegate: ActionDelegate?
+	var networkDelegate: NetworkNotificationDelegate?
 
 	/// The interval in milliseconds after which the autosubmit is triggered
 	private let interval: Int
@@ -10,10 +11,10 @@ class AutosubmitLine: UIViewController, FormLine {
 	let multiFormName: String?
 	let multiFormValue: String?
 	
-	let indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .ballClipRotateMultiple, color: XS2AiOS.shared.styleProvider.tintColor)
+	let indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: XS2AiOS.shared.styleProvider.tintColor)
 
 	var timer = Timer()
-	
+
 	/**
 	 - Parameters:
 	   - interval: The interval in milliseconds after which the autosubmit is triggered
@@ -40,6 +41,15 @@ class AutosubmitLine: UIViewController, FormLine {
 		timer.invalidate()
 	}
 	
+	@objc func appMovedToBackground() {
+		timer.invalidate()
+		networkDelegate?.cancelNetworkTask()
+	}
+	
+	@objc func appMovedToForeground() {
+		submit()
+	}
+	
 	override func viewDidLoad() {
 		indicatorView.startAnimating()
 
@@ -51,6 +61,9 @@ class AutosubmitLine: UIViewController, FormLine {
 			indicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 			view.heightAnchor.constraint(equalTo: indicatorView.heightAnchor),
 		])
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
 
 		timer = Timer.scheduledTimer(timeInterval: TimeInterval(self.interval / 1000), target: self, selector: #selector(submit), userInfo: nil, repeats: false)
 	}

@@ -34,12 +34,19 @@ class APIService {
 	/// The Wizard Session Key used for the instance of the session
 	public let wizardSessionKey: String
 	
+	private let netServiceInstance: XS2ANetService
+	
 	/**
 	 - Parameters:
 	  - wizardSessionKey: the Wizard Session Key used for the instance of the session
 	*/
 	init(wizardSessionKey: String) {
 		self.wizardSessionKey = wizardSessionKey
+		self.netServiceInstance = XS2ANetService()
+	}
+	
+	internal func cancelTask() {
+		netServiceInstance.cancelTask()
 	}
 	
 	/// Function for handling the response from the post method
@@ -63,7 +70,7 @@ class APIService {
 	/// Function for making the initial call to the XS2A backend
 	func initCall(completion: @escaping (APIResponseType) -> Void) {
 		let payload: [String:Any] = [
-			"version": "ios_sdk_1.1.3",
+			"version": "ios_sdk_1.1.4",
 			"client": "ios_sdk",
 		]
 
@@ -161,7 +168,7 @@ class APIService {
 
 	func post(body: Dictionary<String, Any>, completion: @escaping (JSON?, Error?) -> Void) {
 		DispatchQueue.global(qos: .userInitiated).async {
-			NetService.post(body: body, sessionKey: self.wizardSessionKey) { result in
+			self.netServiceInstance.post(body: body, sessionKey: self.wizardSessionKey) { result in
 				DispatchQueue.main.async {
 					switch result {
 					case .success(let data):
