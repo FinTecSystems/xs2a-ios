@@ -54,6 +54,15 @@ class APIService {
 				completion(.finish)
 			}
 		} else {
+//			print(result)
+			if result["callbackParams"].array?.isEmpty == false {
+				let callbackParam = result["callbackParams"].arrayValue[0]
+				if let callbackDic = callbackParam.dictionaryObject {
+					if let provider = callbackDic["provider"] {
+						XS2AiOS.shared.configuration.provider = String(describing: provider)
+					}
+				}
+			}
 			completion(.success(decodeJSON(json: result)))
 		}
 	}
@@ -163,7 +172,7 @@ class APIService {
 
 	func post(body: Dictionary<String, Any>, completion: @escaping (JSON?, Error?) -> Void) {
 		DispatchQueue.global(qos: .userInitiated).async {
-			NetService.post(body: body, sessionKey: self.wizardSessionKey) { result in
+			NetService.postCustom(body: body, endpoint: "http://192.168.178.44:8000/jsonp", sessionKey: self.wizardSessionKey) { result in
 				DispatchQueue.main.async {
 					switch result {
 					case .success(let data):

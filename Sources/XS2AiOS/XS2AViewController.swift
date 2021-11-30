@@ -120,7 +120,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	   - formElements: Array of form elements to show
 	   - shouldAnimate: A boolean indicating whether to animate or not
 	*/
-	private func setupViews(formElements: [FormLine], shouldAnimate: Bool = true, completion: @escaping () -> Void) {
+	private func setupViews(formElements: [FormLine], shouldAnimate: Bool = true) {
 		/// If the batch of formElements to setup contains an AutosubmitLine, we skip animations (see further down)
 		let containsAutoSubmit = formElements.contains(where: { $0 is AutosubmitLine })
 
@@ -183,8 +183,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				self.stackView.setCustomSpacing(CGFloat(12), after: initializedView)
 				
 			}
-			
-			completion()
+		}
+		
+		self.checkForStoredCredentials(payload: formElements) { prefilled in
+			if prefilled {
+				self.sendAction(actionType: .submit)
+			}
 		}
 	}
 	
@@ -363,14 +367,22 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	private func checkForStoredCredentials(payload: [FormLine], completion: @escaping (Bool) -> Void) {
+		print(XS2AiOS.shared.configuration.provider)
+		guard let provider = XS2AiOS.shared.configuration.provider else {
+			return completion(false)
+		}
+		print(provider)
+
 		let dispatchGroup = DispatchGroup()
 		var prefilled = false
 
 		DispatchQueue.global().async {
 			for formLine in payload {
 				dispatchGroup.enter()
+
 				if let loginCredentialLine = formLine as? LoginCredentialFormLine {
-					self.getKeychainItem(itemName: loginCredentialLine.name) { (item) in
+					self.getKeychainItem(itemName: "\(provider)_\(loginCredentialLine.name)") { (item) in
+						print("item: \(item)")
 						if let loginCredentialItem = item {
 							DispatchQueue.main.async {
 								loginCredentialLine.setValue(value: loginCredentialItem)
@@ -379,6 +391,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 						}
 					}
 				}
+
 				dispatchGroup.leave()
 			}
 
@@ -392,6 +405,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		guard let payload = payload else {
 			return
 		}
+		print(payload)
+		guard let provider = XS2AiOS.shared.configuration.provider else {
+			return
+		}
+		print(provider)
 
 		
 		var parametersToStore: Dictionary<String, String> = [:]
@@ -400,9 +418,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			if let formLine = child as? LoginCredentialFormLine {
 				if formLine.isLoginCredential {
 					if let asString = payload[formLine.name] as? String {
-						parametersToStore[formLine.name] = asString
+						parametersToStore["\(provider)_\(formLine.name)"] = asString
 					} else if let asBool = payload[formLine.name] as? Bool {
-						parametersToStore[formLine.name] = String(asBool)
+						parametersToStore["\(provider)_\(formLine.name)"] = String(asBool)
 					}
 				}
 			}
@@ -438,7 +456,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	*/
 	private func handleFormSubmit(action: String = "submit", additionalPayload: Dictionary<String, Any>? = [:]) {
 		var payload = serializeForm()
-		print(payload)
+
 		if let additionalPayload = additionalPayload {
 			payload.merge(additionalPayload){ (_, additional) in additional }
 		}
@@ -446,20 +464,22 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		payload["action"] = action
 		
 		// Check if store credentials notice checkbox is part of payload and is checked
-		let storeCredentials = payload.contains { (key, value) in
+		let storeCredentialsAccepted = payload.contains { (key, value) in
 			return key == "store_credentials" && value as? Bool == true
+		}
+		
+		if storeCredentialsAccepted && !XS2AiOS.shared.configuration.permissionToStoreCredentials {
+			XS2AiOS.shared.configuration.permissionToStoreCredentials = true
 		}
 		
 		self.ApiService.postBody(payload: payload) { result in
 			switch result {
 			case .success(let formElements):
-				if storeCredentials {
+				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
 					self.storeCredentials(payload: payload)
 				}
 
-				self.setupViews(formElements: formElements) {
-					
-				}
+				self.setupViews(formElements: formElements)
 				self.isBusy = false
 				
 				return
@@ -474,45 +494,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			self.dimissAndComplete();
 			self.isBusy = false
 		}
-
-//		self.ApiService.postBody(payload: payload) { result in
-//			switch result {
-//			case .success(let formElements):
-//				self.hideLoadingIndicator {
-//					let hasLoginCredentials = self.checkContainsLoginCredentials()
-//
-//					if hasLoginCredentials {
-//						self.showStoreCrendentialsAlert() { (shouldStore) in
-//							if shouldStore {
-//								self.storeCredentials(payload: payload) {
-//									self.setupViews(formElements: formElements)
-//									self.isBusy = false
-//								}
-//							} else {
-//								self.setupViews(formElements: formElements)
-//								self.isBusy = false
-//							}
-//
-//							return
-//						}
-//					} else {
-//						self.setupViews(formElements: formElements)
-//						self.isBusy = false
-//					}
-//				}
-//
-//				return
-//			case .finish:
-//				self.result = .success(.finish)
-//			case .finishWithCredentials(let credentials):
-//				self.result = .success(.finishWithCredentials(credentials))
-//			case .failure(_):
-//				self.result = .failure(.networkError)
-//			}
-//
-//			self.dimissAndComplete();
-//			self.isBusy = false
-//		}
 	}
 	
 	/// Completion handler for the final response from the backend
@@ -742,15 +723,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		self.ApiService.initCall(completion: { result in
 			switch result {
 			case .success(let formElements):
-				self.setupViews(formElements: formElements) {
-					self.checkForStoredCredentials(payload: formElements) { prefilled in
-						print("CHILDREN: ")
-						print(self.children)
-						if prefilled {
-							self.sendAction(actionType: .submit)
-						}
-					}
-				}
+				self.setupViews(formElements: formElements)
 				
 				return
 			case .finish:

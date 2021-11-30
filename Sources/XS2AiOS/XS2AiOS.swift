@@ -2,7 +2,7 @@ import UIKit
 
 public class XS2AiOS {
 	private static var _shared: XS2AiOS?
-	public let configuration: Configuration
+	public var configuration: Configuration
 	public let styleProvider: StyleProvider
 	let apiService: APIService
 
@@ -33,9 +33,15 @@ public class XS2AiOS {
 extension XS2AiOS {
 	public struct Configuration {
 		var wizardSessionKey: String
+		var askForStoreCredentials: Bool
+		var permissionToStoreCredentials: Bool
+		var provider: String?
 		
-		public init(wizardSessionKey: String) {
+		public init(wizardSessionKey: String, askForStoreCredentials: Bool = false) {
 			self.wizardSessionKey = wizardSessionKey
+			self.askForStoreCredentials = askForStoreCredentials
+			self.permissionToStoreCredentials = false
+			self.provider = nil
 		}
 	}
 	
