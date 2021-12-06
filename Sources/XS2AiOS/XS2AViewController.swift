@@ -1,4 +1,5 @@
 import UIKit
+import SafariServices
 
 /// Delegate used for communicating between this ViewController and the different FormLines
 protocol ActionDelegate {
@@ -6,7 +7,7 @@ protocol ActionDelegate {
 	func getCountryId() -> String
 	func findNextResponder(index: Int, textField: UITextField) -> Bool
 	func showMultiFormElements(withName multiFormName: String, withValue multiFormValue: String)
-	func openAlert(content: String)
+	func openLink(url: URL)
 }
 
 protocol NetworkNotificationDelegate {
@@ -402,36 +403,27 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 	}
 	
-	/// Delegation method for opening simple alerts with a notice
-	func openAlert(content: String) {
-		if let htmlString = try? NSMutableAttributedString(
-			data: content.data(using: .utf8) ?? Data(),
-			options: [
-				.documentType: NSAttributedString.DocumentType.html,
-				.characterEncoding: String.Encoding.utf8.rawValue
-			],
-			documentAttributes: nil) {
-			
-			let paragraphStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
-			paragraphStyle.alignment = NSTextAlignment.center
-			
-			htmlString.addAttributes(
-				[
-					NSAttributedString.Key.font: XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil),
-					NSAttributedString.Key.paragraphStyle: paragraphStyle
-				],
-				range: NSMakeRange(0, htmlString.length)
-			)
+	/// Delegation method for opening tappable Links
+	func openLink(url: URL) {
+		let urlString = "\(url)"
+		if urlString.starts(with: "autosubmit::") {
+			/// Link carries an autosubmit with query parameters
+			/// We build a fake URL to make use of Swift's URL class for getting the query parameters
+			let fakeUrl = URL(string: "https://xs2a.com/?\(urlString.components(separatedBy: "::")[1])")
+			guard let payload = fakeUrl?.queryDictionary else {
+				return
+			}
 
-			
-			let alert = UIAlertController(title: Strings.notice, message: "", preferredStyle: .alert)
-			alert.setValue(htmlString, forKey: "attributedMessage")
-			alert.addAction(UIAlertAction(title: Strings.Alert.close, style: .default))
-			self.present(alert, animated: true, completion: nil)
+			self.sendAction(actionType: .linkAutosubmit, withLoadingIndicator: true, additionalPayload: payload)
+		} else if UIApplication.shared.canOpenURL(url) == true {
+			let config = SFSafariViewController.Configuration()
+			config.barCollapsingEnabled = false
+			config.entersReaderIfAvailable = true
+			let safariVC = SFSafariViewController(url: url, configuration: config)
+			self.present(safariVC, animated: true, completion: nil)
 		}
 	}
-	
-	
+
 	/// Looks for the SelectLine that contains the country_id and returns the selected value
 	internal func getCountryId() -> String {
 		// Set to DE as default
