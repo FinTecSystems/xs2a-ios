@@ -168,7 +168,7 @@ class APIService {
 
 	func post(body: Dictionary<String, Any>, completion: @escaping (JSON?, Error?) -> Void) {
 		DispatchQueue.global(qos: .userInitiated).async {
-			self.netServiceInstance.postCustom(body: body, endpoint: "http://192.168.178.44:8080/jsonp", sessionKey: self.wizardSessionKey) { result in
+			self.netServiceInstance.post(body: body, sessionKey: self.wizardSessionKey) { result in
 				DispatchQueue.main.async {
 					switch result {
 					case .success(let data):
