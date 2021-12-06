@@ -7,7 +7,6 @@ enum TextFieldStyles {
 
 class Textfield: UITextField, UITextFieldDelegate {
 	let insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 15)
-	var maxlength: Int?
 	var parentDelegate: TextfieldParentDelegate?
 
 	func setupStyling() {
@@ -81,25 +80,5 @@ class Textfield: UITextField, UITextFieldDelegate {
 	
 	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 		return parentDelegate?.shouldBeginEditing() ?? true
-	}
-	
-	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-		guard let maxlength = self.maxlength else {
-			return true
-		}
-		
-		if maxlength > 0 {
-			guard let textFieldText = textField.text,
-				  let rangeOfTextToReplace = Range(range, in: textFieldText) else {
-					return false
-			}
-
-			let substringToReplace = textFieldText[rangeOfTextToReplace]
-			let count = textFieldText.count - substringToReplace.count + string.count
-
-			return count <= maxlength
-		}
-
-		return true
 	}
 }

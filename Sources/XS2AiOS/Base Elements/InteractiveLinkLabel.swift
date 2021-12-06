@@ -83,8 +83,6 @@ class InteractiveLinkLabel: UILabel {
 		if let value = attributeValue {
 			if let url = value as? URL {
 				openLinkDelegate?.openLink(url: url)
-			} else if let valueString = value as? String {
-				openLinkDelegate?.openAlert(content: valueString)
 			}
 		}
 		
