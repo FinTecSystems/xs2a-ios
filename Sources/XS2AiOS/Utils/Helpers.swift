@@ -102,10 +102,13 @@ func constructLabelString(stringToTest: String) -> NSMutableAttributedString {
 					let attributesForLink = [
 						NSAttributedString.Key.font: XS2AiOS.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: traitToUse)
 					] as [NSAttributedString.Key: Any]
-					
-					labelString.append(NSAttributedString(string: String(markupText), attributes: attributesForLink))
+
 					// Append Space
-					labelString.append(NSAttributedString(string: " "))
+					if labelString.length > 0 {
+						labelString.append(NSAttributedString(string: " "))
+					}
+
+					labelString.append(NSAttributedString(string: String(markupText), attributes: attributesForLink))
 				} else {
 					// link, dialog or autosubmit
 					let linkParts = submatch.components(separatedBy: "::")
@@ -134,16 +137,23 @@ func constructLabelString(stringToTest: String) -> NSMutableAttributedString {
 						// We use .attachment instead of .link so we can change the colors
 						NSAttributedString.Key.attachment: url,
 					] as [NSAttributedString.Key: Any]
-					
-					labelString.append(NSAttributedString(string: linkTitle, attributes: attributesForLink))
 
 					// Append Space
-					labelString.append(NSAttributedString(string: " "))
+					if labelString.length > 0 {
+						labelString.append(NSAttributedString(string: " "))
+					}
+
+					labelString.append(NSAttributedString(string: linkTitle, attributes: attributesForLink))
 				}
 			}
 		} else {
-			// No markup match, simply append as is with a space.
-			labelString.append(NSAttributedString(string: "\(trimmedStringGroup) "))
+			// No markup match, simply append
+			// append a space first if not start or end of sentence.
+			if labelString.length > 0 && trimmedStringGroup != "." {
+				labelString.append(NSAttributedString(string: " "))
+			}
+
+			labelString.append(NSAttributedString(string: trimmedStringGroup))
 		}
 	}
 	
