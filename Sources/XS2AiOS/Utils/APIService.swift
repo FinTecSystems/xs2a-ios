@@ -70,7 +70,7 @@ class APIService {
 	/// Function for making the initial call to the XS2A backend
 	func initCall(completion: @escaping (APIResponseType) -> Void) {
 		let payload: [String:Any] = [
-			"version": "ios_sdk_1.1.5",
+			"version": "ios_sdk_1.1.6",
 			"client": "ios_sdk",
 		]
 
