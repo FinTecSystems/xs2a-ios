@@ -73,6 +73,10 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 		]
 	}
 	
+	func styleDisabled() {
+		// Nothing to style for Radios.
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		

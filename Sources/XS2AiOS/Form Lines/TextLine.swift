@@ -73,6 +73,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		textfieldElement.parentDelegate = self
 	}
 	
+	func styleDisabled() {
+		self.textfieldElement.styleDisabledState()
+	}
+	
 	func shouldBeginEditing() -> Bool {
 		if self.autocompleteAction?.isEmpty == false {
 			/// This TextLine is to be autocompleted

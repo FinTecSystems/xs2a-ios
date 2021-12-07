@@ -96,6 +96,9 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		]
 	}
 	
+	func styleDisabled() {
+		self.textfieldElement.styleDisabledState()
+	}
 
 	@objc
 	func increaseFlickerSize() {

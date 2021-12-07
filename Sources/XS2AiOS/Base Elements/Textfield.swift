@@ -64,6 +64,12 @@ class Textfield: UITextField, UITextFieldDelegate {
 		}
 	}
 	
+	func styleDisabledState() {
+		UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut) {
+			self.backgroundColor = self.backgroundColor?.darker()
+		}
+	}
+	
 	func textFieldDidBeginEditing(_ textField: UITextField) {
 		if self.layer.borderWidth != 2 {
 			self.layer.borderWidth = 2

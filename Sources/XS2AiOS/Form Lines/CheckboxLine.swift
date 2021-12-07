@@ -99,6 +99,12 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDe
 		]
 	}
 	
+	func styleDisabled() {
+		UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut) {
+			self.button.tintColor = self.button.tintColor?.darker().darker()
+		}
+	}
+	
 	@objc func buttonTapped() {
 		view.superview?.endEditing(true)
 		triggerHapticFeedback(style: .light)

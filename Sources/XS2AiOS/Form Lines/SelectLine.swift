@@ -95,6 +95,10 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		]
 	}
 	
+	func styleDisabled() {
+		self.textfieldElement.styleDisabledState()
+	}
+	
 	func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
 		if row == 0 {
 			var attributes = [NSAttributedString.Key: AnyObject]()

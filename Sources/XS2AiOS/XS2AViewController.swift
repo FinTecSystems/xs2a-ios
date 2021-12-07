@@ -3,7 +3,7 @@ import SafariServices
 
 /// Delegate used for communicating between this ViewController and the different FormLines
 protocol ActionDelegate {
-	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool?, additionalPayload: Dictionary<String, Any>?)
+	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool, additionalPayload: Dictionary<String, Any>?)
 	func getCountryId() -> String
 	func findNextResponder(index: Int, textField: UITextField) -> Bool
 	func showMultiFormElements(withName multiFormName: String, withValue multiFormValue: String)
@@ -292,6 +292,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		ApiService.cancelTask()
 		isBusy = false
 	}
+	
+	func disableInputs() {
+		self.children.forEach { child in
+			let asExposableElement = child as? ExposableFormElement
+			if asExposableElement != nil {
+				let exposedClass = child as! ExposableFormElement
+				exposedClass.styleDisabled()
+			}
+		}
+	}
 
 	/**
 	 First function called after a button is pressed
@@ -301,14 +311,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	   - withLoadingIndicator: If a loading animation should be shown
 	   - additionalPayload: Sometimes the calling class will have additional payload to send
 	*/
-	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool? = true, additionalPayload: Dictionary<String, Any>? = [:]) {
+	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool = true, additionalPayload: Dictionary<String, Any>? = [:]) {
 		if isBusy {
 			return
 		}
 
 		isBusy = true
+		
+		disableInputs()
 
-		if withLoadingIndicator != nil && withLoadingIndicator == true {
+		if withLoadingIndicator {
 			showLoadingIndicator()
 		}
 
@@ -413,6 +425,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			guard let payload = fakeUrl?.queryDictionary else {
 				return
 			}
+			triggerHapticFeedback(style: .light)
 
 			self.sendAction(actionType: .linkAutosubmit, withLoadingIndicator: true, additionalPayload: payload)
 		} else if UIApplication.shared.canOpenURL(url) == true {

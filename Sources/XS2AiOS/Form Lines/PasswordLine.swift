@@ -87,4 +87,8 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 			name: textfieldElement.text ?? "",
 		]
 	}
+	
+	func styleDisabled() {
+		self.textfieldElement.styleDisabledState()
+	}
 }
