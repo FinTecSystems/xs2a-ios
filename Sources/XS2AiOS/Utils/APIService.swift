@@ -36,6 +36,8 @@ class APIService {
 	
 	private let netServiceInstance: XS2ANetService
 	
+	var notificationDelegate: NetworkNotificationDelegate?
+	
 	/**
 	 - Parameters:
 	  - wizardSessionKey: the Wizard Session Key used for the instance of the session
@@ -61,6 +63,30 @@ class APIService {
 				completion(.finish)
 			}
 		} else {
+			// If an error is part of the response, we notify the host app of it, including the recoverable parameter
+			if let error = result["error"].string {
+				let isRecoverable = result["isErrorRecoverable"].boolValue
+
+				switch error {
+				case "login_failed":
+					notificationDelegate?.notifyOfSessionError(error: .loginFailed(recoverable: isRecoverable))
+				case "session_timeout":
+					notificationDelegate?.notifyOfSessionError(error: .sessionTimeout(recoverable: isRecoverable))
+				case "tan_failed":
+					notificationDelegate?.notifyOfSessionError(error: .tanFailed(recoverable: isRecoverable))
+				case "tech_error":
+					notificationDelegate?.notifyOfSessionError(error: .techError(recoverable: isRecoverable))
+				case "testmode_error":
+					notificationDelegate?.notifyOfSessionError(error: .testmodeError(recoverable: isRecoverable))
+				case "trans_not_possible":
+					notificationDelegate?.notifyOfSessionError(error: .transNotPossible(recoverable: isRecoverable))
+				case "validation_failed":
+					notificationDelegate?.notifyOfSessionError(error: .validationFailed(recoverable: isRecoverable))
+				default:
+					notificationDelegate?.notifyOfSessionError(error: .other(errorCode: error, recoverable: isRecoverable))
+				}
+			}
+
 			completion(.success(decodeJSON(json: result)))
 		}
 	}

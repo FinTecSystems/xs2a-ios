@@ -12,6 +12,7 @@ protocol ActionDelegate {
 
 protocol NetworkNotificationDelegate {
 	func cancelNetworkTask() -> Void
+	func notifyOfSessionError(error: XS2ASessionError) -> Void
 }
 
 public class XS2AViewController: UIViewController, UIAdaptivePresentationControllerDelegate, ActionDelegate, NetworkNotificationDelegate {
@@ -19,13 +20,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	private var isBusy = false
 
 	/// The result of the session, set after the process has been completed by the user
-	private var result: Result<XS2ASuccess, XS2AError>?
+	private var result: Result<XS2ASuccess, XS2AError, XS2ASessionError>?
 	
 	/// The payload to send to XS2A backend
 	private var payload: [String: Any] = [:]
 
 	/// Completion handler registered by the host app
-	private let permanentCompletion: ((Result<XS2ASuccess, XS2AError>) -> Void)?
+	private let permanentCompletion: ((Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void)?
 
 	/// Instance of APIService
 	/// Used for making network requests
@@ -61,10 +62,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}()
 	
 	/// Initializer called by host app
-	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError>) -> Void) {
+	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
 		self.ApiService = xs2a.apiService
 		self.permanentCompletion = completion
+
 		super.init(nibName: nil, bundle: nil)
+
+		self.ApiService.notificationDelegate = self
 	}
 	
 
@@ -398,9 +402,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			permanentCompletion?(.failure(.userAborted))
 		case .failure(.networkError):
 			permanentCompletion?(.failure(.networkError))
+		case .some(.sessionError(_)):
+			/// Session Errors don't complete a session and are not reported back here.
+			return
 		case .none:
 			return
 		}
+	}
+	
+	func notifyOfSessionError(error: XS2ASessionError) {
+		permanentCompletion?(.sessionError(error))
 	}
 	
 	/// Checks if this ViewController has been presented and dismisses itself,
