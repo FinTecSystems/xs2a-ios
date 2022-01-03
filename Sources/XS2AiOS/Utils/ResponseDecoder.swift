@@ -33,6 +33,13 @@ enum FormLineTypes: String {
 */
 func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil, multiFormValue: String? = nil) -> [FormLine] {
 	
+	/// Set current WizardStep
+	if let wizardStep = json["callback"].string {
+		XS2AiOS.shared.currentStep = WizardStep(rawValue: wizardStep)
+	} else {
+		XS2AiOS.shared.currentStep = nil
+	}
+	
 	/// "form" is an array of multiple form lines to be rendered
 	let form = json["form"]
 	/// Array containing the form lines to be returned

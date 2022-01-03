@@ -5,6 +5,8 @@ public class XS2AiOS {
 	public let configuration: Configuration
 	public let styleProvider: StyleProvider
 	let apiService: APIService
+	
+	public var currentStep: WizardStep?
 
 	/**
 	 - Parameters:
@@ -15,6 +17,8 @@ public class XS2AiOS {
 		self.configuration = configuration
 		self.styleProvider = styleProvider
 		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey)
+		
+		self.currentStep = nil
 	}
 	
 	public static func configure(withConfig configuration: Configuration, withStyle styleProvider: StyleProvider) {
@@ -33,9 +37,11 @@ public class XS2AiOS {
 extension XS2AiOS {
 	public struct Configuration {
 		var wizardSessionKey: String
+		var backButtonAction: () -> Void
 		
-		public init(wizardSessionKey: String) {
+		public init(wizardSessionKey: String, backButtonAction: @escaping () -> Void = {}) {
 			self.wizardSessionKey = wizardSessionKey
+			self.backButtonAction = backButtonAction
 		}
 	}
 	

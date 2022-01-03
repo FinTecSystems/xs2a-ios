@@ -347,6 +347,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		case .autosubmit:
 			handleFormSubmit(action: "autosubmit")
 		case .back:
+			XS2AiOS.shared.configuration.backButtonAction()
 			handleFormSubmit(action: "back")
 		case .redirect:
 			handleFormSubmit(action: "post-code")
