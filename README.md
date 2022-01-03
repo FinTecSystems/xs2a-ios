@@ -113,6 +113,24 @@ let xs2aView = XS2AViewController { result in
 self.present(xs2aView, animated: true, completion: nil)
 ```
 
+#### Get Current Step & Registering Custom Back Button Function
+
+Some use cases require that the current step of the session is known and/or that the functionality of the back button can be overriden.
+This can be accomplished by passing a `backButtonAction` function with the configuration:
+
+```swift
+func myCustomBackFunction() {
+  /// get the current step of the session
+  let currentStep = XS2AiOS.shared.currentStep
+  
+  if (currentStep == .login) {
+    /// do something when the back button is pressed during the login step
+  }
+}
+
+let config = XS2AiOS.Configuration(wizardSessionKey: key!, backButtonAction: myCustomBackFunction)
+```
+
 ### Styling API
 
 You can style the view according to your needs. Please note, that dark mode is overriden inside the module, but you can of course simply define another style provider for dark mode.
