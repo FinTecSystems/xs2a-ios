@@ -115,7 +115,7 @@ self.present(xs2aView, animated: true, completion: nil)
 
 #### Get Current Step & Registering Custom Back Button Function
 
-Some use cases require that the current step of the session is known and/or that the functionality of the back button can be overriden.
+Some use cases require that the current step of the session is known and/or that a callback can be registered for when the back button is tapped.
 This can be accomplished by passing a `backButtonAction` function with the configuration:
 
 ```swift
@@ -124,7 +124,7 @@ func myCustomBackFunction() {
   let currentStep = XS2AiOS.shared.currentStep
   
   if (currentStep == .login) {
-    /// do something when the back button is pressed during the login step
+    /// e.g. do something when the back button is pressed during the login step
   }
 }
 
