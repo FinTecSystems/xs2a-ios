@@ -68,9 +68,14 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Authentication Context
 	private lazy var context: LAContext = {
 		let mainContext = LAContext()
-		if #available(iOS 9.0, *) {
-			mainContext.touchIDAuthenticationAllowableReuseDuration = 60
-		}
+		mainContext.touchIDAuthenticationAllowableReuseDuration = 60
+
+		return mainContext
+	}()
+	
+	private lazy var internalContext: LAContext = {
+		let mainContext = LAContext()
+		mainContext.interactionNotAllowed = true
 
 		return mainContext
 	}()
@@ -192,11 +197,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				self.stackView.setCustomSpacing(CGFloat(12), after: initializedView)
 				
 			}
-		}
-		
-		self.checkForStoredCredentials(payload: formElements) { prefilled in
-			if prefilled {
-				self.sendAction(actionType: .submit)
+			
+			self.checkForStoredCredentials(payload: formElements) { prefilled in
+				if prefilled {
+					self.sendAction(actionType: .submit)
+				}
 			}
 		}
 	}
@@ -379,7 +384,19 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 	}
 	
-	private func getKeychainItem(itemName: String, completion: @escaping (String?) -> Void) {
+	private func checkForKeychainItemExistence(itemName: String, completion: @escaping (Bool) -> Void) {
+		do {
+			try self.keychain
+				.authenticationContext(self.internalContext)
+				.get(itemName)
+
+			completion(false)
+		} catch _ {
+			completion(true)
+		}
+	}
+	
+	private func getKeychainItem(itemName: String, completion: (String?) -> Void) {
 		do {
 			let item = try self.keychain
 				.authenticationPrompt("Authenticate to login to server")
@@ -394,36 +411,64 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	private func checkForStoredCredentials(payload: [FormLine], completion: @escaping (Bool) -> Void) {
-		print(XS2AiOS.shared.configuration.provider)
 		guard let provider = XS2AiOS.shared.configuration.provider else {
 			return completion(false)
 		}
-		print(provider)
 
 		let dispatchGroup = DispatchGroup()
 		var prefilled = false
+		
+		let firstLoginCredentialFormLine = payload.first { formLine in
+			if let loginFormLine = formLine as? PotentialLoginCredentialFormLine {
+				if loginFormLine.isLoginCredential {
+					return true
+				}
+				
+				return false
+			}
+			
+			return false
+		}
+		
+		var atLeastOneCredentialStored = false
+		
+		if let firstLoginCredentialFormLine = firstLoginCredentialFormLine {
+			if let asLoginCredentialFormLine = firstLoginCredentialFormLine as? PotentialLoginCredentialFormLine {
+				checkForKeychainItemExistence(itemName: "\(provider)_\(asLoginCredentialFormLine.name)") { credentialExists in
+					atLeastOneCredentialStored = credentialExists
+				}
+			}
+		}
+		
 
-		DispatchQueue.global().async {
-			for formLine in payload {
-				dispatchGroup.enter()
+		if atLeastOneCredentialStored {
+			self.askToAutofill { shouldAutofill in
+				if !shouldAutofill {
+					completion(false)
+				} else {
+					DispatchQueue.global().async {
+						for formLine in payload {
+							dispatchGroup.enter()
 
-				if let loginCredentialLine = formLine as? PotentialLoginCredentialFormLine {
-					self.getKeychainItem(itemName: "\(provider)_\(loginCredentialLine.name)") { (item) in
-						print("item: \(item)")
-						if let loginCredentialItem = item {
-							DispatchQueue.main.async {
-								loginCredentialLine.setValue(value: loginCredentialItem)
-								prefilled = true
+							if let loginCredentialLine = formLine as? PotentialLoginCredentialFormLine {
+								self.getKeychainItem(itemName: "\(provider)_\(loginCredentialLine.name)") { (item) in
+									if let loginCredentialItem = item {
+										DispatchQueue.main.async {
+											loginCredentialLine.setValue(value: loginCredentialItem)
+											prefilled = true
+										}
+									}
+								}
 							}
+
+							dispatchGroup.leave()
+						}
+
+						dispatchGroup.notify(queue: .main) {
+							completion(prefilled)
 						}
 					}
 				}
-
-				dispatchGroup.leave()
-			}
-
-			dispatchGroup.notify(queue: .main) {
-				completion(prefilled)
 			}
 		}
 	}
@@ -511,6 +556,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				
 				return
 			case .finish:
+				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
+					self.storeCredentials(payload: payload)
+				}
+
 				self.result = .success(.finish)
 			case .finishWithCredentials(let credentials):
 				self.result = .success(.finishWithCredentials(credentials))
@@ -670,10 +719,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		self.present(alert, animated: true, completion: nil)
 	}
 	
-	private func showStoreCrendentialsAlert(completion: @escaping (Bool) -> Void) {
+	private func askToAutofill(completion: @escaping (Bool) -> Void) {
 		let alert = UIAlertController(
-			title: "Speichern",
-			message: "Möchten Sie ihren Login speichern?",
+			title: "Autofill",
+			message: "Autofill?",
 			preferredStyle: .alert
 		)
 		
