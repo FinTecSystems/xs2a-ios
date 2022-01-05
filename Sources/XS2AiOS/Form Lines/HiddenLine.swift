@@ -31,4 +31,8 @@ class HiddenLine: UIViewController, FormLine, ExposableFormElement {
 	func exposableFields() -> Dictionary<String, Any>? {
 		return [name: value]
 	}
+	
+	func styleDisabled() {
+		// Nothing to do here, it's not visible.
+	}
 }

@@ -33,6 +33,13 @@ enum FormLineTypes: String {
 */
 func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil, multiFormValue: String? = nil) -> [FormLine] {
 	
+	/// Set current WizardStep
+	if let wizardStep = json["callback"].string {
+		XS2AiOS.shared.currentStep = WizardStep(rawValue: wizardStep)
+	} else {
+		XS2AiOS.shared.currentStep = nil
+	}
+	
 	/// "form" is an array of multiple form lines to be rendered
 	let form = json["form"]
 
@@ -340,7 +347,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 	 append a Checkbox that asks for storage, just before the submit button.
 	 */
 	if XS2AiOS.shared.configuration.askForStoreCredentials {
-		if (formClasses.contains(where: { $0 is LoginCredentialFormLine && ($0 as? LoginCredentialFormLine)?.isLoginCredential == true })) {
+		if (formClasses.contains(where: { $0 is PotentialLoginCredentialFormLine && ($0 as? PotentialLoginCredentialFormLine)?.isLoginCredential == true })) {
 			let submitIndex = formClasses.firstIndex(where: { $0 is SubmitLine })
 			
 			formClasses.insert(

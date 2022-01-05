@@ -21,6 +21,10 @@ An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also availabl
 
 - iOS >= 11.0
 
+### Estimated Binary Size
+
+When measured with [cocoapods-size](https://github.com/google/cocoapods-size), the reported combined size added is ~1,87 Megabytes (for version 1.1.4).
+
 ### Include the Module via Swift Package Manager (Preferred)
 Use Xcode's `File -> Swift Packages -> Add Package Dependency` (Xcode 12) or `File -> Add Packages...` (Xcode 13) to add this package.
 Use the URL of this repository for this:
@@ -57,28 +61,74 @@ let style = XS2AiOS.StyleProvider()
 XS2AiOS.configure(withConfig: config, withStyle: style)
 
 let xs2aView = XS2AViewController { result in
-	switch result {
-	case .success(.finish):
-		// e.g. present a success view
-	case .success(.finishWithCredentials(let credentials)):
-		// only called for XS2A.API with connection sync_mode set to "shared"
-		// will return the shared credentials
-		// e.g. present a success view
-	case .failure(let error):
-		switch error {
-		case .userAborted:
-			// the user pressed the abort button or
-			// swiped down to abort in case of popover presentation
-			// e.g. present an abort view
-		case .networkError:
-			// a network error occurred
-			// e.g. present an error view
-		}
-	}
+  switch result {
+  case .success(.finish):
+    // e.g. present a success view
+  case .success(.finishWithCredentials(let credentials)):
+    // only called for XS2A.API with connection sync_mode set to "shared"
+    // will return the shared credentials
+    // e.g. present a success view
+  case .failure(let error):
+      switch error {
+      case .userAborted:
+        // the user pressed the abort button or
+        // swiped down to abort in case of popover presentation
+        // e.g. present an abort view
+      case .networkError:
+        // a network error occurred
+        // e.g. present an error view
+      }
+  /**
+   Session errors occur during a session.
+   Implementation of the different cases below is optional.
+   No action needs to be taken for them, in fact we recommend
+   to let the user handle the completion of the session until one of the above .success or .failure cases is called.
+   You can however use below cases for measuring purposes.
+   NOTE: Should you decide to do navigation to different screens based on below cases, you should only do so
+   in case of the recoverable parameter being false, otherwise the user can still finish the session.
+   */
+  case .sessionError(let sessionError):
+    switch sessionError {
+      case .loginFailed(recoverable: let recoverable):
+        // Login to bank failed (e.g. invalid login credentials)
+      case .sessionTimeout(recoverable: let recoverable):
+        // The customer's session has timed out.
+      case .tanFailed(recoverable: let recoverable):
+        // User entered invalid TAN.
+      case .techError(recoverable: let recoverable):
+        // An unknown or unspecified error occurred.
+      case .testmodeError(recoverable: let recoverable):
+        // An error occurred using testmode settings.
+      case .transNotPossible(recoverable: let recoverable):
+        // A transaction is not possible for various reasons.
+      case .validationFailed(recoverable: let recoverable):
+        // Validation error (e.g. entered letters instead of numbers).
+      case .other(errorCode: let errorCode, recoverable: let recoverable):
+        // Other errors.
+    }
+  }
 }
 
 // present the configured view
 self.present(xs2aView, animated: true, completion: nil)
+```
+
+#### Get Current Step & Registering Custom Back Button Function
+
+Some use cases require that the current step of the session is known and/or that a callback can be registered for when the back button is tapped.
+This can be accomplished by passing a `backButtonAction` function with the configuration:
+
+```swift
+func myCustomBackFunction() {
+  /// get the current step of the session
+  let currentStep = XS2AiOS.shared.currentStep
+  
+  if (currentStep == .login) {
+    /// e.g. do something when the back button is pressed during the login step
+  }
+}
+
+let config = XS2AiOS.Configuration(wizardSessionKey: key!, backButtonAction: myCustomBackFunction)
 ```
 
 ### Styling API

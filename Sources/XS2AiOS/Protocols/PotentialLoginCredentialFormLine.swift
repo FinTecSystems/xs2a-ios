@@ -1,5 +1,5 @@
 /// Protocol all FormLines that can be a login credential conform to
-protocol LoginCredentialFormLine {
+protocol PotentialLoginCredentialFormLine {
 	var isLoginCredential: Bool { get }
 	var name: String { get }
 	

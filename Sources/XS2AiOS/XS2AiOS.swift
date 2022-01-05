@@ -5,6 +5,8 @@ public class XS2AiOS {
 	public var configuration: Configuration
 	public let styleProvider: StyleProvider
 	let apiService: APIService
+	
+	public var currentStep: WizardStep?
 
 	/**
 	 - Parameters:
@@ -15,6 +17,8 @@ public class XS2AiOS {
 		self.configuration = configuration
 		self.styleProvider = styleProvider
 		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey)
+		
+		self.currentStep = nil
 	}
 	
 	public static func configure(withConfig configuration: Configuration, withStyle styleProvider: StyleProvider) {
@@ -36,12 +40,14 @@ extension XS2AiOS {
 		var askForStoreCredentials: Bool
 		var permissionToStoreCredentials: Bool
 		var provider: String?
+		var backButtonAction: () -> Void
 		
-		public init(wizardSessionKey: String, askForStoreCredentials: Bool = false) {
+		public init(wizardSessionKey: String, backButtonAction: @escaping () -> Void = {}, askForStoreCredentials: Bool = false) {
 			self.wizardSessionKey = wizardSessionKey
 			self.askForStoreCredentials = askForStoreCredentials
 			self.permissionToStoreCredentials = false
 			self.provider = nil
+			self.backButtonAction = backButtonAction
 		}
 	}
 	

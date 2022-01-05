@@ -34,12 +34,21 @@ class APIService {
 	/// The Wizard Session Key used for the instance of the session
 	public let wizardSessionKey: String
 	
+	private let netServiceInstance: XS2ANetService
+	
+	var notificationDelegate: NetworkNotificationDelegate?
+	
 	/**
 	 - Parameters:
 	  - wizardSessionKey: the Wizard Session Key used for the instance of the session
 	*/
 	init(wizardSessionKey: String) {
 		self.wizardSessionKey = wizardSessionKey
+		self.netServiceInstance = XS2ANetService()
+	}
+	
+	internal func cancelTask() {
+		netServiceInstance.cancelTask()
 	}
 	
 	/// Function for handling the response from the post method
@@ -63,6 +72,30 @@ class APIService {
 					}
 				}
 			}
+			// If an error is part of the response, we notify the host app of it, including the recoverable parameter
+			if let error = result["error"].string {
+				let isRecoverable = result["isErrorRecoverable"].boolValue
+
+				switch error {
+				case "login_failed":
+					notificationDelegate?.notifyOfSessionError(error: .loginFailed(recoverable: isRecoverable))
+				case "session_timeout":
+					notificationDelegate?.notifyOfSessionError(error: .sessionTimeout(recoverable: isRecoverable))
+				case "tan_failed":
+					notificationDelegate?.notifyOfSessionError(error: .tanFailed(recoverable: isRecoverable))
+				case "tech_error":
+					notificationDelegate?.notifyOfSessionError(error: .techError(recoverable: isRecoverable))
+				case "testmode_error":
+					notificationDelegate?.notifyOfSessionError(error: .testmodeError(recoverable: isRecoverable))
+				case "trans_not_possible":
+					notificationDelegate?.notifyOfSessionError(error: .transNotPossible(recoverable: isRecoverable))
+				case "validation_failed":
+					notificationDelegate?.notifyOfSessionError(error: .validationFailed(recoverable: isRecoverable))
+				default:
+					notificationDelegate?.notifyOfSessionError(error: .other(errorCode: error, recoverable: isRecoverable))
+				}
+			}
+
 			completion(.success(decodeJSON(json: result)))
 		}
 	}
@@ -72,7 +105,7 @@ class APIService {
 	/// Function for making the initial call to the XS2A backend
 	func initCall(completion: @escaping (APIResponseType) -> Void) {
 		let payload: [String:Any] = [
-			"version": "ios_sdk_1.1.3",
+			"version": "ios_sdk_1.2.1",
 			"client": "ios_sdk",
 		]
 
@@ -172,7 +205,7 @@ class APIService {
 
 	func post(body: Dictionary<String, Any>, completion: @escaping (JSON?, Error?) -> Void) {
 		DispatchQueue.global(qos: .userInitiated).async {
-			NetService.postCustom(body: body, endpoint: "http://192.168.178.44:8000/jsonp", sessionKey: self.wizardSessionKey) { result in
+			self.netServiceInstance.postCustom(body: body, endpoint: "http://192.168.178.154:8000/jsonp", sessionKey: self.wizardSessionKey) { result in
 				DispatchQueue.main.async {
 					switch result {
 					case .success(let data):

@@ -1,5 +1,4 @@
 import UIKit
-import SafariServices
 
 enum Severity: String {
 	case none
@@ -49,20 +48,9 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 	
 	/// Function for opening webview in case the paragraph contains a tappable link
 	func openLink(url: URL) {
-		if UIApplication.shared.canOpenURL(url) == true {
-			let config = SFSafariViewController.Configuration()
-			config.barCollapsingEnabled = false
-			config.entersReaderIfAvailable = true
-			let safariVC = SFSafariViewController(url: url, configuration: config)
-			self.present(safariVC, animated: true, completion: nil)
-		}
+		actionDelegate?.openLink(url: url)
 	}
-	
-	/// Function for opening alert in case the paragraph contains a tappable notice
-	func openAlert(content: String) {
-		actionDelegate?.openAlert(content: content)
-	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}

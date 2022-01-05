@@ -2,4 +2,5 @@
 protocol ExposableFormElement {
 	var name: String { get }
 	func exposableFields() -> Dictionary<String, Any>?
+	func styleDisabled()
 }

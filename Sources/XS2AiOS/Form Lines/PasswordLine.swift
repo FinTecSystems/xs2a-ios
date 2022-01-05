@@ -1,6 +1,6 @@
 import UIKit
 
-class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate, LoginCredentialFormLine {
+class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate, PotentialLoginCredentialFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	let name: String
@@ -93,5 +93,9 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		return [
 			name: textfieldElement.text ?? "",
 		]
+	}
+	
+	func styleDisabled() {
+		self.textfieldElement.styleDisabledState()
 	}
 }

@@ -88,6 +88,10 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 			name: textfieldElement.text ?? "",
 		]
 	}
+	
+	func styleDisabled() {
+		self.textfieldElement.styleDisabledState()
+	}
 
 	
 	private func styleTextfield(style: TextFieldStyles) {

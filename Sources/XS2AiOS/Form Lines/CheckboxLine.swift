@@ -1,12 +1,10 @@
 import UIKit
-import SafariServices
 
 protocol OpenLinkDelegate {
 	func openLink(url: URL)
-	func openAlert(content: String)
 }
 
-class CheckboxLine: UIViewController, FormLine, ExposableFormElement, LoginCredentialFormLine, OpenLinkDelegate {
+class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialLoginCredentialFormLine, OpenLinkDelegate {
 	var isLoginCredential: Bool
 	
 	var actionDelegate: ActionDelegate?
@@ -99,23 +97,19 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, LoginCrede
 	
 	/// Function for opening in-app webview when links inside the checkbox' paragraph are tapped
 	func openLink(url: URL) {
-		let config = SFSafariViewController.Configuration()
-		config.barCollapsingEnabled = false
-		config.entersReaderIfAvailable = true
-		let safariVC = SFSafariViewController(url: url, configuration: config)
-		self.present(safariVC, animated: true, completion: nil)
+		actionDelegate?.openLink(url: url)
 	}
-	
-	/// Function for opening notices inside the checkbox' paragraph
-	func openAlert(content: String) {
-		actionDelegate?.openAlert(content: content)
-	}
-
 	
 	func exposableFields() -> Dictionary<String, Any>? {
 		return [
 			name: checked
 		]
+	}
+	
+	func styleDisabled() {
+		UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut) {
+			self.button.tintColor = self.button.tintColor?.darker().darker()
+		}
 	}
 	
 	@objc func buttonTapped() {

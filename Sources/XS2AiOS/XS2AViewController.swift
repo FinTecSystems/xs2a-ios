@@ -1,28 +1,34 @@
 import UIKit
 import KeychainAccess
 import LocalAuthentication
+import SafariServices
 
 /// Delegate used for communicating between this ViewController and the different FormLines
 protocol ActionDelegate {
-	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool?, additionalPayload: Dictionary<String, Any>?)
+	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool, additionalPayload: Dictionary<String, Any>?)
 	func getCountryId() -> String
 	func findNextResponder(index: Int, textField: UITextField) -> Bool
 	func showMultiFormElements(withName multiFormName: String, withValue multiFormValue: String)
-	func openAlert(content: String)
+	func openLink(url: URL)
 }
 
-public class XS2AViewController: UIViewController, UIAdaptivePresentationControllerDelegate, ActionDelegate {
+protocol NetworkNotificationDelegate {
+	func cancelNetworkTask() -> Void
+	func notifyOfSessionError(error: XS2ASessionError) -> Void
+}
+
+public class XS2AViewController: UIViewController, UIAdaptivePresentationControllerDelegate, ActionDelegate, NetworkNotificationDelegate {
 	/// If the SDK is currently busy with networking
 	private var isBusy = false
 
 	/// The result of the session, set after the process has been completed by the user
-	private var result: Result<XS2ASuccess, XS2AError>?
+	private var result: Result<XS2ASuccess, XS2AError, XS2ASessionError>?
 	
 	/// The payload to send to XS2A backend
 	private var payload: [String: Any] = [:]
 
 	/// Completion handler registered by the host app
-	private let permanentCompletion: ((Result<XS2ASuccess, XS2AError>) -> Void)?
+	private let permanentCompletion: ((Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void)?
 
 	/// Instance of APIService
 	/// Used for making network requests
@@ -70,16 +76,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}()
 	
 	/// Initializer called by host app
-	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError>) -> Void) {
+	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
 		self.ApiService = xs2a.apiService
 		self.permanentCompletion = completion
+
 		super.init(nibName: nil, bundle: nil)
-		
-//		do {
-//			try? keychain.removeAll()
-//		} catch {
-//
-//		}
+
+		self.ApiService.notificationDelegate = self
 	}
 	
 
@@ -134,6 +137,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 				/// We set the actionDelegate to this ViewController which handles all actions
 				currentFormElement.actionDelegate = self
+				
+				if currentFormElement is AutosubmitLine {
+					if let asAutosubmitLine = currentFormElement as? AutosubmitLine {
+						asAutosubmitLine.networkDelegate = self
+					}
+				}
 
 				guard let initializedView = currentFormElement.view else {
 					continue
@@ -304,6 +313,21 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 		return true
 	}
+	
+	func cancelNetworkTask() {
+		ApiService.cancelTask()
+		isBusy = false
+	}
+	
+	func disableInputs() {
+		self.children.forEach { child in
+			let asExposableElement = child as? ExposableFormElement
+			if asExposableElement != nil {
+				let exposedClass = child as! ExposableFormElement
+				exposedClass.styleDisabled()
+			}
+		}
+	}
 
 	/**
 	 First function called after a button is pressed
@@ -313,14 +337,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	   - withLoadingIndicator: If a loading animation should be shown
 	   - additionalPayload: Sometimes the calling class will have additional payload to send
 	*/
-	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool? = true, additionalPayload: Dictionary<String, Any>? = [:]) {
+	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool = true, additionalPayload: Dictionary<String, Any>? = [:]) {
 		if isBusy {
 			return
 		}
 
 		isBusy = true
+		
+		disableInputs()
 
-		if withLoadingIndicator != nil && withLoadingIndicator == true {
+		if withLoadingIndicator {
 			showLoadingIndicator()
 		}
 
@@ -343,6 +369,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		case .autosubmit:
 			handleFormSubmit(action: "autosubmit")
 		case .back:
+			XS2AiOS.shared.configuration.backButtonAction()
 			handleFormSubmit(action: "back")
 		case .redirect:
 			handleFormSubmit(action: "post-code")
@@ -380,7 +407,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			for formLine in payload {
 				dispatchGroup.enter()
 
-				if let loginCredentialLine = formLine as? LoginCredentialFormLine {
+				if let loginCredentialLine = formLine as? PotentialLoginCredentialFormLine {
 					self.getKeychainItem(itemName: "\(provider)_\(loginCredentialLine.name)") { (item) in
 						print("item: \(item)")
 						if let loginCredentialItem = item {
@@ -415,7 +442,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		var parametersToStore: Dictionary<String, String> = [:]
 		
 		for child in self.children {
-			if let formLine = child as? LoginCredentialFormLine {
+			if let formLine = child as? PotentialLoginCredentialFormLine {
 				if formLine.isLoginCredential {
 					if let asString = payload[formLine.name] as? String {
 						parametersToStore["\(provider)_\(formLine.name)"] = asString
@@ -507,9 +534,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			permanentCompletion?(.failure(.userAborted))
 		case .failure(.networkError):
 			permanentCompletion?(.failure(.networkError))
+		case .some(.sessionError(_)):
+			/// Session Errors don't complete a session and are not reported back here.
+			return
 		case .none:
 			return
 		}
+	}
+	
+	func notifyOfSessionError(error: XS2ASessionError) {
+		permanentCompletion?(.sessionError(error))
 	}
 	
 	/// Checks if this ViewController has been presented and dismisses itself,
@@ -524,36 +558,28 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 	}
 	
-	/// Delegation method for opening simple alerts with a notice
-	func openAlert(content: String) {
-		if let htmlString = try? NSMutableAttributedString(
-			data: content.data(using: .utf8) ?? Data(),
-			options: [
-				.documentType: NSAttributedString.DocumentType.html,
-				.characterEncoding: String.Encoding.utf8.rawValue
-			],
-			documentAttributes: nil) {
-			
-			let paragraphStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
-			paragraphStyle.alignment = NSTextAlignment.center
-			
-			htmlString.addAttributes(
-				[
-					NSAttributedString.Key.font: XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil),
-					NSAttributedString.Key.paragraphStyle: paragraphStyle
-				],
-				range: NSMakeRange(0, htmlString.length)
-			)
+	/// Delegation method for opening tappable Links
+	func openLink(url: URL) {
+		let urlString = "\(url)"
+		if urlString.starts(with: "autosubmit::") {
+			/// Link carries an autosubmit with query parameters
+			/// We build a fake URL to make use of Swift's URL class for getting the query parameters
+			let fakeUrl = URL(string: "https://xs2a.com/?\(urlString.components(separatedBy: "::")[1])")
+			guard let payload = fakeUrl?.queryDictionary else {
+				return
+			}
+			triggerHapticFeedback(style: .light)
 
-			
-			let alert = UIAlertController(title: Strings.notice, message: "", preferredStyle: .alert)
-			alert.setValue(htmlString, forKey: "attributedMessage")
-			alert.addAction(UIAlertAction(title: Strings.Alert.close, style: .default))
-			self.present(alert, animated: true, completion: nil)
+			self.sendAction(actionType: .linkAutosubmit, withLoadingIndicator: true, additionalPayload: payload)
+		} else if UIApplication.shared.canOpenURL(url) == true {
+			let config = SFSafariViewController.Configuration()
+			config.barCollapsingEnabled = false
+			config.entersReaderIfAvailable = true
+			let safariVC = SFSafariViewController(url: url, configuration: config)
+			self.present(safariVC, animated: true, completion: nil)
 		}
 	}
-	
-	
+
 	/// Looks for the SelectLine that contains the country_id and returns the selected value
 	internal func getCountryId() -> String {
 		// Set to DE as default

@@ -60,6 +60,12 @@ class SelectTextfield: UITextField, UITextFieldDelegate {
 		}
 	}
 	
+	func styleDisabledState() {
+		UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut) {
+			self.backgroundColor = self.backgroundColor?.darker()
+		}
+	}
+	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		delegate = self

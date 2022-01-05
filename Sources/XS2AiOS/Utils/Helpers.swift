@@ -30,96 +30,134 @@ func stringContainsValidIban(stringToTest: String) -> Bool {
 	return matches.count > 0
 }
 
+/**
+ Used for splitting the complete input string into an array of groups, like:
+ `hallo [bold text|bold] and [italic text|italic] and [br] and [Some Link|link::http://google.de] and [Some Dialog|dialog::http://localhost:8000/privacy/1/html] and [Some Autosubmit|autosubmit::name=value&name2=value2]`
+ becomes:
+ `["hallo ", "[Some bold text|bold]", " and ", "[Some italic text|italic]", " and line break ", "[br]", " and ", "[Some Link|link::http://google.de]", " and ", "[Some Dialog|dialog::http://localhost:8000/privacy/1/html]", " and ", "[Some Autosubmit|autosubmit::name=value&name2=value2]"]`
+ */
+func splitStringToGroups(stringToTest: String) -> [String] {
+	let pattern = #"\[.*?\]|([^\[\]]+)"#
+	let regex = try! NSRegularExpression(pattern: pattern)
+	let stringRange = NSRange(location: 0, length: stringToTest.utf16.count)
+	let matches = regex.matches(in: stringToTest, range: stringRange)
+
+	var result: [String] = []
+	for match in matches {
+		result.append((stringToTest as NSString).substring(with: match.range))
+	}
+
+	return result
+}
+
 /// Function for constructing a styled mutable String possibly containing a link or notice
 func constructLabelString(stringToTest: String) -> NSMutableAttributedString {
-	let linkRegex = #"(?:\[(.+?)\|(.+?)\])"#
-	let tooltipRegex = #"(?:\[(tooltip::)(.+?)\])"#
-
-	let linkRanges = getRegexMatches(for: linkRegex, in: stringToTest)
-	let tooltipRanges = getRegexMatches(for: tooltipRegex, in: stringToTest)
-	let attributedString = NSMutableAttributedString(string: stringToTest)
+	let labelString = NSMutableAttributedString(string: "")
+	let stringGroups = splitStringToGroups(stringToTest: stringToTest)
 	
-	var indexLeftover = 0
-	tooltipRanges.forEach { (range) in
-		let swiftRange = Range(range, in: stringToTest)
-		let submatch = stringToTest[swiftRange!]
-		// submatch: [tooltip::Some Tooltip Content]
-		let linkParts = submatch.components(separatedBy: "::")
-		let toolTipContent = linkParts[1].dropLast()
-		// toolTipContent: Some Tooltip Content
-		let linkTitle = Strings.notice
-		
-		attributedString.mutableString.replaceOccurrences(of: String(submatch), with: linkTitle, options: .literal, range: NSMakeRange(0, attributedString.length))
-		
-		var coloredRange: NSRange
-		if indexLeftover == 0 {
-			coloredRange = NSMakeRange(range.location, linkTitle.count)
-		} else {
-			coloredRange = NSMakeRange(range.location - indexLeftover, linkTitle.count)
+	let markupRegex = #"(?:\[(.+?)\|(.+?)\])"#
+
+	stringGroups.forEach { stringGroup in
+		// stringGroup can be any of:
+		// - "hallo " (no markup)
+		// - "[br]" (linebreak)
+		// - "[text|italic]" (italic text)
+		// - "[text|bold]" (bold text)
+		// - "[text|link::http...]" (tappable link)
+		// - "[text|dialog::http...]" (tappable link)
+		// - "[text|autosubmit::...]" (tappable autosbumit)
+
+		// Trim whitespaces, easier to add it back later
+		let trimmedStringGroup = stringGroup.trimmingCharacters(in: .whitespaces)
+
+		// Check if a linebreak
+		if trimmedStringGroup == "[br]" {
+			labelString.append(NSAttributedString(string: "\n"))
+			return
 		}
-		indexLeftover = submatch.count - linkTitle.count
+		
+		// Search for markup Matches within the stringGroup
+		let markupMatches = getRegexMatches(for: markupRegex, in: trimmedStringGroup)
+		
+		if markupMatches.count > 0 {
+			// markupMatches contains most likely always a single element
+			markupMatches.forEach { matchRange in
+				let swiftRange = Range(matchRange, in: trimmedStringGroup)
+				let submatch = trimmedStringGroup[swiftRange!]
 
-		let attributesForLink = [
-			NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.tintColor,
-			NSAttributedString.Key.underlineColor: XS2AiOS.shared.styleProvider.tintColor,
-			NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
-			// We use .attachment instead of .link so we can change the colors
-			NSAttributedString.Key.attachment: toolTipContent,
-		] as [NSAttributedString.Key: Any]
-		
-		attributedString.setAttributes(attributesForLink, range: coloredRange)
-	}
+				if submatch.contains("::") == false {
+					// either of italic or bold type
+					let markupParts = submatch.components(separatedBy: "|")
+					let markupText = markupParts[0].dropFirst() // text
+					let markupType = markupParts[1].dropLast() // italic/bold
+					
+					var traitToUse: UIFontDescriptor.SymbolicTraits
+					
+					if markupType == "italic" {
+						traitToUse = .traitItalic
+					} else {
+						traitToUse = .traitBold
+					}
 
-	/// Reset to 0 for the next loop
-	indexLeftover = 0
+					let attributesForLink = [
+						NSAttributedString.Key.font: XS2AiOS.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: traitToUse)
+					] as [NSAttributedString.Key: Any]
 
-	linkRanges.forEach { (range) in
-		let swiftRange = Range(range, in: stringToTest)
-		let submatch = stringToTest[swiftRange!]
-		// submatch: [some title|link::http://example.com]
-		let linkParts = submatch.components(separatedBy: "::")
-		let linkTitle = String(linkParts[0].components(separatedBy: "|")[0].dropFirst())
-		// linkTitle: some title
-		let linkType = linkParts[0].components(separatedBy: "|")[1]
-		// linkType: link
-		let linkUrlString = linkParts[1].dropLast()
-		// linkUrlString: http://example.com
+					// Append Space
+					if labelString.length > 0 {
+						labelString.append(NSAttributedString(string: " "))
+					}
 
-		attributedString.mutableString.replaceOccurrences(of: String(submatch), with: linkTitle, options: .literal, range: NSMakeRange(0, attributedString.length))
-		
-		var coloredRange: NSRange
-		if indexLeftover == 0 {
-			coloredRange = NSMakeRange(range.location, linkTitle.count)
-		} else {
-			coloredRange = NSMakeRange(range.location - indexLeftover, linkTitle.count)
-		}
-		indexLeftover = submatch.count - linkTitle.count
-		
-		
-		let url: URL
-		
-		if linkType == "autosubmit" {
-			url = URL(string: "autosubmit::\(linkUrlString)")!
-		} else {
-			if let urlFromLink = URL(string: String(linkUrlString)) {
-				url = urlFromLink
-			} else {
-				return
+					labelString.append(NSAttributedString(string: String(markupText), attributes: attributesForLink))
+				} else {
+					// link, dialog or autosubmit
+					let linkParts = submatch.components(separatedBy: "::")
+					let linkTitle = String(linkParts[0].components(separatedBy: "|")[0].dropFirst()) // text
+					let linkType = linkParts[0].components(separatedBy: "|")[1] // autosubmit or https
+					let linkUrlString = linkParts[1].dropLast()
+
+					// Construct URL
+					let url: URL
+					if linkType == "autosubmit" {
+						// Custom Scheme for autosubmit
+						url = URL(string: "autosubmit::\(linkUrlString)")!
+					} else {
+						if let urlFromLink = URL(string: String(linkUrlString)) {
+							url = urlFromLink
+						} else {
+							// Constructing URL failed, return
+							return
+						}
+					}
+					
+					let attributesForLink = [
+						NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.tintColor,
+						NSAttributedString.Key.underlineColor: XS2AiOS.shared.styleProvider.tintColor,
+						NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
+						// We use .attachment instead of .link so we can change the colors
+						NSAttributedString.Key.attachment: url,
+					] as [NSAttributedString.Key: Any]
+
+					// Append Space
+					if labelString.length > 0 {
+						labelString.append(NSAttributedString(string: " "))
+					}
+
+					labelString.append(NSAttributedString(string: linkTitle, attributes: attributesForLink))
+				}
 			}
-		}
-		
-		let attributesForLink = [
-			NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.tintColor,
-			NSAttributedString.Key.underlineColor: XS2AiOS.shared.styleProvider.tintColor,
-			NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
-			// We use .attachment instead of .link so we can change the colors
-			NSAttributedString.Key.attachment: url,
-		] as [NSAttributedString.Key: Any]
-		
-		attributedString.setAttributes(attributesForLink, range: coloredRange)
-	}
+		} else {
+			// No markup match, simply append
+			// append a space first if not start or end of sentence.
+			if labelString.length > 0 && trimmedStringGroup != "." {
+				labelString.append(NSAttributedString(string: " "))
+			}
 
-	return attributedString
+			labelString.append(NSAttributedString(string: trimmedStringGroup))
+		}
+	}
+	
+	return labelString
 }
 
 

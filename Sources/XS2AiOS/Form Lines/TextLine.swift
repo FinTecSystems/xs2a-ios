@@ -11,7 +11,7 @@ protocol TextfieldParentDelegate {
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool
 }
 
-class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, LoginCredentialFormLine {
+class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, PotentialLoginCredentialFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	internal let name: String
@@ -78,6 +78,9 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	
 	func setValue(value: String) {
 		textfieldElement.text = value
+	}
+	func styleDisabled() {
+		self.textfieldElement.styleDisabledState()
 	}
 	
 	func shouldBeginEditing() -> Bool {
