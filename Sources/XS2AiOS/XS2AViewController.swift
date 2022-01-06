@@ -88,6 +88,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		super.init(nibName: nil, bundle: nil)
 
 		self.ApiService.notificationDelegate = self
+		
+//		do {
+//			try keychain.removeAll()
+//		} catch {
+//
+//		}
 	}
 	
 
@@ -405,7 +411,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 			completion(item)
 		} catch let error {
-			print(error)
 			completion(nil)
 		}
 	}
@@ -415,7 +420,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			return completion(false)
 		}
 
-		let dispatchGroup = DispatchGroup()
 		var prefilled = false
 		
 		let firstLoginCredentialFormLine = payload.first { formLine in
@@ -423,8 +427,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				if loginFormLine.isLoginCredential {
 					return true
 				}
-				
-				return false
 			}
 			
 			return false
@@ -438,6 +440,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 					atLeastOneCredentialStored = credentialExists
 				}
 			}
+		} else {
+			completion(false)
 		}
 		
 
@@ -446,6 +450,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				if !shouldAutofill {
 					completion(false)
 				} else {
+					let dispatchGroup = DispatchGroup()
 					DispatchQueue.global().async {
 						for formLine in payload {
 							dispatchGroup.enter()
@@ -470,18 +475,19 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 					}
 				}
 			}
+		} else {
+			completion(false)
 		}
 	}
 	
-	private func storeCredentials(payload: Dictionary<String, Any>? = [:]) {
+	private func storeCredentials(payload: Dictionary<String, Any>? = [:], completion: @escaping () -> Void) {
 		guard let payload = payload else {
 			return
 		}
-		print(payload)
+
 		guard let provider = XS2AiOS.shared.configuration.provider else {
 			return
 		}
-		print(provider)
 
 		
 		var parametersToStore: Dictionary<String, String> = [:]
@@ -499,10 +505,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 
 		if !parametersToStore.isEmpty {
-			parametersToStore.forEach { (key: String, value: String) in
-				DispatchQueue.global().async {
+			let dispatchGroup = DispatchGroup()
+
+			DispatchQueue.global().async {
+				parametersToStore.forEach { (key: String, value: String) in
+					dispatchGroup.enter()
+
 					do {
-						// Should be the secret invalidated when passcode is removed? If not then use `.WhenUnlocked`
 						if #available(iOS 11.3, *) {
 							try self.keychain
 								.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: [.biometryAny])
@@ -515,8 +524,15 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 						print(error)
 						// Error handling if needed...
 					}
+
+					dispatchGroup.leave()
+				}
+				dispatchGroup.notify(queue: .main) {
+					completion()
 				}
 			}
+		} else {
+			completion()
 		}
 	}
 	
@@ -548,27 +564,39 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			switch result {
 			case .success(let formElements):
 				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
-					self.storeCredentials(payload: payload)
+					self.storeCredentials(payload: payload) {
+						self.setupViews(formElements: formElements)
+						self.isBusy = false
+						
+						return
+					}
+				} else {
+					self.setupViews(formElements: formElements)
+					self.isBusy = false
+					
+					return
 				}
-
-				self.setupViews(formElements: formElements)
-				self.isBusy = false
-				
-				return
 			case .finish:
-				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
-					self.storeCredentials(payload: payload)
-				}
-
 				self.result = .success(.finish)
+
+				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
+					self.storeCredentials(payload: payload) {
+						self.dimissAndComplete();
+						self.isBusy = false
+					}
+				} else {
+					self.dimissAndComplete();
+					self.isBusy = false
+				}
 			case .finishWithCredentials(let credentials):
 				self.result = .success(.finishWithCredentials(credentials))
+				self.dimissAndComplete();
+				self.isBusy = false
 			case .failure(_):
 				self.result = .failure(.networkError)
+				self.dimissAndComplete();
+				self.isBusy = false
 			}
-			
-			self.dimissAndComplete();
-			self.isBusy = false
 		}
 	}
 	

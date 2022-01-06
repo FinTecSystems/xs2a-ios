@@ -35,7 +35,6 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	}()
 	
 	func setValue(value: String) {
-		print("setting checked")
 		checked = true
 	}
 
