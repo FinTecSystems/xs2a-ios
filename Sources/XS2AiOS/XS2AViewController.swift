@@ -512,14 +512,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 					dispatchGroup.enter()
 
 					do {
-						if #available(iOS 11.3, *) {
-							try self.keychain
-								.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: [.biometryAny])
-								.authenticationContext(self.context)
-								.set(value, key: key)
-						} else {
-							// Fallback on earlier versions
-						}
+						try self.keychain
+							.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: [.biometryAny])
+							.authenticationContext(self.context)
+							.set(value, key: key)
 					} catch let error {
 						print(error)
 						// Error handling if needed...

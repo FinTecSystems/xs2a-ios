@@ -6,7 +6,7 @@ let package = Package(
 	name: "XS2AiOS",
 	defaultLocalization: "de",
 	platforms: [
-		.iOS(.v11)
+		.iOS(.v12)
 	],
 	products: [
 		.library(
