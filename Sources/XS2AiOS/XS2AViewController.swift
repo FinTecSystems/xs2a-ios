@@ -418,12 +418,14 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Checks if this ViewController has been presented and dismisses itself,
 	/// calls the completionHandler in any case to to notify host app
 	private func dimissAndComplete() {
-		if (self.presentingViewController != nil) {
-			self.presentingViewController?.dismiss(animated: true, completion: {
+		hideElements {
+			if (self.presentingViewController != nil) {
+				self.presentingViewController?.dismiss(animated: true, completion: {
+					self.completionHandler()
+				})
+			} else {
 				self.completionHandler()
-			})
-		} else {
-			self.completionHandler()
+			}
 		}
 	}
 	
