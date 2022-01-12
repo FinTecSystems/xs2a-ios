@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DC6847B6278EDA2400A5054F"
-               BuildableName = "XS2AiOSFramework.framework"
-               BlueprintName = "XS2AiOSFramework"
-               ReferencedContainer = "container:XS2AiOSFramework.xcodeproj">
+               BuildableName = "XS2AiOS.framework"
+               BlueprintName = "XS2AiOS"
+               ReferencedContainer = "container:XS2AiOS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -51,9 +51,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DC6847B6278EDA2400A5054F"
-            BuildableName = "XS2AiOSFramework.framework"
-            BlueprintName = "XS2AiOSFramework"
-            ReferencedContainer = "container:XS2AiOSFramework.xcodeproj">
+            BuildableName = "XS2AiOS.framework"
+            BlueprintName = "XS2AiOS"
+            ReferencedContainer = "container:XS2AiOS.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

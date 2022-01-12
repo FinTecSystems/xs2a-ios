@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC6847BB278EDA2400A5054F /* XS2AiOSFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOSFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC6847FF278EDA5200A5054F /* XS2AViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C3278EDA5200A5054F /* XS2AViewController.swift */; };
 		DC684800278EDA5200A5054F /* FlickerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C5278EDA5200A5054F /* FlickerContainer.swift */; };
 		DC684801278EDA5200A5054F /* RadioButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C6278EDA5200A5054F /* RadioButtonController.swift */; };
@@ -63,8 +63,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DC6847B7278EDA2400A5054F /* XS2AiOSFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XS2AiOSFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC6847BA278EDA2400A5054F /* XS2AiOSFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XS2AiOSFramework.h; sourceTree = "<group>"; };
+		DC6847B7278EDA2400A5054F /* XS2AiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XS2AiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC6847BA278EDA2400A5054F /* XS2AiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XS2AiOS.h; sourceTree = "<group>"; };
 		DC6847C3278EDA5200A5054F /* XS2AViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2AViewController.swift; sourceTree = "<group>"; };
 		DC6847C5278EDA5200A5054F /* FlickerContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickerContainer.swift; sourceTree = "<group>"; };
 		DC6847C6278EDA5200A5054F /* RadioButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButtonController.swift; sourceTree = "<group>"; };
@@ -137,7 +137,7 @@
 		DC6847AD278EDA2400A5054F = {
 			isa = PBXGroup;
 			children = (
-				DC6847B9278EDA2400A5054F /* XS2AiOSFramework */,
+				DC6847B9278EDA2400A5054F /* XS2AiOS */,
 				DC6847B8278EDA2400A5054F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -145,18 +145,18 @@
 		DC6847B8278EDA2400A5054F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DC6847B7278EDA2400A5054F /* XS2AiOSFramework.framework */,
+				DC6847B7278EDA2400A5054F /* XS2AiOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DC6847B9278EDA2400A5054F /* XS2AiOSFramework */ = {
+		DC6847B9278EDA2400A5054F /* XS2AiOS */ = {
 			isa = PBXGroup;
 			children = (
 				DC6847C1278EDA5200A5054F /* Sources */,
-				DC6847BA278EDA2400A5054F /* XS2AiOSFramework.h */,
+				DC6847BA278EDA2400A5054F /* XS2AiOS.h */,
 			);
-			path = XS2AiOSFramework;
+			path = XS2AiOS;
 			sourceTree = "<group>";
 		};
 		DC6847C1278EDA5200A5054F /* Sources */ = {
@@ -278,16 +278,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC6847BB278EDA2400A5054F /* XS2AiOSFramework.h in Headers */,
+				DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		DC6847B6278EDA2400A5054F /* XS2AiOSFramework */ = {
+		DC6847B6278EDA2400A5054F /* XS2AiOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DC6847BE278EDA2400A5054F /* Build configuration list for PBXNativeTarget "XS2AiOSFramework" */;
+			buildConfigurationList = DC6847BE278EDA2400A5054F /* Build configuration list for PBXNativeTarget "XS2AiOS" */;
 			buildPhases = (
 				DC6847B2278EDA2400A5054F /* Headers */,
 				DC6847B3278EDA2400A5054F /* Sources */,
@@ -298,14 +298,14 @@
 			);
 			dependencies = (
 			);
-			name = XS2AiOSFramework;
+			name = XS2AiOS;
 			packageProductDependencies = (
 				DC684831278EDA9900A5054F /* SwiftyJSON */,
 				DC684834278EDAAA00A5054F /* NVActivityIndicatorView */,
 				DC684837278EDB3800A5054F /* XS2AiOSNetService */,
 			);
-			productName = XS2AiOSFramework;
-			productReference = DC6847B7278EDA2400A5054F /* XS2AiOSFramework.framework */;
+			productName = XS2AiOS;
+			productReference = DC6847B7278EDA2400A5054F /* XS2AiOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -322,7 +322,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DC6847B1278EDA2400A5054F /* Build configuration list for PBXProject "XS2AiOSFramework" */;
+			buildConfigurationList = DC6847B1278EDA2400A5054F /* Build configuration list for PBXProject "XS2AiOS" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -344,7 +344,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DC6847B6278EDA2400A5054F /* XS2AiOSFramework */,
+				DC6847B6278EDA2400A5054F /* XS2AiOS */,
 			);
 		};
 /* End PBXProject section */
@@ -438,6 +438,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -502,6 +503,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -559,6 +561,7 @@
 		DC6847BF278EDA2400A5054F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -576,7 +579,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fintecsystems.XS2AiOSFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fintecsystems.XS2AiOS;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -589,6 +592,7 @@
 		DC6847C0278EDA2400A5054F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -606,7 +610,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fintecsystems.XS2AiOSFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fintecsystems.XS2AiOS;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -619,7 +623,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DC6847B1278EDA2400A5054F /* Build configuration list for PBXProject "XS2AiOSFramework" */ = {
+		DC6847B1278EDA2400A5054F /* Build configuration list for PBXProject "XS2AiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DC6847BC278EDA2400A5054F /* Debug */,
@@ -628,7 +632,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DC6847BE278EDA2400A5054F /* Build configuration list for PBXNativeTarget "XS2AiOSFramework" */ = {
+		DC6847BE278EDA2400A5054F /* Build configuration list for PBXNativeTarget "XS2AiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DC6847BF278EDA2400A5054F /* Debug */,
