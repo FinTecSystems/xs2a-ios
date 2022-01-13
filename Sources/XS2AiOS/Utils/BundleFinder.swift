@@ -27,6 +27,8 @@ extension Foundation.Bundle {
 			}
 		}
 
-		fatalError("unable to find bundle named XS2AiOS")
+		print("unable to find bundle named \(bundleName)")
+		
+		return Bundle(for: BundleFinder.self)
 	}()
 }
