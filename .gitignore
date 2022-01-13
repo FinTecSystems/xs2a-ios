@@ -1,9 +1,8 @@
 .DS_Store
 /.build
-# /Packages
-# /*.xcodeproj
-# xcuserdata/
-# DerivedData/
+/Packages
+xcuserdata/
+DerivedData/
 .swiftpm/
 Package.resolved
 Carthage/*
