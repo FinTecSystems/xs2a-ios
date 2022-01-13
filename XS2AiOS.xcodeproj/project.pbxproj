@@ -154,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				DC6847C1278EDA5200A5054F /* Sources */,
-				DC6847BA278EDA2400A5054F /* XS2AiOS.h */,
 			);
 			path = XS2AiOS;
 			sourceTree = "<group>";
@@ -170,6 +169,7 @@
 		DC6847C2278EDA5200A5054F /* XS2AiOS */ = {
 			isa = PBXGroup;
 			children = (
+				DC6847BA278EDA2400A5054F /* XS2AiOS.h */,
 				DC6847C3278EDA5200A5054F /* XS2AViewController.swift */,
 				DC6847C4278EDA5200A5054F /* Base Elements */,
 				DC6847CB278EDA5200A5054F /* Form Lines */,
