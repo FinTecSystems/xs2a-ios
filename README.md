@@ -6,6 +6,8 @@
 ![Languages](https://img.shields.io/badge/languages-swift-1d72b8.svg)
 ![Swift Package Manager](https://img.shields.io/badge/SPM-supported-1d72b8.svg)
 ![Cocoapods](https://img.shields.io/cocoapods/v/XS2AiOS?color=1d72b8&logo=FinTecSystems&logoColor=1d72b8)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-1d72b8.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 
 This iOS SDK allows for the integration of XS2A into native iOS apps.
 An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also available.
@@ -25,7 +27,7 @@ An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also availabl
 
 When measured with [cocoapods-size](https://github.com/google/cocoapods-size), the reported combined size added is ~1,87 Megabytes (for version 1.1.4).
 
-### Include the Module via Swift Package Manager (Preferred)
+### Swift Package Manager (Preferred)
 Use Xcode's `File -> Swift Packages -> Add Package Dependency` (Xcode 12) or `File -> Add Packages...` (Xcode 13) to add this package.
 Use the URL of this repository for this:
 
@@ -33,7 +35,7 @@ Use the URL of this repository for this:
 https://github.com/FinTecSystems/xs2a-ios
 ```
 
-### Include the Module via Cocoapods
+### Cocoapods
 Include the pod in your Podfile:
 
 ```
@@ -42,7 +44,15 @@ pod "XS2AiOS"
 
 Then run `pod install`. In some cases you might have to run `pod install --repo-update`.
 
-### Import the Module
+### Carthage
+In case you want to integrate the module as XCFramework via Carthage, add the following line to your Cartfile:
+
+```
+github "FinTecSystems/xs2a-ios"
+```
+
+Then run `carthage update --use-xcframeworks` and drag the resulting XCFramework into your Xcode projects' framework section.
+## Import the Module
 ```swift
 import XS2AiOS
 ```
