@@ -513,7 +513,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 					do {
 						try self.keychain
-							.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: [.biometryAny])
+							.accessibility(.whenUnlockedThisDeviceOnly, authenticationPolicy: [.biometryAny])
 							.authenticationContext(self.context)
 							.set(value, key: key)
 					} catch let error {
@@ -748,7 +748,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	private func askToAutofill(completion: @escaping (Bool) -> Void) {
 		let alert = UIAlertController(
 			title: "Autofill",
-			message: "Autofill?",
+			message: "Auf Ihrem Gerät sind Zugangsdaten für diese Bank gespeichert. Sollen diese automatisch befüllt werden?",
 			preferredStyle: .alert
 		)
 		
