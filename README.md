@@ -45,10 +45,11 @@ pod "XS2AiOS"
 Then run `pod install`. In some cases you might have to run `pod install --repo-update`.
 
 ### Carthage
-In case you want to integrate the module as XCFramework via Carthage, add the following line to your Cartfile:
+In case you want to integrate the module as XCFramework via Carthage, add the following lines to your Cartfile:
 
 ```
 github "FinTecSystems/xs2a-ios"
+binary "https://raw.githubusercontent.com/FinTecSystems/xs2a-ios-netservice/master/Carthage.json" ~> 1.0.6
 ```
 
 Then run `carthage update --use-xcframeworks` and drag the resulting XCFramework into your Xcode projects' framework section.

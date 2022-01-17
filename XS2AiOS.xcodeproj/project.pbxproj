@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC43DDD02795801200FCE9A1 /* XS2AiOSNetService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */; };
 		DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC6847FF278EDA5200A5054F /* XS2AViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C3278EDA5200A5054F /* XS2AViewController.swift */; };
 		DC684800278EDA5200A5054F /* FlickerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C5278EDA5200A5054F /* FlickerContainer.swift */; };
@@ -62,6 +63,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = XS2AiOSNetService.xcframework; path = Carthage/Build/XS2AiOSNetService.xcframework; sourceTree = "<group>"; };
 		DC6847B7278EDA2400A5054F /* XS2AiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XS2AiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC6847BA278EDA2400A5054F /* XS2AiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XS2AiOS.h; sourceTree = "<group>"; };
 		DC6847C3278EDA5200A5054F /* XS2AViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2AViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC43DDD02795801200FCE9A1 /* XS2AiOSNetService.xcframework in Frameworks */,
 				DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */,
 				DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */,
 			);
@@ -135,6 +138,7 @@
 		DC43DDC02795725E00FCE9A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
