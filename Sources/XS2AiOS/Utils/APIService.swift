@@ -96,13 +96,13 @@ class APIService {
 	/// Function for making the initial call to the XS2A backend
 	func initCall(completion: @escaping (APIResponseType) -> Void) {
 		let payload: [String:Any] = [
-			"version": "ios_sdk_1.2.3",
+			"version": "ios_sdk_1.2.4",
 			"client": "ios_sdk",
 		]
 
 		post(body: payload, completion: { result, error in
 			if let error = error {
-				completion(.failure(error))
+				completion(.failure(error))net
 				
 				return
 			}
