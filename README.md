@@ -50,9 +50,11 @@ In case you want to integrate the module as XCFramework via Carthage, add the fo
 ```
 github "FinTecSystems/xs2a-ios"
 binary "https://raw.githubusercontent.com/FinTecSystems/xs2a-ios-netservice/master/Carthage.json" ~> 1.0.6
+github "ninjaprox/NVActivityIndicatorView" ~> 5.1.1
+github "SwiftyJSON/SwiftyJSON" ~> 5.0.1
 ```
 
-Then run `carthage update --use-xcframeworks` and drag the both resulting XCFrameworks (XS2AiOS & XS2AiOSNetService) into your Xcode projects' framework section.
+Then run `carthage update --use-xcframeworks` and drag the resulting XCFrameworks into your Xcode projects' framework section.
 ## Import the Module
 ```swift
 import XS2AiOS
