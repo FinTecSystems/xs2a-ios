@@ -102,7 +102,7 @@ class APIService {
 
 		post(body: payload, completion: { result, error in
 			if let error = error {
-				completion(.failure(error))net
+				completion(.failure(error))
 				
 				return
 			}
