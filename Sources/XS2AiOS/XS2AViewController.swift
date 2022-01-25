@@ -504,7 +504,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			if let formLine = child as? PotentialLoginCredentialFormLine {
 				if formLine.isLoginCredential {
 					if let asString = payload[formLine.name] as? String {
-						parametersToStore["\(provider)_\(formLine.name)"] = asString
+						if (asString.count > 0) {
+							parametersToStore["\(provider)_\(formLine.name)"] = asString
+						}
 					} else if let asBool = payload[formLine.name] as? Bool {
 						parametersToStore["\(provider)_\(formLine.name)"] = String(asBool)
 					}
@@ -560,14 +562,14 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			return key == "store_credentials" && value as? Bool == true
 		}
 		
-		if storeCredentialsAccepted && !XS2AiOS.shared.configuration.permissionToStoreCredentials {
+		if storeCredentialsAccepted {
 			XS2AiOS.shared.configuration.permissionToStoreCredentials = true
 		}
 		
 		self.ApiService.postBody(payload: payload) { result in
 			switch result {
-			case .success(let formElements):
-				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
+			case .success(let formElements, let containsError):
+				if containsError == false && XS2AiOS.shared.configuration.permissionToStoreCredentials {
 					self.storeCredentials(payload: payload) {
 						self.setupViews(formElements: formElements)
 						self.isBusy = false
@@ -831,7 +833,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 		self.ApiService.initCall(completion: { result in
 			switch result {
-			case .success(let formElements):
+			case .success(let formElements, let containsError):
 				self.setupViews(formElements: formElements)
 				
 				return
