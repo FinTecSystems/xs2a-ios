@@ -68,7 +68,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Authentication Context
 	private lazy var context: LAContext = {
 		let mainContext = LAContext()
-		mainContext.touchIDAuthenticationAllowableReuseDuration = 60
+		mainContext.touchIDAuthenticationAllowableReuseDuration = LATouchIDAuthenticationMaximumAllowableReuseDuration
 
 		return mainContext
 	}()
@@ -391,15 +391,23 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	private func checkForKeychainItemExistence(itemName: String, completion: @escaping (Bool) -> Void) {
-		do {
-			try self.keychain
-				.authenticationContext(self.internalContext)
-				.get(itemName)
+		// We spcify kSecUseAuthenticationUIFail so that the error
+		// errSecInteractionNotAllowed will be returned if an item needs
+		// to authenticate with UI and the authentication UI will not be presented.
+		let keychainQuery: [AnyHashable: Any] = [
+			kSecClass as AnyHashable: kSecClassGenericPassword,
+			kSecAttrService as AnyHashable: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A",
+			kSecAttrAccount as AnyHashable: itemName,
+			kSecUseAuthenticationUI as AnyHashable: kSecUseAuthenticationUIFail
+		]
+		
+		var result: AnyObject?
+		let status = SecItemCopyMatching(keychainQuery as CFDictionary, &result)
 
-			completion(false)
-		} catch _ {
-			completion(true)
-		}
+		// If that status is errSecInteractionNotAllowed, then
+		// we know that the key is present, but you cannot interact with
+		// it without authentication. Otherwise, we assume the key is not present.
+		completion(status == errSecInteractionNotAllowed || status == errSecSuccess)
 	}
 	
 	private func getKeychainItem(itemName: String, completion: (String?) -> Void) {
@@ -443,7 +451,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		} else {
 			completion(false)
 		}
-		
+
 
 		if atLeastOneCredentialStored {
 			self.askToAutofill { shouldAutofill in

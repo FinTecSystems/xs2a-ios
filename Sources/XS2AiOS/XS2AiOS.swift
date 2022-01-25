@@ -37,14 +37,14 @@ public class XS2AiOS {
 extension XS2AiOS {
 	public struct Configuration {
 		var wizardSessionKey: String
-		var askForStoreCredentials: Bool
+		var offerToStoreCredentials: Bool
 		var permissionToStoreCredentials: Bool
 		var provider: String?
 		var backButtonAction: () -> Void
 		
-		public init(wizardSessionKey: String, backButtonAction: @escaping () -> Void = {}, askForStoreCredentials: Bool = false) {
+		public init(wizardSessionKey: String, backButtonAction: @escaping () -> Void = {}, offerToStoreCredentials: Bool = false) {
 			self.wizardSessionKey = wizardSessionKey
-			self.askForStoreCredentials = askForStoreCredentials
+			self.offerToStoreCredentials = offerToStoreCredentials
 			self.permissionToStoreCredentials = false
 			self.provider = nil
 			self.backButtonAction = backButtonAction
