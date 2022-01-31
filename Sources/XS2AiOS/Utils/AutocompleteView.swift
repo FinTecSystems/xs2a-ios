@@ -46,7 +46,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		}
 	}
 	
-	func getAutocompleteResults() {
+	@objc func getAutocompleteResults() {
 		guard let valueToSearch = self.searchField.text else {
 			return
 		}
@@ -75,7 +75,16 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 				setElementVisibility()
 			} else {
 				infoLabel.isHidden = true
-				getAutocompleteResults()
+
+				/**
+				 Debounce the API call.
+				 */
+				NSObject.cancelPreviousPerformRequests(
+					withTarget: self,
+					selector: #selector(getAutocompleteResults),
+					object: nil
+				)
+				perform(#selector(getAutocompleteResults), with: nil, afterDelay: TimeInterval(0.4))
 			}
 		}
 	}
