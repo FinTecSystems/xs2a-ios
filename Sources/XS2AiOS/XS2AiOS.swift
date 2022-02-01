@@ -1,9 +1,12 @@
 import UIKit
+import KeychainAccess
 
 public class XS2AiOS {
 	private static var _shared: XS2AiOS?
+
 	public var configuration: Configuration
 	public let styleProvider: StyleProvider
+	public let keychain: Keychain
 	let apiService: APIService
 	
 	public var currentStep: WizardStep?
@@ -19,6 +22,16 @@ public class XS2AiOS {
 		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey)
 		
 		self.currentStep = nil
+		self.keychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
+	}
+	
+	public static func clearKeychain() {
+		do {
+			let tempKeychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
+			try tempKeychain.removeAll()
+		} catch (let e) {
+
+		}
 	}
 	
 	public static func configure(withConfig configuration: Configuration, withStyle styleProvider: StyleProvider) {

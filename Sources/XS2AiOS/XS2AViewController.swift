@@ -33,8 +33,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Instance of APIService
 	/// Used for making network requests
 	private let ApiService: APIService
-	
-	private let keychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
 
 	/// The top level view of this ViewController
 	/// It wraps all the other subviews and expands if necessary (e.g. keyboard open)
@@ -84,16 +82,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
 		self.ApiService = xs2a.apiService
 		self.permanentCompletion = completion
-
 		super.init(nibName: nil, bundle: nil)
 
 		self.ApiService.notificationDelegate = self
-		
-//		do {
-//			try keychain.removeAll()
-//		} catch {
-//
-//		}
+
 	}
 	
 
@@ -412,7 +404,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	
 	private func getKeychainItem(itemName: String, completion: (String?) -> Void) {
 		do {
-			let item = try self.keychain
+			let item = try XS2AiOS.shared.keychain
 				.authenticationPrompt("Authenticate to login to server")
 				.authenticationContext(self.context)
 				.get(itemName)
@@ -522,7 +514,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 					dispatchGroup.enter()
 
 					do {
-						try self.keychain
+						try XS2AiOS.shared.keychain
 							.accessibility(.whenUnlockedThisDeviceOnly, authenticationPolicy: [.biometryAny])
 							.authenticationContext(self.context)
 							.set(value, key: key)
