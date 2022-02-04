@@ -31,6 +31,18 @@ extension Foundation.Bundle {
 	static var current: Bundle = {
 		return XS2AiOSBundleLocator.resourcesBundle
 	}()
+	static var images: Bundle = {
+		return XS2AiOSImageBundleLocator.resourcesBundle
+	}()
+}
+
+final class XS2AiOSImageBundleLocator: BundleLocatorProtocol {
+	static let internalClass: AnyClass = XS2AiOSImageBundleLocator.self
+	static let bundleName = "Images"
+	#if SWIFT_PACKAGE
+	static let spmResourcesBundle = Bundle.module
+	#endif
+	static let resourcesBundle = XS2AiOSImageBundleLocator.computeResourcesBundle()
 }
 
 final class XS2AiOSBundleLocator: BundleLocatorProtocol {

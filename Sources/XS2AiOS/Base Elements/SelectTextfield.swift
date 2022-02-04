@@ -13,7 +13,7 @@ class SelectTextfield: UITextField, UITextFieldDelegate {
 		self.textColor = XS2AiOS.shared.styleProvider.inputTextColor
 		self.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-		let background = UIImage(named: "select_chevrons", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		let background = UIImage(named: "select_chevrons", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		let imageView = UIImageView(image: background)
 
 		imageView.tintColor = XS2AiOS.shared.styleProvider.placeholderColor

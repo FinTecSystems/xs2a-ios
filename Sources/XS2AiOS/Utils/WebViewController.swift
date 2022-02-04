@@ -71,7 +71,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 	}
 	
 	private func getSecureIcon(isSecure: Bool) -> UIBarButtonItem {
-		let iconImage = UIImage(named: isSecure ? "lock" : "lock_slash", in: .current, compatibleWith: nil)
+		let iconImage = UIImage(named: isSecure ? "lock" : "lock_slash", in: .images, compatibleWith: nil)
 		
 		let barButton = UIButton(type: .custom)
 		barButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)

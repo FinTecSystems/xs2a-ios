@@ -16,10 +16,10 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, OpenLinkDe
 	let multiFormName: String?
 	let multiFormValue: String?
 	
-	let checkedImage = UIImage(named: "checkmark_ticked", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-	let uncheckedImage = UIImage(named: "checkmark", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-	let checkedDisabledImage = UIImage(named: "checkmark_ticked", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-	let uncheckedDisabledImage = UIImage(named: "checkmark", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+	let checkedImage = UIImage(named: "checkmark_ticked", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+	let uncheckedImage = UIImage(named: "checkmark", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+	let checkedDisabledImage = UIImage(named: "checkmark_ticked", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+	let uncheckedDisabledImage = UIImage(named: "checkmark", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
 	let button = UIButton()
 	let labelElement: InteractiveLinkLabel = {

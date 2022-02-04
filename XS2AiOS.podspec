@@ -18,5 +18,8 @@ Pod::Spec.new do |s|
   s.swift_version = '5.3'
 
   s.source_files = 'Sources/XS2AiOS/**/*.swift'
-  s.resources = 'Sources/XS2AiOS/Resources/**/*'
+  s.resource_bundles = {
+	"XS2AiOS" => ['Sources/XS2AiOS/Resources/**/*.{xib,lproj}'],
+	"Images" => ['Sources/XS2AiOS/Resources/Images.xcassets']
+  }
 end
