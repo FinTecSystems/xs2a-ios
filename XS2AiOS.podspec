@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'XS2AiOS'
-  s.version          = '1.2.3'
+  s.version          = '1.2.6'
   s.summary          = 'Native integration of FinTecSystems XS2A API for your iOS apps.'
 
   s.homepage         = 'https://github.com/FinTecSystems/xs2a-ios'
@@ -18,5 +18,8 @@ Pod::Spec.new do |s|
   s.swift_version = '5.3'
 
   s.source_files = 'Sources/XS2AiOS/**/*.swift'
-  s.resource_bundle = { "XS2AiOS" => ['Sources/XS2AiOS/Resources/**/*'] }
+  s.resource_bundles = {
+	"XS2AiOS" => ['Sources/XS2AiOS/Resources/**/*.{xib,lproj}'],
+	"Images" => ['Sources/XS2AiOS/Resources/Images.xcassets']
+  }
 end

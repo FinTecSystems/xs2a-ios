@@ -1,6 +1,6 @@
 import Foundation
 import SwiftyJSON
-import XS2AiOSNetService
+@_implementationOnly import XS2AiOSNetService
 
 /// The different Types of Responses from the API
 enum APIResponseType {
@@ -38,12 +38,15 @@ class APIService {
 	
 	var notificationDelegate: NetworkNotificationDelegate?
 	
+	var baseURL = "https://api.xs2a.com/jsonp"
+	
 	/**
 	 - Parameters:
 	  - wizardSessionKey: the Wizard Session Key used for the instance of the session
 	*/
-	init(wizardSessionKey: String) {
+	init(wizardSessionKey: String, baseURL: String) {
 		self.wizardSessionKey = wizardSessionKey
+		self.baseURL = baseURL
 		self.netServiceInstance = XS2ANetService()
 	}
 	
@@ -109,7 +112,7 @@ class APIService {
 	/// Function for making the initial call to the XS2A backend
 	func initCall(completion: @escaping (APIResponseType) -> Void) {
 		let payload: [String:Any] = [
-			"version": "ios_sdk_1.2.3",
+			"version": "ios_sdk_1.2.6",
 			"client": "ios_sdk",
 		]
 
@@ -207,7 +210,7 @@ class APIService {
 
 	func post(body: Dictionary<String, Any>, completion: @escaping (JSON?, Error?) -> Void) {
 		DispatchQueue.global(qos: .userInitiated).async {
-			self.netServiceInstance.post(body: body, sessionKey: self.wizardSessionKey) { result in
+			self.netServiceInstance.postCustom(body: body, endpoint: self.baseURL, sessionKey: self.wizardSessionKey) { result in
 				DispatchQueue.main.async {
 					switch result {
 					case .success(let data):

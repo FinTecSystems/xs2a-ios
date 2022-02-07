@@ -1,8 +1,8 @@
 import UIKit
 
 class RadioButtonController {
-	let tickedRadioImage = UIImage(named: "radio_ticked", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-	let radioImage = UIImage(named: "radio", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+	let tickedRadioImage = UIImage(named: "radio_ticked", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+	let radioImage = UIImage(named: "radio", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
 	var buttonsArray: [RadioButton] = [] {
 		didSet {

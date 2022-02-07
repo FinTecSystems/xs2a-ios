@@ -147,7 +147,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		flickerContainer = []
 		
 		let smallerButton = UIButton()
-		let minusGlassImage = UIImage(named: "minus_glass", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		let minusGlassImage = UIImage(named: "minus_glass", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		smallerButton.setImage(minusGlassImage, for: .normal)
 		smallerButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
 		smallerButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
@@ -155,7 +155,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		smallerButton.addTarget(self, action: #selector(decreaseFlickerSize), for: .touchUpInside)
 		
 		let biggerButton = UIButton()
-		let plusGlassImage = UIImage(named: "plus_glass", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		let plusGlassImage = UIImage(named: "plus_glass", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		biggerButton.setImage(plusGlassImage, for: .normal)
 		biggerButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
 		biggerButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
@@ -164,7 +164,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		
 		let rotateButton = UIButton()
 		
-		let rotateImage = UIImage(named: "rotate_clockwise", in: .current, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		let rotateImage = UIImage(named: "rotate_clockwise", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		
 		rotateButton.setImage(rotateImage, for: .normal)
 		rotateButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor

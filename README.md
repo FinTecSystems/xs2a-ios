@@ -45,13 +45,16 @@ pod "XS2AiOS"
 Then run `pod install`. In some cases you might have to run `pod install --repo-update`.
 
 ### Carthage
-In case you want to integrate the module as XCFramework via Carthage, add the following line to your Cartfile:
+In case you want to integrate the module as XCFramework via Carthage, add the following lines to your Cartfile:
 
 ```
 github "FinTecSystems/xs2a-ios"
+binary "https://raw.githubusercontent.com/FinTecSystems/xs2a-ios-netservice/master/Carthage.json" ~> 1.0.6
+github "ninjaprox/NVActivityIndicatorView" ~> 5.1.1
+github "SwiftyJSON/SwiftyJSON" ~> 5.0.1
 ```
 
-Then run `carthage update --use-xcframeworks` and drag the resulting XCFramework into your Xcode projects' framework section.
+Then run `carthage update --use-xcframeworks` and drag the resulting XCFrameworks into your Xcode projects' framework section.
 ## Import the Module
 ```swift
 import XS2AiOS
@@ -177,6 +180,15 @@ var infoStyle: AlertStyle
 ```
 ![Styling API](https://fintecsystems.com/StylingAPI_v2.png)
 
+### Encryption Export Compliance Information
+
+When uploading your app to App Store Connect, Apple typically wants to know some information on whether your app uses encryption and if it qualifies for an exemption 
+under Category 5, Part 2 of the U.S. Export Administration Regulations. This SDK *does* qualify for such exemption, namely article `(d)`:
+
+> Specially designed and limited for banking use or "money transactions"
+
+Please note, that this only applies to this SDK and the corresponding `XS2AiOSNetService`, but not to any other parts of your app, which might not qualify 
+for such exemptions and you might have to reconsider how to answer that dialog.
 
 ### License
 

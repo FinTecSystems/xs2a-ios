@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC43DDD02795801200FCE9A1 /* XS2AiOSNetService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */; };
 		DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC6847FF278EDA5200A5054F /* XS2AViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C3278EDA5200A5054F /* XS2AViewController.swift */; };
 		DC684800278EDA5200A5054F /* FlickerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C5278EDA5200A5054F /* FlickerContainer.swift */; };
@@ -59,10 +60,10 @@
 		DC68482F278EDA5200A5054F /* ExposableFormElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847FE278EDA5200A5054F /* ExposableFormElement.swift */; };
 		DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DC684831278EDA9900A5054F /* SwiftyJSON */; };
 		DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = DC684834278EDAAA00A5054F /* NVActivityIndicatorView */; };
-		DC684838278EDB3800A5054F /* XS2AiOSNetService in Frameworks */ = {isa = PBXBuildFile; productRef = DC684837278EDB3800A5054F /* XS2AiOSNetService */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = XS2AiOSNetService.xcframework; path = Carthage/Build/XS2AiOSNetService.xcframework; sourceTree = "<group>"; };
 		DC6847B7278EDA2400A5054F /* XS2AiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XS2AiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC6847BA278EDA2400A5054F /* XS2AiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XS2AiOS.h; sourceTree = "<group>"; };
 		DC6847C3278EDA5200A5054F /* XS2AViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2AViewController.swift; sourceTree = "<group>"; };
@@ -125,7 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC684838278EDB3800A5054F /* XS2AiOSNetService in Frameworks */,
+				DC43DDD02795801200FCE9A1 /* XS2AiOSNetService.xcframework in Frameworks */,
 				DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */,
 				DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */,
 			);
@@ -134,11 +135,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC43DDC02795725E00FCE9A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DC6847AD278EDA2400A5054F = {
 			isa = PBXGroup;
 			children = (
-				DC6847B9278EDA2400A5054F /* XS2AiOS */,
+				DC6847C1278EDA5200A5054F /* Sources */,
 				DC6847B8278EDA2400A5054F /* Products */,
+				DC43DDC02795725E00FCE9A1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,14 +158,6 @@
 				DC6847B7278EDA2400A5054F /* XS2AiOS.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		DC6847B9278EDA2400A5054F /* XS2AiOS */ = {
-			isa = PBXGroup;
-			children = (
-				DC6847C1278EDA5200A5054F /* Sources */,
-			);
-			path = XS2AiOS;
 			sourceTree = "<group>";
 		};
 		DC6847C1278EDA5200A5054F /* Sources */ = {
@@ -302,7 +304,6 @@
 			packageProductDependencies = (
 				DC684831278EDA9900A5054F /* SwiftyJSON */,
 				DC684834278EDAAA00A5054F /* NVActivityIndicatorView */,
-				DC684837278EDB3800A5054F /* XS2AiOSNetService */,
 			);
 			productName = XS2AiOS;
 			productReference = DC6847B7278EDA2400A5054F /* XS2AiOS.framework */;
@@ -338,7 +339,6 @@
 			packageReferences = (
 				DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				DC684833278EDAAA00A5054F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
-				DC684836278EDB3800A5054F /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */,
 			);
 			productRefGroup = DC6847B8278EDA2400A5054F /* Products */;
 			projectDirPath = "";
@@ -660,14 +660,6 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		DC684836278EDB3800A5054F /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FinTecSystems/xs2a-ios-netservice.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -680,11 +672,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DC684833278EDAAA00A5054F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */;
 			productName = NVActivityIndicatorView;
-		};
-		DC684837278EDB3800A5054F /* XS2AiOSNetService */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DC684836278EDB3800A5054F /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */;
-			productName = XS2AiOSNetService;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

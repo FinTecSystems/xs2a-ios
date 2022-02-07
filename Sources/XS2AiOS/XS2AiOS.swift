@@ -19,7 +19,7 @@ public class XS2AiOS {
 	init(configuration: Configuration, styleProvider: StyleProvider) {
 		self.configuration = configuration
 		self.styleProvider = styleProvider
-		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey)
+		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey, baseURL: configuration.baseURL)
 		
 		self.currentStep = nil
 		self.keychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
@@ -54,13 +54,20 @@ extension XS2AiOS {
 		var permissionToStoreCredentials: Bool
 		var provider: String?
 		var backButtonAction: () -> Void
+		var baseURL: String
 		
-		public init(wizardSessionKey: String, backButtonAction: @escaping () -> Void = {}, offerToStoreCredentials: Bool = false) {
+		public init(
+			wizardSessionKey: String,
+			offerToStoreCredentials: Bool = false,
+			backButtonAction: @escaping () -> Void = {},
+			baseURL: String = "https://api.xs2a.com/jsonp"
+		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.offerToStoreCredentials = offerToStoreCredentials
 			self.permissionToStoreCredentials = false
 			self.provider = nil
 			self.backButtonAction = backButtonAction
+			self.baseURL = baseURL
 		}
 	}
 	
