@@ -16,7 +16,7 @@ public class XS2AiOS {
 	init(configuration: Configuration, styleProvider: StyleProvider) {
 		self.configuration = configuration
 		self.styleProvider = styleProvider
-		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey)
+		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey, baseURL: configuration.baseURL)
 		
 		self.currentStep = nil
 	}
@@ -38,10 +38,16 @@ extension XS2AiOS {
 	public struct Configuration {
 		var wizardSessionKey: String
 		var backButtonAction: () -> Void
+		var baseURL: String
 		
-		public init(wizardSessionKey: String, backButtonAction: @escaping () -> Void = {}) {
+		public init(
+			wizardSessionKey: String,
+			backButtonAction: @escaping () -> Void = {},
+			baseURL: String = "https://api.xs2a.com/jsonp"
+		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.backButtonAction = backButtonAction
+			self.baseURL = baseURL
 		}
 	}
 	
