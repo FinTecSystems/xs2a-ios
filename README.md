@@ -129,10 +129,11 @@ self.present(xs2aView, animated: true, completion: nil)
 #### Get Current Step & Registering Custom Back Button Function
 
 Some use cases require that the current step of the session is known and/or that a callback can be registered for when the back button is tapped.
-This can be accomplished by passing a `backButtonAction` function with the configuration:
+
+You can be notified when the back button has been pressed by passing a `backButtonAction` function with the configuration:
 
 ```swift
-func myCustomBackFunction() {
+func backButtonTapped() {
   /// get the current step of the session
   let currentStep = XS2AiOS.shared.currentStep
   
@@ -140,8 +141,20 @@ func myCustomBackFunction() {
     /// e.g. do something when the back button is pressed during the login step
   }
 }
+```
 
-let config = XS2AiOS.Configuration(wizardSessionKey: key!, backButtonAction: myCustomBackFunction)
+If you want to be notified when the step of the session has changed, you can pass a `onStepChanged` callback with the configuration:
+
+```swift
+func stepHasChanged(step: WizardStep?) {
+  // session step has changed
+}
+
+let config = XS2AiOS.Configuration(
+  wizardSessionKey: key,
+  backButtonAction: backButtonTapped,
+  onStepChanged: stepHasChanged
+)
 ```
 
 ### Styling API
