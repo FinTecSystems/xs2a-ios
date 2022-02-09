@@ -6,7 +6,11 @@ public class XS2AiOS {
 	public let styleProvider: StyleProvider
 	let apiService: APIService
 	
-	public var currentStep: WizardStep?
+	public var currentStep: WizardStep? {
+		didSet {
+			XS2AiOS.shared.configuration.onStepChanged(currentStep)
+		}
+	}
 
 	/**
 	 - Parameters:
@@ -38,15 +42,18 @@ extension XS2AiOS {
 	public struct Configuration {
 		var wizardSessionKey: String
 		var backButtonAction: () -> Void
+		var onStepChanged: (WizardStep?) -> Void
 		var baseURL: String
 		
 		public init(
 			wizardSessionKey: String,
 			backButtonAction: @escaping () -> Void = {},
+			onStepChanged: @escaping (WizardStep?) -> Void = {_ in },
 			baseURL: String = "https://api.xs2a.com/jsonp"
 		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.backButtonAction = backButtonAction
+			self.onStepChanged = onStepChanged
 			self.baseURL = baseURL
 		}
 	}
