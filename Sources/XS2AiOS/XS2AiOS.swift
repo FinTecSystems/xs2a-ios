@@ -25,12 +25,12 @@ public class XS2AiOS {
 		self.keychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
 	}
 	
-	public static func clearKeychain() {
+	public static func clearKeychain() throws {
 		do {
 			let tempKeychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
 			try tempKeychain.removeAll()
 		} catch (let e) {
-
+			throw e
 		}
 	}
 	
@@ -50,7 +50,6 @@ public class XS2AiOS {
 extension XS2AiOS {
 	public struct Configuration {
 		var wizardSessionKey: String
-		var offerToStoreCredentials: Bool
 		var permissionToStoreCredentials: Bool
 		var provider: String?
 		var backButtonAction: () -> Void
@@ -58,12 +57,10 @@ extension XS2AiOS {
 		
 		public init(
 			wizardSessionKey: String,
-			offerToStoreCredentials: Bool = false,
 			backButtonAction: @escaping () -> Void = {},
 			baseURL: String = "https://api.xs2a.com/jsonp"
 		) {
 			self.wizardSessionKey = wizardSessionKey
-			self.offerToStoreCredentials = offerToStoreCredentials
 			self.permissionToStoreCredentials = false
 			self.provider = nil
 			self.backButtonAction = backButtonAction
