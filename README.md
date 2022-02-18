@@ -21,7 +21,7 @@ An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also availabl
 
 ### Requirements
 
-- iOS >= 11.0
+- iOS >= 12.0
 
 ### Estimated Binary Size
 
