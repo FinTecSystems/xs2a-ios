@@ -11,6 +11,7 @@ Pod::Spec.new do |s|
   s.dependency		'SwiftyJSON', '5.0.1'
   s.dependency		'NVActivityIndicatorView', '5.1.1'
   s.dependency		'XS2AiOSNetService', '1.0.5'
+  s.dependency		'KeychainAccess', '4.2.2'
 
   s.cocoapods_version = '>= 1.10.0'
 
