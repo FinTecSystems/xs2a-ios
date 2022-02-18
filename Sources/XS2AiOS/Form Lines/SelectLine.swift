@@ -7,7 +7,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 	var selectedElementId: String? = nil
 	
 	private let label: String
-	private let name: String
+	internal let name: String
 	let multiFormName: String?
 	let multiFormValue: String?
 

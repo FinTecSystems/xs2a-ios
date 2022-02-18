@@ -4,7 +4,7 @@ import SwiftyJSON
 class RadioLine: UIViewController, FormLine, ExposableFormElement {
 	var actionDelegate: ActionDelegate?
 	
-	private let name: String
+	internal let name: String
 	private var checked: Int
 	
 	let multiFormName: String?

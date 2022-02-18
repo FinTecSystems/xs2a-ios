@@ -3,7 +3,7 @@ import UIKit
 class HiddenLine: UIViewController, FormLine, ExposableFormElement {
 	var actionDelegate: ActionDelegate?
 
-	private var name: String
+	internal let name: String
 	private var value: String
 
 	let multiFormName: String?

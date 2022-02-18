@@ -5,7 +5,7 @@ import SwiftyJSON
 /// The different Types of Responses from the API
 enum APIResponseType {
 	/// Most common response, returning form elements
-	case success([FormLine])
+	case success([FormLine], containsError: Bool = false)
 	/// Response type after the flow is completed
 	case finish
 	/// Response type after the flow is completed with XS2A.API and sync_mode = shared
@@ -66,8 +66,21 @@ class APIService {
 				completion(.finish)
 			}
 		} else {
+//			print(result)
+			if result["callbackParams"].array?.isEmpty == false {
+				let callbackParam = result["callbackParams"].arrayValue[0]
+				if let callbackDic = callbackParam.dictionaryObject {
+					if let provider = callbackDic["provider"] {
+						XS2AiOS.shared.configuration.provider = String(describing: provider)
+					}
+				}
+			}
+			
+			var payloadContainsAnError = false
+			
 			// If an error is part of the response, we notify the host app of it, including the recoverable parameter
 			if let error = result["error"].string {
+				payloadContainsAnError = true
 				let isRecoverable = result["isErrorRecoverable"].boolValue
 
 				switch error {
@@ -90,7 +103,7 @@ class APIService {
 				}
 			}
 
-			completion(.success(decodeJSON(json: result)))
+			completion(.success(decodeJSON(json: result), containsError: payloadContainsAnError))
 		}
 	}
 	

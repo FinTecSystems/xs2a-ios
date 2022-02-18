@@ -1,9 +1,12 @@
 import UIKit
+import KeychainAccess
 
 public class XS2AiOS {
 	private static var _shared: XS2AiOS?
-	public let configuration: Configuration
+
+	public var configuration: Configuration
 	public let styleProvider: StyleProvider
+	public let keychain: Keychain
 	let apiService: APIService
 	
 	public var currentStep: WizardStep? {
@@ -23,6 +26,16 @@ public class XS2AiOS {
 		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey, baseURL: configuration.baseURL)
 		
 		self.currentStep = nil
+		self.keychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
+	}
+	
+	public static func clearKeychain() throws {
+		do {
+			let tempKeychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
+			try tempKeychain.removeAll()
+		} catch (let e) {
+			throw e
+		}
 	}
 	
 	public static func configure(withConfig configuration: Configuration, withStyle styleProvider: StyleProvider) {
@@ -41,6 +54,8 @@ public class XS2AiOS {
 extension XS2AiOS {
 	public struct Configuration {
 		var wizardSessionKey: String
+		var permissionToStoreCredentials: Bool
+		var provider: String?
 		var backButtonAction: () -> Void
 		var onStepChanged: (WizardStep?) -> Void
 		var baseURL: String
@@ -52,6 +67,8 @@ extension XS2AiOS {
 			baseURL: String = "https://api.xs2a.com/jsonp"
 		) {
 			self.wizardSessionKey = wizardSessionKey
+			self.permissionToStoreCredentials = false
+			self.provider = nil
 			self.backButtonAction = backButtonAction
 			self.onStepChanged = onStepChanged
 			self.baseURL = baseURL
