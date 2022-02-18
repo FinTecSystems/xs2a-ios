@@ -339,31 +339,6 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 			}
 		}
 	}
-	
-	
-	
-	/**
-	 If form contains a FormLine of type LoginCredentialFormLine that is also used as such,
-	 append a Checkbox that asks for storage, just before the submit button.
-	 */
-	if XS2AiOS.shared.configuration.offerToStoreCredentials {
-		if (formClasses.contains(where: { $0 is PotentialLoginCredentialFormLine && ($0 as? PotentialLoginCredentialFormLine)?.isLoginCredential == true })) {
-			let submitIndex = formClasses.firstIndex(where: { $0 is SubmitLine })
-			
-			formClasses.insert(
-				CheckboxLine(
-					label: "Ich will speichern.",
-					checked: false,
-					name: "store_credentials",
-					disabled: false,
-					isLoginCredential: false,
-					multiFormName: nil,
-					multiFormValue: nil
-				),
-				at: submitIndex ?? formClasses.count
-			)
-		}
-	}
-	
+
 	return formClasses
 }

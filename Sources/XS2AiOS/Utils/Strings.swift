@@ -27,4 +27,9 @@ enum Strings {
 		static let ibanTypingNotice = NSLocalizedString("AutocompleteView.IBANTypingNotice", tableName: nil, bundle: .current, value: "", comment: "")
 		static let ibanTooLongNotice = NSLocalizedString("AutocompleteView.IBANTooLongNotice", tableName: nil, bundle: .current, value: "", comment: "")
 	}
+	
+	enum AutofillQuestion {
+		static let title = NSLocalizedString("AutofillQuestion.Title", tableName: nil, bundle: .current, value: "", comment: "")
+		static let text = NSLocalizedString("AutofillQuestion.Text", tableName: nil, bundle: .current, value: "", comment: "")
+	}
 }

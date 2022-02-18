@@ -13,3 +13,5 @@
 "AutocompleteView.Notice" = "Cerca la tua banca per nome, codice bancario o BIC, o inserisci il tuo IBAN.";
 "AutocompleteView.IBANTypingNotice" = "Continua a inserire il tuo IBAN ...";
 "AutocompleteView.IBANTooLongNotice" = "Il tuo IBAN sembra troppo lungo, per favore controllalo.";
+"AutofillQuestion.Title" = "Usare i dati salvati?";
+"AutofillQuestion.Text" = "Hai i dati di accesso a questa banca memorizzati sul tuo dispositivo. Dovremmo usare queste credenziali per registrarla automaticamente nella banca ed eseguire i passi successivi?";

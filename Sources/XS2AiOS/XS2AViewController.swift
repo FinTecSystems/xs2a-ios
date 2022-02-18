@@ -66,11 +66,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Authentication Context
 	private lazy var context: LAContext = {
 		let mainContext = LAContext()
-		mainContext.touchIDAuthenticationAllowableReuseDuration = LATouchIDAuthenticationMaximumAllowableReuseDuration
+		mainContext.touchIDAuthenticationAllowableReuseDuration = 60
 
 		return mainContext
 	}()
 	
+	/// Context used for checking if items exist.
+	/// Deliberately has no interaction allowed.
 	private lazy var internalContext: LAContext = {
 		let mainContext = LAContext()
 		mainContext.interactionNotAllowed = true
@@ -749,8 +751,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	
 	private func askToAutofill(completion: @escaping (Bool) -> Void) {
 		let alert = UIAlertController(
-			title: "Autofill",
-			message: "Auf Ihrem Gerät sind Zugangsdaten für diese Bank gespeichert. Sollen diese automatisch befüllt werden?",
+			title: Strings.AutofillQuestion.title,
+			message: Strings.AutofillQuestion.text,
 			preferredStyle: .alert
 		)
 		
