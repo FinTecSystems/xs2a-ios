@@ -412,7 +412,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				.get(itemName)
 
 			completion(item)
-		} catch let error {
+		} catch _ {
 			completion(nil)
 		}
 	}
@@ -827,7 +827,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 		self.ApiService.initCall(completion: { result in
 			switch result {
-			case .success(let formElements, let containsError):
+			case .success(let formElements, _):
 				self.setupViews(formElements: formElements)
 				
 				return
