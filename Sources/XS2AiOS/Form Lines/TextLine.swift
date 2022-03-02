@@ -72,6 +72,11 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		/// This will prevent the possible insertion of an (unwanted) extra space when performing a paste operation
 		textfieldElement.smartInsertDeleteType = .no
 		
+		if (name.lowercased().contains("tan")) {
+			/// Indicates this textfield is used for SMS one time codes.
+			textfieldElement.textContentType = .oneTimeCode
+		}
+		
 		super.init(nibName: nil, bundle: nil)
 		textfieldElement.parentDelegate = self
 	}
