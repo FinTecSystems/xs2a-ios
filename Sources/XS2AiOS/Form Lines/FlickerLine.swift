@@ -99,9 +99,16 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	func styleDisabled() {
 		self.textfieldElement.styleDisabledState()
 	}
+		
+	func setupTimer(interval: CGFloat = 0.07) {
+		timer.invalidate()
+		timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(step), userInfo: nil, repeats: true)
+		RunLoop.main.add(timer, forMode: .common)
+	}
 
 	@objc
 	func increaseFlickerSize() {
+		triggerHapticFeedback(style: .light)
 		guard let sizeAnchor = flickerSizeAnchor else {
 			return
 		}
@@ -115,6 +122,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	
 	@objc
 	func decreaseFlickerSize() {
+		triggerHapticFeedback(style: .light)
 		guard let sizeAnchor = flickerSizeAnchor else {
 			return
 		}
@@ -125,6 +133,20 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			subview.sizeToFit()
 		}
 	}
+	
+	@objc
+	func increaseFlickerSpeed() {
+		triggerHapticFeedback(style: .light)
+		let currentInterval = timer.timeInterval
+		setupTimer(interval: currentInterval - 0.01)
+	}
+	
+	@objc
+	func decreaseFlickerSpeed() {
+		triggerHapticFeedback(style: .light)
+		let currentInterval = timer.timeInterval
+		setupTimer(interval: currentInterval + 0.01)
+	}
 
 	override func viewDidDisappear(_ animated: Bool) {
 		timer.invalidate()
@@ -132,6 +154,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	
 	@objc
 	func rotateFlicker() {
+		triggerHapticFeedback(style: .light)
 		if flickerAlignment == .horizontal {
 			flickerAlignment = .vertical
 		} else {
@@ -162,6 +185,22 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		biggerButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
 		biggerButton.addTarget(self, action: #selector(increaseFlickerSize), for: .touchUpInside)
 		
+		let fasterButton = UIButton()
+		let plusGaugeImage = UIImage(named: "gauge_plus", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		fasterButton.setImage(plusGaugeImage, for: .normal)
+		fasterButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
+		fasterButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
+		fasterButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
+		fasterButton.addTarget(self, action: #selector(increaseFlickerSpeed), for: .touchUpInside)
+		
+		let slowerButton = UIButton()
+		let minusGaugeImage = UIImage(named: "gauge_minus", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		slowerButton.setImage(minusGaugeImage, for: .normal)
+		slowerButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
+		slowerButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
+		slowerButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
+		slowerButton.addTarget(self, action: #selector(decreaseFlickerSpeed), for: .touchUpInside)
+		
 		let rotateButton = UIButton()
 		
 		let rotateImage = UIImage(named: "rotate_clockwise", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -172,9 +211,11 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		rotateButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
 		rotateButton.addTarget(self, action: #selector(rotateFlicker), for: .touchUpInside)
 		
-		let buttonStackView = UIStackView(arrangedSubviews: [biggerButton, smallerButton, rotateButton])
+		let buttonStackView = UIStackView(arrangedSubviews: [biggerButton, smallerButton, slowerButton, fasterButton, rotateButton])
 		buttonStackView.setCustomSpacing(10, after: biggerButton)
 		buttonStackView.setCustomSpacing(10, after: smallerButton)
+		buttonStackView.setCustomSpacing(10, after: slowerButton)
+		buttonStackView.setCustomSpacing(10, after: fasterButton)
 		buttonStackView.axis = .horizontal
 		buttonStackView.distribution = .fillEqually
 		
@@ -307,7 +348,9 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			])
 		}
 		
-		timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(step), userInfo: nil, repeats: true)
+		setupTimer()
+
+		UIScreen.main.brightness = 1
 	}
 
 	override func viewDidLoad() {
