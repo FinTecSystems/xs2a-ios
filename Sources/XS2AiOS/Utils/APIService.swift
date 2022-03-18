@@ -28,6 +28,14 @@ struct AutocompleteData: Codable {
 struct AutocompleteResult: Codable {
 	let label: String
 	let value: String
+	let object: AutocompleteResultObject
+}
+
+struct AutocompleteResultObject: Codable {
+	let name: String
+	let city: String
+	let bank_code: String
+	let bic: String
 }
 
 class APIService {

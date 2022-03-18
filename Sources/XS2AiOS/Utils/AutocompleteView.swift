@@ -99,12 +99,26 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = resultTable.dequeueReusableCell(withIdentifier: "resultCell") as! ResultCell
+
+		let attributedString = NSMutableAttributedString(string: "\(results[indexPath.row].object.name) \(results[indexPath.row].object.city)\n\(results[indexPath.row].object.bank_code) (\(results[indexPath.row].object.bic))")
 		
-		let attributedString = NSMutableAttributedString(string: results[indexPath.row].label)
-		
+		let text = attributedString.string
+
 		if let searchFieldText = searchField.text {
-			let filterRange = (results[indexPath.row].label as NSString).range(of: searchFieldText, options: .caseInsensitive)
-			attributedString.setAttributes([.font: UIFont.boldSystemFont(ofSize: 14)], range: filterRange)
+			var searchRange = NSRange(location: 0, length: text.count)
+			var foundRange = NSRange()
+			while searchRange.location < text.count {
+				searchRange.length = text.count - searchRange.location
+				foundRange = (text as NSString).range(of: searchFieldText, options: .caseInsensitive, range: searchRange)
+				if foundRange.location != NSNotFound {
+					searchRange.location = foundRange.location + foundRange.length
+					attributedString.setAttributes([.font: UIFont.boldSystemFont(ofSize: 14)], range: foundRange)
+				}
+				else {
+					break
+				}
+			}
+			
 			cell.resultTextLabel.attributedText = attributedString
 		}
 
@@ -153,7 +167,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		notificationDelegate?.notifyWithSelectedBank(selectedBank: searchField.text ?? "")
 		dismiss(animated: true, completion: nil)
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		if #available(iOS 13.0, *) {

@@ -8,6 +8,7 @@ class ResultCell: UITableViewCell {
 		if let resultTextLabel = resultTextLabel {
 			resultTextLabel.textColor = XS2AiOS.shared.styleProvider.textColor
 			resultTextLabel.translatesAutoresizingMaskIntoConstraints = false
+			resultTextLabel.numberOfLines = 2
 			resultTextLabel.baselineAdjustment = .alignCenters
 			resultTextLabel.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
 			NSLayoutConstraint.activate([
