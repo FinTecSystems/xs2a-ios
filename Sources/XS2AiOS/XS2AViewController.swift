@@ -75,9 +75,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Deliberately has no interaction allowed.
 	private lazy var internalContext: LAContext = {
 		let mainContext = LAContext()
-        if #available(iOS 11.0, *) {
-            mainContext.interactionNotAllowed = true
-        }
+		if #available(iOS 11.0, *) {
+			mainContext.interactionNotAllowed = true
+		}
 
 		return mainContext
 	}()
@@ -217,35 +217,35 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		if modalPresentationStyle == .pageSheet {
 			topPadding = 20
 		}
-        
-        NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topPadding),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
-            stackView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideSpacing),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -sideSpacing),
-        ])
+		
+		NSLayoutConstraint.activate([
+			contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+			contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+			contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+			contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+			contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+			stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topPadding),
+			stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
+			stackView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth),
+			stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideSpacing),
+			stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -sideSpacing),
+		])
 
-        if #available(iOS 11.0, *) {
-            NSLayoutConstraint.activate([
-                scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            ])
-        } else {
-            NSLayoutConstraint.activate([
-                scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            ])
-        }
+		if #available(iOS 11.0, *) {
+			NSLayoutConstraint.activate([
+				scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+				scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+				scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+				scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+			])
+		} else {
+			NSLayoutConstraint.activate([
+				scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+				scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+				scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+			])
+		}
 	}
 	
 	/// Function for serializing the current form
@@ -579,14 +579,14 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			switch result {
 			case .success(let formElements, let containsError):
 				if containsError == false && XS2AiOS.shared.configuration.permissionToStoreCredentials {
-                    if #available(iOS 11.3, *) {
-                        self.storeCredentials(payload: payload) {
-                            self.setupViews(formElements: formElements)
-                            self.isBusy = false
-                            
-                            return
-                        }
-                    }
+					if #available(iOS 11.3, *) {
+						self.storeCredentials(payload: payload) {
+							self.setupViews(formElements: formElements)
+							self.isBusy = false
+							
+							return
+						}
+					}
 				} else {
 					self.setupViews(formElements: formElements)
 					self.isBusy = false
@@ -597,12 +597,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				self.result = .success(.finish)
 
 				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
-                    if #available(iOS 11.3, *) {
-                        self.storeCredentials(payload: payload) {
-                            self.dimissAndComplete();
-                            self.isBusy = false
-                        }
-                    }
+					if #available(iOS 11.3, *) {
+						self.storeCredentials(payload: payload) {
+							self.dimissAndComplete();
+							self.isBusy = false
+						}
+					}
 				} else {
 					self.dimissAndComplete();
 					self.isBusy = false
@@ -670,16 +670,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 			self.sendAction(actionType: .linkAutosubmit, withLoadingIndicator: true, additionalPayload: payload)
 		} else if UIApplication.shared.canOpenURL(url) == true {
-            if #available(iOS 11.0, *) {
-                let config = SFSafariViewController.Configuration()
-                config.barCollapsingEnabled = false
-                config.entersReaderIfAvailable = true
-                let safariVC = SFSafariViewController(url: url, configuration: config)
-                self.present(safariVC, animated: true, completion: nil)
-            } else {
-                let safariVC = SFSafariViewController(url: url)
-                self.present(safariVC, animated: true, completion: nil)
-            }
+			if #available(iOS 11.0, *) {
+				let config = SFSafariViewController.Configuration()
+				config.barCollapsingEnabled = false
+				config.entersReaderIfAvailable = true
+				let safariVC = SFSafariViewController(url: url, configuration: config)
+				self.present(safariVC, animated: true, completion: nil)
+			} else {
+				let safariVC = SFSafariViewController(url: url)
+				self.present(safariVC, animated: true, completion: nil)
+			}
 		}
 	}
 

@@ -12,11 +12,11 @@ class RadioButton: UIButton {
 	
 	func commonInit() -> Void {
 		heightAnchor.constraint(equalToConstant: 40).isActive = true
-        if #available(iOS 11.0, *) {
-            contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.leading
-        } else {
-            contentHorizontalAlignment = .left
-        }
+		if #available(iOS 11.0, *) {
+			contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.leading
+		} else {
+			contentHorizontalAlignment = .left
+		}
 		contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 8)
 		titleLabel?.adjustsFontSizeToFitWidth = true
 		titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
