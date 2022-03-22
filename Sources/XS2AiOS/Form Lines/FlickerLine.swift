@@ -212,10 +212,10 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		rotateButton.addTarget(self, action: #selector(rotateFlicker), for: .touchUpInside)
 		
 		let buttonStackView = UIStackView(arrangedSubviews: [biggerButton, smallerButton, slowerButton, fasterButton, rotateButton])
-		buttonStackView.setCustomSpacing(10, after: biggerButton)
-		buttonStackView.setCustomSpacing(10, after: smallerButton)
-		buttonStackView.setCustomSpacing(10, after: slowerButton)
-		buttonStackView.setCustomSpacing(10, after: fasterButton)
+		buttonStackView.addCustomSpacing(10, after: biggerButton)
+		buttonStackView.addCustomSpacing(10, after: smallerButton)
+		buttonStackView.addCustomSpacing(10, after: slowerButton)
+		buttonStackView.addCustomSpacing(10, after: fasterButton)
 		buttonStackView.axis = .horizontal
 		buttonStackView.distribution = .fillEqually
 		
@@ -266,9 +266,9 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			flickerStackView.backgroundColor = .black
 			
 			let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, textfieldElement])
-			stackView.setCustomSpacing(5, after: labelElement)
-			stackView.setCustomSpacing(10, after: buttonStackView)
-			stackView.setCustomSpacing(10, after: flickerViewContainer)
+			stackView.addCustomSpacing(5, after: labelElement)
+			stackView.addCustomSpacing(10, after: buttonStackView)
+			stackView.addCustomSpacing(10, after: flickerViewContainer)
 			stackView.axis = .vertical
 			stackView.distribution = .fill
 			stackView.alignment = .fill
@@ -312,9 +312,9 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			flickerStackView.backgroundColor = .black
 			
 			let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, textfieldElement])
-			stackView.setCustomSpacing(5, after: labelElement)
-			stackView.setCustomSpacing(10, after: buttonStackView)
-			stackView.setCustomSpacing(10, after: flickerViewContainer)
+			stackView.addCustomSpacing(5, after: labelElement)
+			stackView.addCustomSpacing(10, after: buttonStackView)
+			stackView.addCustomSpacing(10, after: flickerViewContainer)
 			stackView.axis = .vertical
 			stackView.distribution = .fill
 			stackView.alignment = .fill

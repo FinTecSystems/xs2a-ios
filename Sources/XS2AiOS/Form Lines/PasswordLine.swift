@@ -73,7 +73,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		super.viewDidLoad()
 
 		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
-		stackView.setCustomSpacing(5, after: labelElement)
+		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
 

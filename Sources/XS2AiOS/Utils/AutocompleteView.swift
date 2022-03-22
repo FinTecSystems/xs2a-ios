@@ -200,7 +200,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		searchField.becomeFirstResponder()
 
 		let stackView = UIStackView(arrangedSubviews: [label, searchField, infoLabel, nextButton, resultTable])
-		stackView.setCustomSpacing(10, after: searchField)
+		stackView.addCustomSpacing(10, after: searchField)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
 
@@ -213,11 +213,20 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 			topPadding = 20
 		}
 
-		NSLayoutConstraint.activate([
-			stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topPadding),
-			stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-			stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-			resultTable.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height),
-		])
+        if #available(iOS 11.0, *) {
+            NSLayoutConstraint.activate([
+                stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topPadding),
+                stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+                stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+                resultTable.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height),
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: topPadding),
+                stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+                stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+                resultTable.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height),
+            ])
+        }
 	}
 }
