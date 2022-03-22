@@ -138,7 +138,7 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 		}
 		
 		let stackView = UIStackView(arrangedSubviews: [button, labelElement])
-		stackView.setCustomSpacing(7, after: button)
+		stackView.addCustomSpacing(7, after: button)
 		stackView.axis = .horizontal
 		
 		stackView.alignment = .top

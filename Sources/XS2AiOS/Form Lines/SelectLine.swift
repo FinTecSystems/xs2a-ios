@@ -70,7 +70,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		}
 		
 		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
-		stackView.setCustomSpacing(5, after: labelElement)
+		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
 		stackView.translatesAutoresizingMaskIntoConstraints = false

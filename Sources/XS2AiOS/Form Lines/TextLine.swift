@@ -70,11 +70,15 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		textfieldElement.autocapitalizationType = .none
 		textfieldElement.spellCheckingType = .no
 		/// This will prevent the possible insertion of an (unwanted) extra space when performing a paste operation
-		textfieldElement.smartInsertDeleteType = .no
+        if #available(iOS 11.0, *) {
+            textfieldElement.smartInsertDeleteType = .no
+        }
 		
 		if (name.lowercased().contains("tan")) {
 			/// Indicates this textfield is used for SMS one time codes.
-			textfieldElement.textContentType = .oneTimeCode
+            if #available(iOS 12.0, *) {
+                textfieldElement.textContentType = .oneTimeCode
+            }
 		}
 		
 		super.init(nibName: nil, bundle: nil)
@@ -126,7 +130,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		super.viewDidLoad()
 		
 		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
-		stackView.setCustomSpacing(5, after: labelElement)
+		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
 

@@ -81,7 +81,7 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 		super.viewDidLoad()
 		
 		let stackView = UIStackView(arrangedSubviews: [labelElement] + radioController.buttonsArray)
-		stackView.setCustomSpacing(5, after: labelElement)
+		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
 

@@ -67,7 +67,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 		imageViewElement = UIImageView(image: imageElement)
 		
 		let stackView = UIStackView(arrangedSubviews: [labelElement, imageViewElement, textfieldElement])
-		stackView.setCustomSpacing(5, after: labelElement)
+		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
 
