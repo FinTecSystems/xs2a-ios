@@ -10,6 +10,7 @@ enum XS2AButtonType {
 	case redirect
 	case notify
 	case switch_login_tabs
+	case none
 }
 
 extension UIButton {

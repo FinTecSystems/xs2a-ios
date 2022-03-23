@@ -2,6 +2,7 @@ import UIKit
 import KeychainAccess
 import LocalAuthentication
 import SafariServices
+import Network
 
 /// Delegate used for communicating between this ViewController and the different FormLines
 protocol ActionDelegate {
@@ -33,6 +34,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Instance of APIService
 	/// Used for making network requests
 	private let ApiService: APIService
+	
+	/// Boolean keeping track if network connection exists or not
+	private var networkConnected = true
 
 	/// The top level view of this ViewController
 	/// It wraps all the other subviews and expands if necessary (e.g. keyboard open)
@@ -392,6 +396,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			handleFormSubmit(action: "back")
 		case .redirect:
 			handleFormSubmit(action: "post-code")
+		case .none:
+			handleFormSubmit(action: nil)
 		default:
 			isBusy = false
 			return
@@ -557,14 +563,26 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	 - Parameters:
 	   - payload: The payload to be send to the backend
 	*/
-	private func handleFormSubmit(action: String = "submit", additionalPayload: Dictionary<String, Any>? = [:]) {
-		var payload = serializeForm()
-
-		if let additionalPayload = additionalPayload {
-			payload.merge(additionalPayload){ (_, additional) in additional }
-		}
+	private func handleFormSubmit(action: String?, additionalPayload: Dictionary<String, Any>? = [:]) {
+		var payload: Dictionary<String, Any> = [:]
 		
-		payload["action"] = action
+		if (action != nil) {
+			/**
+			 Only if action is not nil, we serialize the form and send data.
+			 */
+			payload = serializeForm()
+
+			if let additionalPayload = additionalPayload {
+				payload.merge(additionalPayload){ (_, additional) in additional }
+			}
+
+			payload["action"] = action
+		} else {
+			/**
+			 If no action is set, an empty request gets send, which will simply return the current state of the session.
+			 */
+			payload = [:]
+		}
 		
 		// Check if store credentials notice checkbox is part of payload and is checked
 		let storeCredentialsAccepted = payload.contains { (key, value) in
@@ -806,11 +824,43 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		
 		self.present(alert, animated: true, completion: nil)
 	}
+
+	
+	@available(iOS 12.0, *)
+	func setupNetworkStatusMonitor() {
+		let networkMonitor = NWPathMonitor()
+		networkMonitor.pathUpdateHandler = { [self] path in
+			if path.status == .satisfied {
+				if (!networkConnected) {
+					networkConnected = true
+					DispatchQueue.main.async {
+						self.hideLoadingIndicator()
+						self.sendAction(actionType: .none, withLoadingIndicator: false, additionalPayload: nil)
+					}
+				}
+			} else {
+				if (networkConnected) {
+					networkConnected = false
+					DispatchQueue.main.async {
+						self.showLoadingIndicator(title: "Offline", message: "Sie werden automatisch weitergeleitet, sobald Ihr Gerät wieder eine Internetverbindung hat.\n\n\n")
+						self.cancelNetworkTask()
+					}
+				}
+			}
+		}
+		
+		let queue = DispatchQueue(label: "NetworkMonitor")
+		networkMonitor.start(queue: queue)
+	}
 	
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 
 		presentationController?.delegate = self
+		
+		if #available(iOS 12.0, *) {
+			setupNetworkStatusMonitor()
+		}
 
 		/// We add an empty view because of buggy stackview animations
 		let blankView = UIView()
