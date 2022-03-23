@@ -8,7 +8,7 @@ struct ProgressDialog {
 
 extension UIViewController {
 	func showLoadingIndicator(title: String = "", message: String = "") {
-		ProgressDialog.alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		ProgressDialog.alert = UIAlertController(title: title.isEmpty ? nil : title, message: message, preferredStyle: .alert)
 		
 		if (!title.isEmpty) {
 			ProgressDialog.alert.setValue(
