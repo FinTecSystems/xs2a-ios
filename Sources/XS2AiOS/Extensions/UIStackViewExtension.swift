@@ -13,6 +13,8 @@ extension UIStackView {
 			separatorView.widthAnchor.constraint(equalToConstant: spacing).isActive = true
 			case .vertical:
 			separatorView.heightAnchor.constraint(equalToConstant: spacing).isActive = true
+			@unknown default:
+				print("Not implemented: \(axis)")
 			}
 			
 			if let index = self.arrangedSubviews.firstIndex(of: arrangedSubview) {
