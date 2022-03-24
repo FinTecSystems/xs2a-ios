@@ -842,7 +842,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				if (networkConnected) {
 					networkConnected = false
 					DispatchQueue.main.async {
-						self.showLoadingIndicator(title: "Offline", message: "Sie werden automatisch weitergeleitet, sobald Ihr Gerät wieder eine Internetverbindung hat.\n\n\n")
+						self.showLoadingIndicator(title: Strings.OfflineNotice.title, message: "\(Strings.OfflineNotice.text)\n\n\n")
 						self.cancelNetworkTask()
 					}
 				}

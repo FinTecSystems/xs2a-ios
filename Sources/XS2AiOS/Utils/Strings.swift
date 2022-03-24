@@ -32,4 +32,9 @@ enum Strings {
 		static let title = NSLocalizedString("AutofillQuestion.Title", tableName: nil, bundle: .current, value: "", comment: "")
 		static let text = NSLocalizedString("AutofillQuestion.Text", tableName: nil, bundle: .current, value: "", comment: "")
 	}
+	
+	enum OfflineNotice {
+		static let title = NSLocalizedString("OfflineNotice.Title", tableName: nil, bundle: .current, value: "", comment: "")
+		static let text = NSLocalizedString("OfflineNotice.Text", tableName: nil, bundle: .current, value: "", comment: "")
+	}
 }

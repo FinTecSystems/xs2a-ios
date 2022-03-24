@@ -15,3 +15,5 @@
 "AutocompleteView.IBANTooLongNotice" = "Su IBAN parece demasiado largo, por favor, compruébelo.";
 "AutofillQuestion.Title" = "¿Utilizar los datos guardados?";
 "AutofillQuestion.Text" = "Tiene datos de acceso a este banco almacenados en su dispositivo. Deberíamos utilizar estas credenciales para iniciar automáticamente la sesión en el banco y llevar a cabo los siguientes pasos?";
+"OfflineNotice.Title" = "Fuera de línea";
+"OfflineNotice.Text" = "Serás redirigido automáticamente en cuanto tu dispositivo vuelva a tener conexión a Internet.";

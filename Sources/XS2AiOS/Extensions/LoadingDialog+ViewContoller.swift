@@ -45,13 +45,17 @@ extension UIViewController {
 		ProgressDialog.indicatorView.centerXAnchor.constraint(lessThanOrEqualTo: ProgressDialog.alert.view.centerXAnchor).isActive = true
 		
 		if (title.isEmpty && message.isEmpty) {
-			ProgressDialog.indicatorView.centerYAnchor.constraint(lessThanOrEqualTo: ProgressDialog.alert.view.centerYAnchor).isActive = true
-			ProgressDialog.indicatorView.heightAnchor.constraint(equalTo: ProgressDialog.alert.view.heightAnchor, multiplier: 0.6).isActive = true
-			ProgressDialog.indicatorView.widthAnchor.constraint(equalTo: ProgressDialog.alert.view.widthAnchor, multiplier: 0.6).isActive = true
+			NSLayoutConstraint.activate([
+				ProgressDialog.indicatorView.centerYAnchor.constraint(lessThanOrEqualTo: ProgressDialog.alert.view.centerYAnchor),
+				ProgressDialog.indicatorView.heightAnchor.constraint(equalTo: ProgressDialog.alert.view.heightAnchor, multiplier: 0.6),
+				ProgressDialog.indicatorView.widthAnchor.constraint(equalTo: ProgressDialog.alert.view.widthAnchor, multiplier: 0.6),
+			])
 		} else {
-			ProgressDialog.indicatorView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-			ProgressDialog.indicatorView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-			ProgressDialog.indicatorView.bottomAnchor.constraint(equalTo: ProgressDialog.alert.view.bottomAnchor, constant: -20).isActive = true
+			NSLayoutConstraint.activate([
+				ProgressDialog.indicatorView.heightAnchor.constraint(equalToConstant: 40),
+				ProgressDialog.indicatorView.widthAnchor.constraint(equalToConstant: 40),
+				ProgressDialog.indicatorView.bottomAnchor.constraint(equalTo: ProgressDialog.alert.view.bottomAnchor, constant: -20),
+			]);
 		}
 		
 		ProgressDialog.indicatorView.startAnimating()

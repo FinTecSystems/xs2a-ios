@@ -15,3 +15,5 @@
 "AutocompleteView.IBANTooLongNotice" = "Your IBAN seems too long, please check it.";
 "AutofillQuestion.Title" = "Use stored credentials?";
 "AutofillQuestion.Text" = "You have access data for this bank stored on your device. Should we use these credentials to automatically log you into the bank and carry out the next steps?";
+"OfflineNotice.Title" = "Offline";
+"OfflineNotice.Text" = "You will be automatically redirected as soon as your device has an internet connection again.";
