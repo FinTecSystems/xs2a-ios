@@ -10,7 +10,7 @@
 
 
 This iOS SDK allows for the integration of XS2A into native iOS apps.
-An [Android SDK](https://github.com/FinTecSystems/xs2a-android) is also available.
+An [Android SDK](https://github.com/FinTecSystems/xs2a-android) and a [React Native SDK](https://github.com/FinTecSystems/xs2a-react-native) is also available.
 
 
 ### Demo Screencast
