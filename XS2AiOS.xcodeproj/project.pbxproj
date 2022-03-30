@@ -60,6 +60,7 @@
 		DC68482F278EDA5200A5054F /* ExposableFormElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847FE278EDA5200A5054F /* ExposableFormElement.swift */; };
 		DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DC684831278EDA9900A5054F /* SwiftyJSON */; };
 		DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = DC684834278EDAAA00A5054F /* NVActivityIndicatorView */; };
+		DCEFBD8827F459ED009E71CC /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = DCEFBD8727F459ED009E71CC /* KeychainAccess */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCEFBD8827F459ED009E71CC /* KeychainAccess in Frameworks */,
 				DC43DDD02795801200FCE9A1 /* XS2AiOSNetService.xcframework in Frameworks */,
 				DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */,
 				DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */,
@@ -304,6 +306,7 @@
 			packageProductDependencies = (
 				DC684831278EDA9900A5054F /* SwiftyJSON */,
 				DC684834278EDAAA00A5054F /* NVActivityIndicatorView */,
+				DCEFBD8727F459ED009E71CC /* KeychainAccess */,
 			);
 			productName = XS2AiOS;
 			productReference = DC6847B7278EDA2400A5054F /* XS2AiOS.framework */;
@@ -339,6 +342,7 @@
 			packageReferences = (
 				DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				DC684833278EDAAA00A5054F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
+				DCEFBD8627F459ED009E71CC /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = DC6847B8278EDA2400A5054F /* Products */;
 			projectDirPath = "";
@@ -660,6 +664,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		DCEFBD8627F459ED009E71CC /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 4.2.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -672,6 +684,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DC684833278EDAAA00A5054F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */;
 			productName = NVActivityIndicatorView;
+		};
+		DCEFBD8727F459ED009E71CC /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCEFBD8627F459ED009E71CC /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
