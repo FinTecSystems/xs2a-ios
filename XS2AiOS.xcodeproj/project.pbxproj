@@ -61,6 +61,8 @@
 		DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DC684831278EDA9900A5054F /* SwiftyJSON */; };
 		DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = DC684834278EDAAA00A5054F /* NVActivityIndicatorView */; };
 		DCEFBD8827F459ED009E71CC /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = DCEFBD8727F459ED009E71CC /* KeychainAccess */; };
+		DCEFBD8A27F45B2C009E71CC /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEFBD8927F45B2C009E71CC /* UIStackViewExtension.swift */; };
+		DCEFBD8C27F45B6B009E71CC /* PotentialLoginCredentialFormLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEFBD8B27F45B6B009E71CC /* PotentialLoginCredentialFormLine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +122,8 @@
 		DC6847FC278EDA5200A5054F /* FormLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormLine.swift; sourceTree = "<group>"; };
 		DC6847FD278EDA5200A5054F /* WizardStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WizardStep.swift; sourceTree = "<group>"; };
 		DC6847FE278EDA5200A5054F /* ExposableFormElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExposableFormElement.swift; sourceTree = "<group>"; };
+		DCEFBD8927F45B2C009E71CC /* UIStackViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
+		DCEFBD8B27F45B6B009E71CC /* PotentialLoginCredentialFormLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PotentialLoginCredentialFormLine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +261,7 @@
 			children = (
 				DC6847F5278EDA5200A5054F /* UIImageViewExtension.swift */,
 				DC6847F6278EDA5200A5054F /* UIColorExtension.swift */,
+				DCEFBD8927F45B2C009E71CC /* UIStackViewExtension.swift */,
 				DC6847F7278EDA5200A5054F /* URLExtension.swift */,
 				DC6847F8278EDA5200A5054F /* ButtonExtension.swift */,
 				DC6847F9278EDA5200A5054F /* LoadingDialog+ViewContoller.swift */,
@@ -269,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				DC6847FC278EDA5200A5054F /* FormLine.swift */,
+				DCEFBD8B27F45B6B009E71CC /* PotentialLoginCredentialFormLine.swift */,
 				DC6847FD278EDA5200A5054F /* WizardStep.swift */,
 				DC6847FE278EDA5200A5054F /* ExposableFormElement.swift */,
 			);
@@ -379,6 +385,7 @@
 				DC68482B278EDA5200A5054F /* LoadingDialog+ViewContoller.swift in Sources */,
 				DC68480D278EDA5200A5054F /* SubmitLine.swift in Sources */,
 				DC684829278EDA5200A5054F /* URLExtension.swift in Sources */,
+				DCEFBD8A27F45B2C009E71CC /* UIStackViewExtension.swift in Sources */,
 				DC68482A278EDA5200A5054F /* ButtonExtension.swift in Sources */,
 				DC684809278EDA5200A5054F /* RedirectLine.swift in Sources */,
 				DC684800278EDA5200A5054F /* FlickerContainer.swift in Sources */,
@@ -403,6 +410,7 @@
 				DC684825278EDA5200A5054F /* AutocompleteView.swift in Sources */,
 				DC684822278EDA5200A5054F /* Result.swift in Sources */,
 				DC684802278EDA5200A5054F /* InteractiveLinkLabel.swift in Sources */,
+				DCEFBD8C27F45B6B009E71CC /* PotentialLoginCredentialFormLine.swift in Sources */,
 				DC684816278EDA5200A5054F /* RadioLine.swift in Sources */,
 				DC684817278EDA5200A5054F /* AutosubmitLine.swift in Sources */,
 				DC6847FF278EDA5200A5054F /* XS2AViewController.swift in Sources */,
