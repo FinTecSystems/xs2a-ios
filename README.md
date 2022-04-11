@@ -74,7 +74,10 @@ let style = XS2AiOS.StyleProvider()
 
 XS2AiOS.configure(withConfig: config, withStyle: style)
 
-let xs2aView = XS2AViewController { result in
+// Reference to the VC in order to present and dismiss it
+var xs2aViewController: XS2AViewController?
+
+self.xs2aViewController = XS2AViewController { result in
   switch result {
   case .success(.finish):
     // e.g. present a success view
@@ -124,7 +127,7 @@ let xs2aView = XS2AViewController { result in
 }
 
 // present the configured view
-self.present(xs2aView, animated: true, completion: nil)
+self.present(self.xs2aViewController!, animated: true, completion: nil)
 ```
 
 #### Get Current Step & Registering Custom Back Button Function

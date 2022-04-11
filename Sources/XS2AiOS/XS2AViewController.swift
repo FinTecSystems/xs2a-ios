@@ -380,9 +380,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			handleFormSubmit(action: "switch-login-tabs", additionalPayload: additionalPayload)
 		case .abort:
 			result = .failure(.userAborted)
-			view.subviews.forEach({ $0.removeFromSuperview() })
-			
-			dimissAndComplete();
+			dismissAndComplete();
 
 			isBusy = false
 		case .submit:
@@ -617,21 +615,21 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
 					if #available(iOS 11.3, *) {
 						self.storeCredentials(payload: payload) {
-							self.dimissAndComplete();
+							self.dismissAndComplete();
 							self.isBusy = false
 						}
 					}
 				} else {
-					self.dimissAndComplete();
+					self.dismissAndComplete();
 					self.isBusy = false
 				}
 			case .finishWithCredentials(let credentials):
 				self.result = .success(.finishWithCredentials(credentials))
-				self.dimissAndComplete();
+				self.dismissAndComplete();
 				self.isBusy = false
 			case .failure(_):
 				self.result = .failure(.networkError)
-				self.dimissAndComplete();
+				self.dismissAndComplete();
 				self.isBusy = false
 			}
 		}
@@ -660,17 +658,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		permanentCompletion?(.sessionError(error))
 	}
 	
-	/// Checks if this ViewController has been presented and dismisses itself,
-	/// calls the completionHandler in any case to to notify host app
-	private func dimissAndComplete() {
+	/// Hides all UI Elements with an animation,
+	/// then calls the completionHandler to notify the host app.
+	private func dismissAndComplete() {
 		hideElements {
-			if (self.presentingViewController != nil) {
-				self.presentingViewController?.dismiss(animated: true, completion: {
-					self.completionHandler()
-				})
-			} else {
-				self.completionHandler()
-			}
+			self.completionHandler()
 		}
 	}
 	
@@ -783,7 +775,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				style: .cancel,
 				handler: { action in
 					self.result = .failure(.userAborted)
-					self.dimissAndComplete();
+					self.dismissAndComplete();
 				}
 			)
 		)
@@ -913,7 +905,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				self.result = .failure(.networkError)
 			}
 			
-			self.dimissAndComplete();
+			self.dismissAndComplete();
 		})
 	}
 }
