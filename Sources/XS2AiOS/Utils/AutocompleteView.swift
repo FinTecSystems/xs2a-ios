@@ -135,7 +135,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	init(countryId: String, label: String, prefilledText: String?) {
 		self.countryId = countryId
 		self.label.text = label
-        self.infoLabel.textColor = XS2AiOS.shared.styleProvider.textColor
+	        self.infoLabel.textColor = XS2AiOS.shared.styleProvider.textColor
 		self.infoLabel.text = Strings.AutocompleteView.notice
 		self.infoLabel.numberOfLines = 3
 		self.searchField.autocorrectionType = .no
@@ -176,7 +176,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		}
 
 		view.backgroundColor = XS2AiOS.shared.styleProvider.backgroundColor
-        resultTable.backgroundColor = .clear
+	        resultTable.backgroundColor = .clear
 		searchField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
 		resultTable.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
