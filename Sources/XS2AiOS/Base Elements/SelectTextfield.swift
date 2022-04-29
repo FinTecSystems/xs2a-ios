@@ -26,6 +26,10 @@ class SelectTextfield: UITextField, UITextFieldDelegate {
 		return false
 	}
 	
+	override func caretRect(for position: UITextPosition) -> CGRect {
+		return .zero
+	}
+	
 	override open func textRect(forBounds bounds: CGRect) -> CGRect {
 		return bounds.inset(by: insets)
 	}
