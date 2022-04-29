@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DC43DDD02795801200FCE9A1 /* XS2AiOSNetService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */; };
+		DC5228E1281C175300B607C7 /* TriggerTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E0281C175300B607C7 /* TriggerTextfield.swift */; };
+		DC5228E3281C178D00B607C7 /* XS2ATextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */; };
 		DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC6847FF278EDA5200A5054F /* XS2AViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C3278EDA5200A5054F /* XS2AViewController.swift */; };
 		DC684800278EDA5200A5054F /* FlickerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847C5278EDA5200A5054F /* FlickerContainer.swift */; };
@@ -67,6 +69,8 @@
 
 /* Begin PBXFileReference section */
 		DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = XS2AiOSNetService.xcframework; path = Carthage/Build/XS2AiOSNetService.xcframework; sourceTree = "<group>"; };
+		DC5228E0281C175300B607C7 /* TriggerTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriggerTextfield.swift; sourceTree = "<group>"; };
+		DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2ATextfield.swift; sourceTree = "<group>"; };
 		DC6847B7278EDA2400A5054F /* XS2AiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XS2AiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC6847BA278EDA2400A5054F /* XS2AiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XS2AiOS.h; sourceTree = "<group>"; };
 		DC6847C3278EDA5200A5054F /* XS2AViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2AViewController.swift; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 		DC6847C4278EDA5200A5054F /* Base Elements */ = {
 			isa = PBXGroup;
 			children = (
+				DC5228E0281C175300B607C7 /* TriggerTextfield.swift */,
 				DC6847C5278EDA5200A5054F /* FlickerContainer.swift */,
 				DC6847C6278EDA5200A5054F /* RadioButtonController.swift */,
 				DC6847C7278EDA5200A5054F /* InteractiveLinkLabel.swift */,
@@ -273,6 +278,7 @@
 		DC6847FB278EDA5200A5054F /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */,
 				DC6847FC278EDA5200A5054F /* FormLine.swift */,
 				DCEFBD8B27F45B6B009E71CC /* PotentialLoginCredentialFormLine.swift */,
 				DC6847FD278EDA5200A5054F /* WizardStep.swift */,
@@ -392,11 +398,13 @@
 				DC684805278EDA5200A5054F /* RadioButton.swift in Sources */,
 				DC68480F278EDA5200A5054F /* ParagraphLine.swift in Sources */,
 				DC68480E278EDA5200A5054F /* ImageLine.swift in Sources */,
+				DC5228E3281C178D00B607C7 /* XS2ATextfield.swift in Sources */,
 				DC684813278EDA5200A5054F /* TabLine.swift in Sources */,
 				DC684804278EDA5200A5054F /* Textfield.swift in Sources */,
 				DC68481C278EDA5200A5054F /* Strings.swift in Sources */,
 				DC68480A278EDA5200A5054F /* DescriptionLine.swift in Sources */,
 				DC68480B278EDA5200A5054F /* FlickerLine.swift in Sources */,
+				DC5228E1281C175300B607C7 /* TriggerTextfield.swift in Sources */,
 				DC684807278EDA5200A5054F /* LogoLine.swift in Sources */,
 				DC68482C278EDA5200A5054F /* LabelExtension.swift in Sources */,
 				DC684808278EDA5200A5054F /* PasswordLine.swift in Sources */,
