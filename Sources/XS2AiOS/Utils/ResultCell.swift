@@ -30,12 +30,10 @@ class ResultCell: UITableViewCell {
 			// Line 1
 			resultLabelLine1.widthAnchor.constraint(equalTo: self.widthAnchor),
 			resultLabelLine1.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
-			resultLabelLine1.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			resultLabelLine1.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
 			// Line 2
 			resultLabelLine2.widthAnchor.constraint(equalTo: self.widthAnchor),
 			resultLabelLine2.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
-			resultLabelLine2.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			resultLabelLine2.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
 		])
     }
