@@ -90,7 +90,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 44
+		return 54
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -100,26 +100,61 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = resultTable.dequeueReusableCell(withIdentifier: "resultCell") as! ResultCell
 
-		let attributedString = NSMutableAttributedString(string: "\(results[indexPath.row].object.name) \(results[indexPath.row].object.city)\n\(results[indexPath.row].object.bank_code) (\(results[indexPath.row].object.bic))")
+		let attributedStringLine1 = NSMutableAttributedString(string: "\(results[indexPath.row].object.name)")
 		
-		let text = attributedString.string
+		if (results[indexPath.row].object.city.count > 0) {
+			attributedStringLine1.append(NSMutableAttributedString(string: " (\(results[indexPath.row].object.city))"))
+		}
+		
+		let attributedStringLine2 = NSMutableAttributedString(string: "")
+		
+		if (results[indexPath.row].object.bank_code.count > 0) {
+			attributedStringLine2.append(
+				NSMutableAttributedString(string: "\(results[indexPath.row].object.bank_code) (\(results[indexPath.row].object.bic))")
+			)
+		} else {
+			attributedStringLine2.append(
+				NSMutableAttributedString(string: "(\(results[indexPath.row].object.bic))")
+			)
+		}
+
+		
+		let line1Text = attributedStringLine1.string
+		let line2Text = attributedStringLine2.string
 
 		if let searchFieldText = searchField.text {
-			var searchRange = NSRange(location: 0, length: text.count)
-			var foundRange = NSRange()
-			while searchRange.location < text.count {
-				searchRange.length = text.count - searchRange.location
-				foundRange = (text as NSString).range(of: searchFieldText, options: .caseInsensitive, range: searchRange)
-				if foundRange.location != NSNotFound {
-					searchRange.location = foundRange.location + foundRange.length
-					attributedString.setAttributes([.font: UIFont.boldSystemFont(ofSize: 14)], range: foundRange)
+			var searchRangeLine1 = NSRange(location: 0, length: line1Text.count)
+			var foundRangeLine1 = NSRange()
+			
+			var searchRangeLine2 = NSRange(location: 0, length: line2Text.count)
+			var foundRangeLine2 = NSRange()
+
+			while searchRangeLine1.location < line1Text.count {
+				searchRangeLine1.length = line1Text.count - searchRangeLine1.location
+				foundRangeLine1 = (line1Text as NSString).range(of: searchFieldText, options: .caseInsensitive, range: searchRangeLine1)
+				if foundRangeLine1.location != NSNotFound {
+					searchRangeLine1.location = foundRangeLine1.location + foundRangeLine1.length
+					attributedStringLine1.setAttributes([.font: UIFont.boldSystemFont(ofSize: 15)], range: foundRangeLine1)
 				}
 				else {
 					break
 				}
 			}
 			
-			cell.resultTextLabel.attributedText = attributedString
+			while searchRangeLine2.location < line2Text.count {
+				searchRangeLine2.length = line2Text.count - searchRangeLine2.location
+				foundRangeLine2 = (line2Text as NSString).range(of: searchFieldText, options: .caseInsensitive, range: searchRangeLine2)
+				if foundRangeLine2.location != NSNotFound {
+					searchRangeLine2.location = foundRangeLine2.location + foundRangeLine2.length
+					attributedStringLine2.setAttributes([.font: UIFont.boldSystemFont(ofSize: 12)], range: foundRangeLine2)
+				}
+				else {
+					break
+				}
+			}
+			
+			cell.resultLabelLine1.attributedText = attributedStringLine1
+			cell.resultLabelLine2.attributedText = attributedStringLine2
 		}
 
 		return cell
