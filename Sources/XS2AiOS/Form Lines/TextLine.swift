@@ -23,7 +23,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	let multiFormValue: String?
 
 	private let labelElement = UILabel.make(size: .large)
-	let textfieldElement = Textfield()
+	let textfieldElement: XS2ATextfield
 	
 	/**
 	 - Parameters:
@@ -48,6 +48,12 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		self.isLoginCredential = isLoginCredential
 		self.multiFormName = multiFormName
 		self.multiFormValue = multiFormValue
+				
+		if self.autocompleteAction?.isEmpty == false {
+			textfieldElement = TriggerTextfield()
+		} else {
+			textfieldElement = Textfield()
+		}
 		
 		textfieldElement.text = value
 		textfieldElement.attributedPlaceholder = NSAttributedString(

@@ -1,14 +1,10 @@
 import UIKit
 
-enum TextFieldStyles {
-	case error
-	case normal
-}
-
-class Textfield: XS2ATextfield, UITextFieldDelegate {
-	let insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 15)
+class TriggerTextfield: XS2ATextfield, UITextFieldDelegate {
+	let insets = UIEdgeInsets(top: 0, left: 35, bottom: 0, right: 10)
 
 	func setupStyling() {
+		self.tintColor = .clear
 		self.clipsToBounds = true
 		self.tintColor = XS2AiOS.shared.styleProvider.tintColor
 		self.backgroundColor = XS2AiOS.shared.styleProvider.inputBackgroundColor
@@ -16,6 +12,22 @@ class Textfield: XS2ATextfield, UITextFieldDelegate {
 		self.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 20, ofWeight: nil)
 		self.textColor = XS2AiOS.shared.styleProvider.inputTextColor
 		self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+		let background = UIImage(named: "glass", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		let imageView = UIImageView(image: background)
+
+		imageView.tintColor = XS2AiOS.shared.styleProvider.placeholderColor
+		self.leftViewMode = .always
+		imageView.contentMode = .center
+		self.leftView = imageView
+	}
+	
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		return false
+	}
+	
+	override func caretRect(for position: UITextPosition) -> CGRect {
+		return .zero
 	}
 	
 	override open func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -29,13 +41,10 @@ class Textfield: XS2ATextfield, UITextFieldDelegate {
 	override open func editingRect(forBounds bounds: CGRect) -> CGRect {
 		return bounds.inset(by: insets)
 	}
-	
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		let shouldReturn = parentDelegate?.textFieldShouldReturn(textField)
-		
-		return shouldReturn ?? false
-	}
 
+	override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+		return CGRect(x: 10, y: 0, width: 20 , height: bounds.height)
+	}
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -48,14 +57,16 @@ class Textfield: XS2ATextfield, UITextFieldDelegate {
 		delegate = self
 		setupStyling()
 	}
+
 	
 	func textFieldDidBeginEditing(_ textField: UITextField) {
 		if self.layer.borderWidth != 2 {
 			self.layer.borderWidth = 2
 			self.layer.add(getBorderWidthAnimation(type: .didStart), forKey: "Width")
 		}
-
+		
 		self.layer.borderColor = XS2AiOS.shared.styleProvider.tintColor.cgColor
+		self.leftView?.tintColor = XS2AiOS.shared.styleProvider.tintColor
 	}
 	
 	func textFieldDidEndEditing(_ textField: UITextField) {
@@ -66,4 +77,5 @@ class Textfield: XS2ATextfield, UITextFieldDelegate {
 	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 		return parentDelegate?.shouldBeginEditing() ?? true
 	}
+
 }
