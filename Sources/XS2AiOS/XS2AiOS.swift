@@ -130,23 +130,23 @@ extension XS2AiOS {
 		
 		public init(
 			font: FontName = .systemDefault,
-			tintColor: UIColor = UIColor(red: 0.11, green: 0.45, blue: 0.72, alpha: 1.0),
+			tintColor: UIColor = UIColor(red: 0.15, green: 0.39, blue: 0.92, alpha: 1.00),
 			logoVariation: LogoVariation = .standard,
 			backgroundColor: UIColor = .white,
-			textColor: UIColor = UIColor(red: 0.27, green: 0.27, blue: 0.28, alpha: 1.0),
-			inputBackgroundColor: UIColor = UIColor(red: 0.91, green: 0.95, blue: 0.97, alpha: 1.0),
+			textColor: UIColor = UIColor(red: 0.06, green: 0.09, blue: 0.16, alpha: 1.00),
+			inputBackgroundColor: UIColor = UIColor(red: 0.86, green: 0.92, blue: 1.00, alpha: 1.00),
 			inputBorderRadius: CGFloat = 6,
-			inputTextColor: UIColor = UIColor(red: 0.27, green: 0.27, blue: 0.28, alpha: 1.0),
-			placeholderColor: UIColor = .systemGray,
+			inputTextColor: UIColor = UIColor(red: 0.06, green: 0.09, blue: 0.16, alpha: 1.00),
+			placeholderColor: UIColor = UIColor(red: 0.58, green: 0.64, blue: 0.72, alpha: 1.00),
 			buttonBorderRadius: CGFloat = 6,
-			submitButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: UIColor(red: 0.11, green: 0.45, blue: 0.72, alpha: 1.0)),
-			backButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: .systemGray),
-			abortButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: .systemGray),
-			restartButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: .systemGray),
+			submitButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: UIColor(red: 0.15, green: 0.39, blue: 0.92, alpha: 1.00)),
+			backButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: UIColor(red: 0.58, green: 0.64, blue: 0.72, alpha: 1.00)),
+			abortButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: UIColor(red: 0.58, green: 0.64, blue: 0.72, alpha: 1.00)),
+			restartButtonStyle: ButtonStyle = ButtonStyle(textColor: .white, backgroundColor: UIColor(red: 0.58, green: 0.64, blue: 0.72, alpha: 1.00)),
 			alertBorderRadius: CGFloat = 6,
-			errorStyle: AlertStyle = AlertStyle(textColor: .white, backgroundColor: .systemRed),
-			warningStyle: AlertStyle = AlertStyle(textColor: .black, backgroundColor: .systemOrange),
-			infoStyle: AlertStyle = AlertStyle(textColor: .white, backgroundColor: UIColor(red: 0.11, green: 0.45, blue: 0.72, alpha: 1.0))
+			errorStyle: AlertStyle = AlertStyle(textColor: .white, backgroundColor: UIColor(red: 0.94, green: 0.27, blue: 0.27, alpha: 1.00)),
+			warningStyle: AlertStyle = AlertStyle(textColor: .black, backgroundColor: UIColor(red: 0.96, green: 0.62, blue: 0.04, alpha: 1.00)),
+			infoStyle: AlertStyle = AlertStyle(textColor: .white, backgroundColor: UIColor(red: 0.15, green: 0.39, blue: 0.92, alpha: 1.00))
 		) {
 			self.font = Font(fontName: font)
 			self.tintColor = tintColor
