@@ -64,8 +64,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		if disabled {
 			textfieldElement.isUserInteractionEnabled = false
 			
-			/// Equal to .systemGray4
-			textfieldElement.backgroundColor = UIColor(red: 0.8196078431372549, green: 0.8196078431372549, blue: 0.8392156862745098, alpha: 1.0)
+			textfieldElement.backgroundColor = textfieldElement.backgroundColor?.darker()
 		}
 		
 		if invalid {

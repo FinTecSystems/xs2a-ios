@@ -98,9 +98,8 @@ class SelectTextfield: UITextField, UITextFieldDelegate {
 			self.layer.borderWidth = 0
 			self.layer.add(getBorderWidthAnimation(type: .didEnd), forKey: "Width")
 		}
-		
-		/// Equal to .systemGray2
-		self.rightView?.tintColor = UIColor(red: 0.6823529411764706, green: 0.6823529411764706, blue: 0.6980392156862745, alpha: 1.0)
+
+		self.rightView?.tintColor = XS2AiOS.shared.styleProvider.placeholderColor
 	}
 	
 	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
