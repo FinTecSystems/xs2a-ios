@@ -1,23 +1,43 @@
 import UIKit
 
 class ResultCell: UITableViewCell {
-	@IBOutlet weak var resultTextLabel: UILabel!
-
+	@IBOutlet weak var resultLabelLine1: UILabel!
+	@IBOutlet weak var resultLabelLine2: UILabel!
+	
 	override func awakeFromNib() {
         super.awakeFromNib()
-		if let resultTextLabel = resultTextLabel {
-			resultTextLabel.textColor = XS2AiOS.shared.styleProvider.textColor
-			resultTextLabel.translatesAutoresizingMaskIntoConstraints = false
-			resultTextLabel.numberOfLines = 2
-			resultTextLabel.baselineAdjustment = .alignCenters
-			resultTextLabel.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
-			NSLayoutConstraint.activate([
-				resultTextLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
-				resultTextLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-				resultTextLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-				resultTextLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-			])
+		guard let resultLabelLine1 = resultLabelLine1 else {
+			return
 		}
+		
+		guard let resultLabelLine2 = resultLabelLine2 else {
+			return
+		}
+		
+		resultLabelLine1.textColor = XS2AiOS.shared.styleProvider.textColor
+		resultLabelLine1.translatesAutoresizingMaskIntoConstraints = false
+		resultLabelLine1.numberOfLines = 1
+		resultLabelLine1.baselineAdjustment = .alignCenters
+		resultLabelLine1.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: nil)
+		
+		resultLabelLine2.textColor = XS2AiOS.shared.styleProvider.textColor
+		resultLabelLine2.translatesAutoresizingMaskIntoConstraints = false
+		resultLabelLine2.numberOfLines = 1
+		resultLabelLine2.baselineAdjustment = .alignCenters
+		resultLabelLine2.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
+		
+		NSLayoutConstraint.activate([
+			// Line 1
+			resultLabelLine1.widthAnchor.constraint(equalTo: self.widthAnchor),
+			resultLabelLine1.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
+			resultLabelLine1.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			resultLabelLine1.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+			// Line 2
+			resultLabelLine2.widthAnchor.constraint(equalTo: self.widthAnchor),
+			resultLabelLine2.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
+			resultLabelLine2.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			resultLabelLine2.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+		])
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
