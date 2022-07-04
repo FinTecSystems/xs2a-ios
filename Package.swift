@@ -11,7 +11,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "XS2AiOS",
-            type: .dynamic,
+			type: .dynamic,
 			targets: ["XS2AiOS"]),
 	],
 	dependencies: [
