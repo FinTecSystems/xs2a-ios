@@ -119,10 +119,14 @@ class APIService {
 	
 	/// Function for making the initial call to the XS2A backend
 	func initCall(completion: @escaping (APIResponseType) -> Void) {
-		let payload: [String:Any] = [
+		var payload: [String:Any] = [
 			"version": "ios_sdk_1.7.0",
 			"client": "ios_sdk",
 		]
+		
+		if let language = XS2AiOS.shared.configuration.language {
+			payload["language"] = language.rawValue
+		}
 
 		post(body: payload, completion: { result, error in
 			if let error = error {
@@ -140,15 +144,17 @@ class APIService {
 					return
 				}
 
-				/// The preferred localization of the client device
-				let deviceLocalization = String(Locale.preferredLanguages[0].prefix(2))
+				if (XS2AiOS.shared.configuration.language == nil) {
+					/// The preferred localization of the client device
+					let deviceLanguage = String(Locale.preferredLanguages[0].prefix(2))
 
-				/// Check if we support the device language
-				if (["de", "en", "es", "fr", "it"].contains(deviceLocalization) && languageFromServer != deviceLocalization) {
-					/// Language sent from server is not device language, but we know we support the device language, so lets change it
-					self.notifyServerOfLanguageChange(newLocalization: deviceLocalization, completion: completion)
-					
-					return
+					/// Check if current sessions language is not the device language and if we support the device language
+					if (languageFromServer != deviceLanguage && ["de", "en", "es", "fr", "it"].contains(deviceLanguage)) {
+						/// Language sent from server is not device language, but we know we support the device language, so lets change it
+						self.notifyServerOfLanguageChange(newLocalization: deviceLanguage, completion: completion)
+						
+						return
+					}
 				}
 
 				self.responseHandler(result: result, completion: completion)

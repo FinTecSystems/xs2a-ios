@@ -52,6 +52,14 @@ public class XS2AiOS {
 }
 
 extension XS2AiOS {
+	public enum Language: String {
+		case de = "de"
+		case en = "en"
+		case fr = "fr"
+		case it = "it"
+		case es = "es"
+	}
+
 	public struct Configuration {
 		var wizardSessionKey: String
 		var permissionToStoreCredentials: Bool
@@ -59,12 +67,14 @@ extension XS2AiOS {
 		var backButtonAction: () -> Void
 		var onStepChanged: (WizardStep?) -> Void
 		var baseURL: String
+		var language: Language?
 		
 		public init(
 			wizardSessionKey: String,
 			backButtonAction: @escaping () -> Void = {},
 			onStepChanged: @escaping (WizardStep?) -> Void = {_ in },
-			baseURL: String = "https://api.xs2a.com/jsonp"
+			baseURL: String = "https://api.xs2a.com/jsonp",
+			language: Language? = nil
 		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.permissionToStoreCredentials = false
@@ -72,6 +82,10 @@ extension XS2AiOS {
 			self.backButtonAction = backButtonAction
 			self.onStepChanged = onStepChanged
 			self.baseURL = baseURL
+			
+			if let language = language {
+				self.language = language
+			}
 		}
 	}
 	
