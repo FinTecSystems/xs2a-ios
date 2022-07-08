@@ -67,7 +67,12 @@ Before doing so, you need to `configure` the SDK first.
 The `XS2AViewController` will guide the customer through the process. After that process is finished, you will receive a callback as described below.
 
 ```swift
-let config = XS2AiOS.Configuration(wizardSessionKey: "YOUR_WIZARD_SESSION_KEY")
+let config = XS2AiOS.Configuration(
+  wizardSessionKey: "YOUR_WIZARD_SESSION_KEY",
+  // Use .de/.en/.fr/.es/.it to overwrite session language
+  // Default is device language
+  language: .en // (optional)
+)
 
 // See the detailed Styling API below
 let style = XS2AiOS.StyleProvider()
