@@ -200,7 +200,7 @@ var warningStyle: AlertStyle
 var infoStyle: AlertStyle
 
 ```
-![Styling API](https://fintecsystems.com/StylingAPI_v2.png)
+![Styling API](https://demo.xs2a.com/img/ios-styling.jpg)
 
 ### Encryption Export Compliance Information
 
