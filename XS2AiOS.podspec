@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = 'XS2AiOS'
   s.version          = '1.7.1'
-  s.summary          = 'Native integration of FinTecSystems XS2A API for your iOS apps.'
+  s.summary          = 'Native integration of Tink Germany XS2A API for your iOS apps.'
 
   s.homepage         = 'https://github.com/FinTecSystems/xs2a-ios'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'FinTecSystems GmbH' => 'support@fintecsystems.com' }
+  s.author           = { 'Tink Germany GmbH' => 'support@tink-germany.com' }
   s.source           = { :git => 'https://github.com/FinTecSystems/xs2a-ios.git', :tag => s.version.to_s }
 
   s.dependency		'SwiftyJSON', '5.0.1'
