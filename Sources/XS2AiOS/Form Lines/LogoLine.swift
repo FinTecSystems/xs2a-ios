@@ -58,7 +58,7 @@ class LogoLine: UIViewController, FormLine {
 		view.addSubview(imageView)
 		
 		NSLayoutConstraint.activate([
-			imageView.heightAnchor.constraint(equalToConstant: 50),
+			imageView.heightAnchor.constraint(equalToConstant: 70),
 			imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 			view.heightAnchor.constraint(equalTo: imageView.heightAnchor),
