@@ -1,12 +1,12 @@
-![header](https://fintecsystems.com/iOS_SDK_Header.jpg)
+![header](https://demo.xs2a.com/img/ios-sdk-header.png)
 
 # XS2AiOS - Native iOS SDK for XS2A
-![License](https://img.shields.io/badge/license-MIT%20%2B%20file%20LICENSE-1d72b8.svg)
-![Platform](https://img.shields.io/badge/platform-iOS-1d72b8.svg)
-![Languages](https://img.shields.io/badge/languages-swift-1d72b8.svg)
-![Swift Package Manager](https://img.shields.io/badge/SPM-supported-1d72b8.svg)
-![Cocoapods](https://img.shields.io/cocoapods/v/XS2AiOS?color=1d72b8&logo=FinTecSystems&logoColor=1d72b8)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-1d72b8.svg?style=flat)](https://github.com/Carthage/Carthage)
+![License](https://img.shields.io/badge/license-MIT%20%2B%20file%20LICENSE-F89572.svg)
+![Platform](https://img.shields.io/badge/platform-iOS-F89572.svg)
+![Languages](https://img.shields.io/badge/languages-swift-F89572.svg)
+![Swift Package Manager](https://img.shields.io/badge/SPM-supported-F89572.svg)
+![Cocoapods](https://img.shields.io/cocoapods/v/XS2AiOS?color=F89572&logo=FinTecSystems&logoColor=F89572)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-F89572.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 
 This iOS SDK allows for the integration of XS2A into native iOS apps.
@@ -14,7 +14,7 @@ An [Android SDK](https://github.com/FinTecSystems/xs2a-android) and a [React Nat
 
 
 ### Demo Screencast
-<img src="https://fintecsystems.com/ios_sdk_testbank_screencast.webp" alt="Screencast Demo" height="400"/>
+<img src="https://demo.xs2a.com/img/ios-screencast.webp" alt="Screencast Demo" height="400"/>
 
 
 ## How to Integrate
@@ -214,4 +214,4 @@ for such exemptions and you might have to reconsider how to answer that dialog.
 
 ### License
 
-Please note that this mobile SDK is subject to the MIT license. MIT license does not apply to the logo of FinTecSystems GmbH, the terms of use and the privacy policy of FinTecSystems GmbH. The license terms of the logo of FinTecSystems GmbH, the terms of use and the privacy policy of FinTecSystems GmbH are included in the LICENSE as FTS LICENSE.
+Please note that this mobile SDK is subject to the MIT license. MIT license does not apply to the logo of Tink Germany GmbH, the terms of use and the privacy policy of Tink Germany GmbH. The license terms of the logo of Tink Germany GmbH, the terms of use and the privacy policy of Tink Germany GmbH are included in the LICENSE as FTS LICENSE.
