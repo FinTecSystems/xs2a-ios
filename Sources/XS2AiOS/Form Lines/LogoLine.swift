@@ -41,7 +41,7 @@ class LogoLine: UIViewController, FormLine {
 	}
 
 	override func viewDidLoad() {
-		guard let url = URL(string: "https://api.xs2a.com/img/mobile-sdks/ios/\(XS2AiOS.shared.styleProvider.logoVariation.rawValue).pdf") else {
+		guard let url = URL(string: "http://localhost:8000/img/mobile-sdks/ios/\(XS2AiOS.shared.styleProvider.logoVariation.rawValue).pdf") else {
 			fatalError("Logo not found.")
 		}
 
@@ -58,7 +58,7 @@ class LogoLine: UIViewController, FormLine {
 		view.addSubview(imageView)
 		
 		NSLayoutConstraint.activate([
-			imageView.heightAnchor.constraint(equalToConstant: 50),
+			imageView.heightAnchor.constraint(equalToConstant: 70),
 			imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 			view.heightAnchor.constraint(equalTo: imageView.heightAnchor),

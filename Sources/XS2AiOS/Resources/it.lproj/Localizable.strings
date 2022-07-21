@@ -5,9 +5,9 @@
 "Next" = "Prossimo";
 "Alert.Close" = "Chiudere";
 "Alert.Imprint.Title" = "Impronta";
-"Alert.Imprint.Message" = "FinTecSystems GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nTribunale locale: München\nHRB 210653\n\nAutorità di supervisione: Bundesanstalt für Finanzdienstleistungsaufsicht.";
+"Alert.Imprint.Message" = "Tink Germany GmbH\nGottfried-Keller-Straße 33\n81245 München\n\nTribunale locale: München\nHRB 210653\n\nAutorità di supervisione: Bundesanstalt für Finanzdienstleistungsaufsicht.";
 "Alert.Imprint.LinkText" = "Per saperne di più";
-"Alert.Imprint.Link" = "https://fintecsystems.com/psd2-certified-siegel/";
+"Alert.Imprint.Link" = "https://tink.com/de/privatkunden-faq/";
 "Alert.Abort.Title" = "Annulla";
 "Alert.Abort.Message" = "Vuoi abortire?";
 "AutocompleteView.Notice" = "Cerca la tua banca per nome, codice bancario o BIC, o inserisci il tuo IBAN.";
