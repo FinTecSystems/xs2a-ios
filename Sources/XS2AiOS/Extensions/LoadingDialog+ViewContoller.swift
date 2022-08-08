@@ -8,6 +8,16 @@ struct ProgressDialog {
 
 extension UIViewController {
 	func showLoadingIndicator(title: String = "", message: String = "") {
+        XS2AiOS.shared.loadingStateProvider.showLoadingIndicator(title: title, message: message, over: self)
+    }
+
+    func hideLoadingIndicator() {
+        XS2AiOS.shared.loadingStateProvider.hideLoadingIndicator(over: self)
+    }
+}
+
+class XS2ALoadingStateProvider: LoadingStateProvider {
+    func showLoadingIndicator(title: String, message: String, over viewController: UIViewController) {
 		ProgressDialog.alert = UIAlertController(title: title.isEmpty ? nil : title, message: message, preferredStyle: .alert)
 		
 		if (!title.isEmpty) {
@@ -59,13 +69,12 @@ extension UIViewController {
 		}
 		
 		ProgressDialog.indicatorView.startAnimating()
-		present(ProgressDialog.alert, animated: true, completion: nil)
+        viewController.present(ProgressDialog.alert, animated: true, completion: nil)
 	}
 
-	func hideLoadingIndicator(){
+    func hideLoadingIndicator(over viewController: UIViewController) {
 		ProgressDialog.alert.dismiss(animated: true) {
 			ProgressDialog.indicatorView.stopAnimating()
 		}
-
 	}
 }
