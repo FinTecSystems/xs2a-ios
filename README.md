@@ -56,7 +56,7 @@ github "kishikawakatsumi/KeychainAccess" ~> 4.2.2
 ```
 
 Then run `carthage update --use-xcframeworks` and drag the resulting XCFrameworks into your Xcode projects' framework section.
-## Import the Module
+## Usage
 ```swift
 import XS2AiOS
 ```
