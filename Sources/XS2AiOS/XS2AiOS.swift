@@ -6,7 +6,7 @@ public class XS2AiOS {
 
 	public var configuration: Configuration
 	public let styleProvider: StyleProvider
-    public let loadingStateProvider: LoadingStateProvider
+	public let loadingStateProvider: LoadingStateProvider
 	public let keychain: Keychain
 	let apiService: APIService
 	
@@ -25,7 +25,7 @@ public class XS2AiOS {
 	init(configuration: Configuration, styleProvider: StyleProvider, loadingStateProvider: LoadingStateProvider = XS2ALoadingStateProvider()) {
 		self.configuration = configuration
 		self.styleProvider = styleProvider
-        self.loadingStateProvider = loadingStateProvider
+		self.loadingStateProvider = loadingStateProvider
 		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey, baseURL: configuration.baseURL)
 		
 		self.currentStep = nil
@@ -41,17 +41,17 @@ public class XS2AiOS {
 		}
 	}
 	
-    public static func configure(withConfig configuration: Configuration, withStyle styleProvider: StyleProvider) {
+	public static func configure(withConfig configuration: Configuration, withStyle styleProvider: StyleProvider) {
 		_shared = XS2AiOS(configuration: configuration, styleProvider: styleProvider, loadingStateProvider: XS2ALoadingStateProvider())
 	}
 
-    public static func configure(
-        withConfig configuration: Configuration,
-        withStyle styleProvider: StyleProvider,
-        withLoading loadingStateProvider: LoadingStateProvider
-    ) {
-        _shared = XS2AiOS(configuration: configuration, styleProvider: styleProvider, loadingStateProvider: loadingStateProvider)
-    }
+	public static func configure(
+		withConfig configuration: Configuration,
+		withStyle styleProvider: StyleProvider,
+		withLoading loadingStateProvider: LoadingStateProvider
+	) {
+		_shared = XS2AiOS(configuration: configuration, styleProvider: styleProvider, loadingStateProvider: loadingStateProvider)
+	}
 	
 	public static var shared: XS2AiOS {
 		guard let shared = _shared else {
