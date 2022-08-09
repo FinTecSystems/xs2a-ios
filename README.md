@@ -77,7 +77,10 @@ let config = XS2AiOS.Configuration(
 // See the detailed Styling API below
 let style = XS2AiOS.StyleProvider()
 
-XS2AiOS.configure(withConfig: config, withStyle: style)
+XS2AiOS.configure(
+  withConfig: config,
+  withStyle: style
+)
 
 // Reference to the VC in order to present and dismiss it
 var xs2aViewController: XS2AViewController?
@@ -169,6 +172,33 @@ let config = XS2AiOS.Configuration(
 ### Styling API
 
 You can style the view according to your needs. Please note, that dark mode is overriden inside the module, but you can of course simply define another style provider for dark mode.
+
+#### Custom Loading Animation
+
+You can overwrite the default loading animation by building your own logic that implements the `LoadingStateProvider` protocol.
+You can then pass your class via the configure method:
+
+```swift
+class MyCustomLoadingProvider: LoadingStateProvider {
+	func showLoadingIndicator(title: String, message: String, over viewController: UIViewController) {
+		// Logic that shows a loading animation over the passed `viewController`
+	}
+
+	func hideLoadingIndicator(over viewController: UIViewController) {
+		// Logic that hides the loading animation
+	}
+}
+
+let myCustomLoadingAnimation = MyCustomLoadingProvider()
+
+XS2AiOS.configure(
+  withConfig: config,
+  withStyle: style,
+  withLoading: myCustomLoadingAnimation
+)
+```
+
+#### Colors, Buttons & other Styles
 
 The available properties are:
 

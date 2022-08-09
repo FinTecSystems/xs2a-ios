@@ -20,7 +20,7 @@ public class XS2AiOS {
 	 - Parameters:
 	  - configuration: The Configuration including the wizardSessionKey for the session to be initialized
 	  - styleProvider: The StyleProvider to be used
-      - loadingStateProvider: The LoadingStateProvider to be used
+	  - loadingStateProvider: The LoadingStateProvider to be used
 	*/
 	init(configuration: Configuration, styleProvider: StyleProvider, loadingStateProvider: LoadingStateProvider = XS2ALoadingStateProvider()) {
 		self.configuration = configuration
