@@ -180,13 +180,13 @@ You can then pass your class via the configure method:
 
 ```swift
 class MyCustomLoadingProvider: LoadingStateProvider {
-	func showLoadingIndicator(title: String, message: String, over viewController: UIViewController) {
-		// Logic that shows a loading animation over the passed `viewController`
-	}
+  func showLoadingIndicator(title: String, message: String, over viewController: UIViewController) {
+    // Logic that shows a loading animation over the passed `viewController`
+  }
 
-	func hideLoadingIndicator(over viewController: UIViewController) {
-		// Logic that hides the loading animation
-	}
+  func hideLoadingIndicator(over viewController: UIViewController) {
+    // Logic that hides the loading animation
+  }
 }
 
 let myCustomLoadingAnimation = MyCustomLoadingProvider()
