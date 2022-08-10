@@ -9,7 +9,6 @@ protocol ActionDelegate {
 	func sendAction(actionType: XS2AButtonType, withLoadingIndicator: Bool, additionalPayload: Dictionary<String, Any>?)
 	func getCountryId() -> String
 	func findNextResponder(index: Int, textField: UITextField) -> Bool
-	func showMultiFormElements(withName multiFormName: String, withValue multiFormValue: String)
 	func openLink(url: URL)
 }
 
@@ -139,9 +138,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		let containsAutoSubmit = formElements.contains(where: { $0 is AutosubmitLine })
 
 		hideElements {
-			/// A dictionary tracking the names of the multiforms in view and the corresponding selected value for that form
-			var multiFormsInView: Dictionary<String, String> = [:]
-			
 			for (_, currentFormElement) in formElements.enumerated() {
 				/// A Boolean indicating whether the Element should be added invisible
 				var initializeAsHidden: Bool = false
@@ -158,29 +154,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				guard let initializedView = currentFormElement.view else {
 					continue
 				}
-				
-				/// Check if Element is a MultiFormController and as a preselected Value
-				if currentFormElement is MultiFormController {
-					if let asMultiFormController = currentFormElement as? MultiFormController {
-						/// MultiFormController are controlling the different forms there are within a specific MultiForm
-						/// store it's name and the selected form-value
-						multiFormsInView[asMultiFormController.name] = asMultiFormController.selectedMultiFormValue
-					}
-				}
-				
-				/// If we have a preselected MultiFormValue, hide Elements that don't have it set
-				if let currentMultiFormName = currentFormElement.multiFormName {
-					if let currentMultiFormValue = currentFormElement.multiFormValue {
-						/// The current element is part of a MultiForm
-						/// check if it is selected or hidden
-						if multiFormsInView[currentMultiFormName] != nil && multiFormsInView[currentMultiFormName] == currentMultiFormValue {
-							initializeAsHidden = false
-						} else {
-							initializeAsHidden = true
-						}
-					}
-				}
-
 
 				self.addChild(currentFormElement)
 				currentFormElement.didMove(toParent: self)
@@ -272,31 +245,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 
 		return payload
-	}
-	
-	/**
-	 Function for showing/hiding MultiForms
-	 - Parameters:
-	   - withName: The Name of the MultiForm to show
-	   - withValue: The Value of the MultiForm to show
-	*/
-	internal func showMultiFormElements(withName multiFormName: String, withValue multiFormValue: String) {
-		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
-			for (instantiatedClass) in self.children {
-				let asFormLine = instantiatedClass as? FormLine
-				if asFormLine?.multiFormName != nil && asFormLine?.multiFormName == multiFormName {
-					if asFormLine?.multiFormValue != multiFormValue {
-						instantiatedClass.view.isHidden = true
-						instantiatedClass.view.alpha = 0
-						self.view.layoutIfNeeded()
-					} else {
-						instantiatedClass.view.isHidden = false
-						instantiatedClass.view.alpha = 1
-						self.view.layoutIfNeeded()
-					}
-				}
-			}
-		})
 	}
 	
 	/**

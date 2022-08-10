@@ -14,9 +14,6 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	
 	/// Boolean indicating whether the element is disabled
 	private let disabled: Bool
-
-	let multiFormName: String?
-	let multiFormValue: String?
 	
 	let checkedImage = UIImage(named: "checkmark_ticked", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 	let uncheckedImage = UIImage(named: "checkmark", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -58,12 +55,8 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	   - name: The name of the checkbox line
 	   - disabled: Boolean indicating whether the element is disabled (if true, `checked` can not be changed)
 	   - isLoginCredential: If this is a LoginCredential
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool, multiFormName: String?, multiFormValue: String?) {
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
+	init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool) {
 		self.checked = checked
 		self.name = name
 		

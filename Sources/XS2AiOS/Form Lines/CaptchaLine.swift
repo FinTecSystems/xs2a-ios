@@ -5,8 +5,6 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	
 	internal let name: String
 	let index: Int
-	let multiFormName: String?
-	let multiFormValue: String?
 
 	private var imageElement: UIImage
 	private var imageViewElement: UIImageView
@@ -21,18 +19,15 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	   - placeholder: The placeholder for the input field
 	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int) {
 		self.name = name
 		self.labelElement.text = label
 		self.index = index
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.placeholderColor])
 		imageElement = UIImage()
 		imageViewElement = UIImageView()
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
+
 		super.init(nibName: nil, bundle: nil)
 		
 		if let base64ImageData = imageForBase64String(imageData) {

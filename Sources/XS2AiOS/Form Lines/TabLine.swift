@@ -7,20 +7,13 @@ class TabLine: UIViewController, FormLine {
 	private var tabOptions: Array<String> = []
 
 	private let radioController: RadioButtonController = RadioButtonController()
-	let multiFormName: String?
-	let multiFormValue: String?
 	
 	/**
 	 - Parameters:
 	   - selected: The (pre)selected tab value
 	   - tabs: The available tab options
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(selected: String, tabs: Dictionary<String, String>, multiFormName: String?, multiFormValue: String?) {
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
-
+	init(selected: String, tabs: Dictionary<String, String>) {
 		super.init(nibName: nil, bundle: nil)
 
 		var index = 0

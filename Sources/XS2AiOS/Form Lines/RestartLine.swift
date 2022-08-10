@@ -2,24 +2,17 @@ import UIKit
 
 class RestartLine: UIViewController, FormLine {
 	var actionDelegate: ActionDelegate?
-
-	let multiFormName: String?
-	let multiFormValue: String?
 	
 	private let button: UIButton
 	
 	/**
 	 - Parameters:
 	   - label: The button text of this restart line
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(label: String, multiFormName: String?, multiFormValue: String?) {
+	init(label: String) {
 		button = UIButton.make(buttonType: .restart)
 		button.setTitle(label, for: .normal)
-		
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
+
 		super.init(nibName: nil, bundle: nil)
 		
 		/// Attach buttonTapped function to the button

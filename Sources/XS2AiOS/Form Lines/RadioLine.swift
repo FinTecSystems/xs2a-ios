@@ -7,9 +7,6 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 	internal let name: String
 	private var checked: Int
 	
-	let multiFormName: String?
-	let multiFormValue: String?
-	
 	private let labelElement = UILabel.make(size: .large)
 	private let radioController: RadioButtonController = RadioButtonController()
 	
@@ -19,16 +16,13 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 	   - checked: Integer indicating the (pre)checked radio option
 	   - name: The name of this radio line
 	   - options: Array of available radio options
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(label: String, checked: Int, name: String, options: [(label: String, disabled: Bool)], multiFormName: String?, multiFormValue: String?) {
+	init(label: String, checked: Int, name: String, options: [(label: String, disabled: Bool)]) {
 		self.name = name
 		self.checked = checked
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 		self.labelElement.text = label
 		self.labelElement.numberOfLines = 0
+
 		super.init(nibName: nil, bundle: nil)
 
 		/// Iterate over all radio options

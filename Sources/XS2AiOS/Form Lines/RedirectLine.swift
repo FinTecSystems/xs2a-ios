@@ -13,9 +13,6 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 	var actionDelegate: ActionDelegate?
 	
 	private let url: String
-	
-	let multiFormName: String?
-	let multiFormValue: String?
 
 	private let button: UIButton
 	
@@ -23,15 +20,11 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 	 - Parameters:
 	   - label: The button text of this redirect line
 	   - url: The URL to be opened when the button is tapped
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(label: String, url: String, multiFormName: String?, multiFormValue: String?) {
+	init(label: String, url: String) {
 		button = UIButton.make(buttonType: .redirect)
 		button.setTitle(label, for: .normal)
 
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 		self.url = url
 
 		super.init(nibName: nil, bundle: nil)
