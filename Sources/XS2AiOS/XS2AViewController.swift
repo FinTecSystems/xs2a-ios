@@ -876,9 +876,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		if #available(iOS 15.0, *) {
 			let navigationBarAppearance = UINavigationBarAppearance()
 			navigationBarAppearance.configureWithDefaultBackground()
-			UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-			UINavigationBar.appearance().compactAppearance = navigationBarAppearance
-			UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+
+			navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+			navigationController?.navigationBar.compactAppearance = navigationBarAppearance
+			navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
 		}
 
 		self.view.backgroundColor = XS2AiOS.shared.styleProvider.backgroundColor
