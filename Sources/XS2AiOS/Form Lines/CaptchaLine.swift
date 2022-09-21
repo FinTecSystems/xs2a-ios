@@ -97,12 +97,13 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	private func styleTextfield(style: TextFieldStyles) {
 		switch style {
 		case .error:
-			textfieldElement.layer.borderWidth = 2
+			textfieldElement.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidthActive
 			textfieldElement.layer.borderColor = XS2AiOS.shared.styleProvider.errorStyle.backgroundColor.cgColor
-			textfieldElement.layer.add(getBorderWidthAnimation(type: .didStart), forKey: "Width")
+			textfieldElement.layer.add(getBorderAnimation(type: .didStart), forKey: "Border")
 		default:
-			textfieldElement.layer.borderWidth = 0
-			textfieldElement.layer.add(getBorderWidthAnimation(type: .didEnd), forKey: "Width")
+			textfieldElement.layer.borderColor = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
+			textfieldElement.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidth
+			textfieldElement.layer.add(getBorderAnimation(type: .didEnd), forKey: "Border")
 		}
 	}
 }

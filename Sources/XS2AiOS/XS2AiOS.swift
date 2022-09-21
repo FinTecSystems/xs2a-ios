@@ -131,6 +131,9 @@ extension XS2AiOS {
 		/// Textfield Styles
 		var inputBackgroundColor: UIColor
 		var inputBorderRadius: CGFloat
+		var inputBorderColor: UIColor
+		var inputBorderWidth: CGFloat
+		var inputBorderWidthActive: CGFloat
 		var inputTextColor: UIColor
 		var placeholderColor: UIColor
 		
@@ -161,6 +164,9 @@ extension XS2AiOS {
 			textColor: UIColor = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1),
 			inputBackgroundColor: UIColor = UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1.00),
 			inputBorderRadius: CGFloat = 6,
+			inputBorderColor: UIColor = .clear,
+			inputBorderWidth: CGFloat = 0,
+			inputBorderWidthActive: CGFloat = 2,
 			inputTextColor: UIColor = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1),
 			placeholderColor: UIColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.00),
 			buttonBorderRadius: CGFloat = 6,
@@ -180,6 +186,9 @@ extension XS2AiOS {
 			self.textColor = textColor
 			self.inputBackgroundColor = inputBackgroundColor
 			self.inputBorderRadius = inputBorderRadius
+			self.inputBorderColor = inputBorderColor
+			self.inputBorderWidth = inputBorderWidth
+			self.inputBorderWidthActive = inputBorderWidthActive
 			self.inputTextColor = inputTextColor
 			self.placeholderColor = placeholderColor
 			self.buttonBorderRadius = buttonBorderRadius

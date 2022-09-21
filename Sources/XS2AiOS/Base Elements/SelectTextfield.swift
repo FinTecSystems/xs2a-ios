@@ -9,6 +9,8 @@ class SelectTextfield: UITextField, UITextFieldDelegate {
 		self.tintColor = XS2AiOS.shared.styleProvider.tintColor
 		self.backgroundColor = XS2AiOS.shared.styleProvider.inputBackgroundColor
 		self.layer.cornerRadius = XS2AiOS.shared.styleProvider.inputBorderRadius
+		self.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidth
+		self.layer.borderColor = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
 		self.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 20, ofWeight: nil)
 		self.textColor = XS2AiOS.shared.styleProvider.inputTextColor
 		self.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -53,14 +55,15 @@ class SelectTextfield: UITextField, UITextFieldDelegate {
 	func styleTextfield(style: TextFieldStyles) {
 		switch style {
 		case .error:
-			self.layer.borderWidth = 2
+			self.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidthActive
 			self.layer.borderColor = XS2AiOS.shared.styleProvider.errorStyle.backgroundColor.cgColor
 			self.layer.add(getBorderWidthAnimation(type: .didStart), forKey: "Width")
 		case .normal:
-			if self.layer.borderWidth != 0 {
-				self.layer.borderWidth = 0
+			if self.layer.borderWidth != XS2AiOS.shared.styleProvider.inputBorderWidth {
+				self.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidth
 				self.layer.add(getBorderWidthAnimation(type: .didEnd), forKey: "Width")
 			}
+			self.layer.borderColor = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
 		}
 	}
 	
@@ -84,19 +87,22 @@ class SelectTextfield: UITextField, UITextFieldDelegate {
 
 	
 	func textFieldDidBeginEditing(_ textField: UITextField) {
-		if self.layer.borderWidth != 2 {
-			self.layer.borderWidth = 2
-			self.layer.add(getBorderWidthAnimation(type: .didStart), forKey: "Width")
+		if self.layer.borderWidth != XS2AiOS.shared.styleProvider.inputBorderWidthActive ||
+			self.layer.borderColor != XS2AiOS.shared.styleProvider.tintColor.cgColor {
+			self.layer.borderColor = XS2AiOS.shared.styleProvider.tintColor.cgColor
+			self.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidthActive
+			self.layer.add(getBorderAnimation(type: .didStart), forKey: "Border")
 		}
-		
-		self.layer.borderColor = XS2AiOS.shared.styleProvider.tintColor.cgColor
+
 		self.rightView?.tintColor = XS2AiOS.shared.styleProvider.tintColor
 	}
 	
 	func textFieldDidEndEditing(_ textField: UITextField) {
-		if self.layer.borderWidth != 0 {
-			self.layer.borderWidth = 0
-			self.layer.add(getBorderWidthAnimation(type: .didEnd), forKey: "Width")
+		if self.layer.borderWidth != XS2AiOS.shared.styleProvider.inputBorderWidth ||
+			self.layer.borderColor != XS2AiOS.shared.styleProvider.inputBorderColor.cgColor {
+			self.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidth
+			self.layer.borderColor = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
+			self.layer.add(getBorderAnimation(type: .didEnd), forKey: "Border")
 		}
 
 		self.rightView?.tintColor = XS2AiOS.shared.styleProvider.placeholderColor
