@@ -103,10 +103,14 @@ extension XS2AiOS {
 	public struct ButtonStyle {
 		var textColor: UIColor
 		var backgroundColor: UIColor
+		var borderWidth: CGFloat
+		var borderColor: UIColor
 		
-		public init(textColor: UIColor, backgroundColor: UIColor) {
+		public init(textColor: UIColor, backgroundColor: UIColor, borderWidth: CGFloat = 0, borderColor: UIColor = .clear) {
 			self.textColor = textColor
 			self.backgroundColor = backgroundColor
+			self.borderWidth = borderWidth
+			self.borderColor = borderColor
 		}
 	}
 	
