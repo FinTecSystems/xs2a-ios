@@ -16,27 +16,27 @@ enum XS2AButtonType {
 extension UIButton {
 	static func make(buttonType: XS2AButtonType) -> UIButton {
 		let button = UIButton()
-		
+
+		let style: XS2AiOS.ButtonStyle
 		switch buttonType {
 		case .abort:
-			button.setTitleColor(XS2AiOS.shared.styleProvider.abortButtonStyle.textColor, for: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.abortButtonStyle.backgroundColor, forState: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.abortButtonStyle.backgroundColor.lighter(), forState: .highlighted)
+			style = XS2AiOS.shared.styleProvider.abortButtonStyle
 		case .back:
-			button.setTitleColor(XS2AiOS.shared.styleProvider.backButtonStyle.textColor, for: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.backButtonStyle.backgroundColor, forState: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.backButtonStyle.backgroundColor.lighter(), forState: .highlighted)
+			style = XS2AiOS.shared.styleProvider.backButtonStyle
 		case .restart:
-			button.setTitleColor(XS2AiOS.shared.styleProvider.restartButtonStyle.textColor, for: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.restartButtonStyle.backgroundColor, forState: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.restartButtonStyle.backgroundColor.lighter(), forState: .highlighted)
+			style = XS2AiOS.shared.styleProvider.restartButtonStyle
 		default:
-			button.setTitleColor(XS2AiOS.shared.styleProvider.submitButtonStyle.textColor, for: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor, forState: .normal)
-			button.setBackgroundColor(color: XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor.lighter(), forState: .highlighted)
+			style = XS2AiOS.shared.styleProvider.submitButtonStyle
 		}
 
+		button.setTitleColor(style.textColor, for: .normal)
+		button.setBackgroundColor(color: style.backgroundColor, forState: .normal)
+		button.setBackgroundColor(color: style.backgroundColor.lighter(), forState: .highlighted)
+
 		button.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
+		button.layer.borderWidth = style.borderWidth
+		button.layer.borderColor = style.borderColor.cgColor
+
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.titleLabel?.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 18, ofWeight: .traitBold)
 		button.heightAnchor.constraint(equalToConstant: 50).isActive = true
