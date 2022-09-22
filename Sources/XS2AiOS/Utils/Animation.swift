@@ -6,7 +6,6 @@ enum BorderAnimationType {
 }
 
 func getBorderWidthAnimation(type: BorderAnimationType) -> CAAnimation {
-
 	let borderWidthAnimation: CABasicAnimation = CABasicAnimation(keyPath: "borderWidth")
 
 	switch type {
@@ -24,7 +23,6 @@ func getBorderWidthAnimation(type: BorderAnimationType) -> CAAnimation {
 }
 
 func getBorderColorAnimation(type: BorderAnimationType) -> CAAnimation {
-
 	let animation: CABasicAnimation = CABasicAnimation(keyPath: "borderColor")
 
 	switch type {
@@ -42,7 +40,6 @@ func getBorderColorAnimation(type: BorderAnimationType) -> CAAnimation {
 }
 
 func getBorderAnimation(type: BorderAnimationType) -> CAAnimation {
-
 	let group = CAAnimationGroup()
 	group.animations = [getBorderWidthAnimation(type: type), getBorderColorAnimation(type: type)]
 	group.duration = 0.15
