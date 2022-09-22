@@ -213,12 +213,15 @@ var textColor: UIColor
 /// Textfield Styles
 var inputBackgroundColor: UIColor
 var inputBorderRadius: CGFloat
+var inputBorderColor: UIColor
+var inputBorderWidth: CGFloat
+var inputBorderWidthActive: CGFloat
 var inputTextColor: UIColor
 var placeholderColor: UIColor
 
 /// Button Styles
 var buttonBorderRadius: CGFloat
-var submitButtonStyle: ButtonStyle /// (textColor & backgroundColor)
+var submitButtonStyle: ButtonStyle /// (textColor, backgroundColor, borderWidth and borderColor)
 var backButtonStyle: ButtonStyle
 var abortButtonStyle: ButtonStyle
 var restartButtonStyle: ButtonStyle
