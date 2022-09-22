@@ -7,9 +7,6 @@ class AutosubmitLine: UIViewController, FormLine {
 
 	/// The interval in milliseconds after which the autosubmit is triggered
 	private let interval: Int
-
-	let multiFormName: String?
-	let multiFormValue: String?
 	
 	let indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: XS2AiOS.shared.styleProvider.tintColor)
 
@@ -18,13 +15,9 @@ class AutosubmitLine: UIViewController, FormLine {
 	/**
 	 - Parameters:
 	   - interval: The interval in milliseconds after which the autosubmit is triggered
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(interval: Int, multiFormName: String?, multiFormValue: String?) {
+	init(interval: Int) {
 		self.interval = interval
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 		super.init(nibName: nil, bundle: nil)
 	}
 	

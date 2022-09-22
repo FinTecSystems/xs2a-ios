@@ -8,8 +8,6 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 	
 	private let label: String
 	internal let name: String
-	let multiFormName: String?
-	let multiFormValue: String?
 
 	private let labelElement = UILabel.make(size: .large)
 	private let pickerElement = UIPickerView()
@@ -22,10 +20,8 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 	   - selected: The key of the (pre)selected option
 	   - name: The name for this select line
 	   - invalid: If this select is invalid
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(options: Dictionary<String, Any>, label: String, selected: String, name: String, invalid: Bool, multiFormName: String?, multiFormValue: String?) {
+	init(options: Dictionary<String, Any>, label: String, selected: String, name: String, invalid: Bool) {
 		/// Add default disabled row
 		self.options.append((id: "disabled", label: Strings.choose))
 
@@ -36,8 +32,6 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		self.label = label
 		self.selectedElementId = selected
 		self.name = name
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 		
 		if !selected.isEmpty {
 			self.textfieldElement.text = options[selected] as? String

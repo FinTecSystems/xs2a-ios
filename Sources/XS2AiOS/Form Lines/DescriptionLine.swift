@@ -5,23 +5,16 @@ class DescriptionLine: UIViewController, FormLine, OpenLinkDelegate {
 	
 	private let label = UILabel.makeInteractive()
 
-	let multiFormName: String?
-	let multiFormValue: String?
-
 	/**
 	 - Parameters:
 	   - text: The text for the description
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(text: String, multiFormName: String?, multiFormValue: String?) {
+	init(text: String) {
 		self.label.attributedText = constructLabelString(stringToTest: text.trimmingCharacters(in: .whitespacesAndNewlines))
 		self.label.numberOfLines = 0
 		self.label.adjustsFontSizeToFitWidth = true
 		self.label.isUserInteractionEnabled = true
-		
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
+
 		super.init(nibName: nil, bundle: nil)
 	}
 	

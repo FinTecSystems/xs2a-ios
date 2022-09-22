@@ -16,7 +16,6 @@ enum FormLineTypes: String {
 	case radio
 	case flicker
 	case hidden
-	case multi
 	case image
 	case tabs
 	case logo
@@ -28,11 +27,8 @@ enum FormLineTypes: String {
  - Parameters:
    - json: The JSON from the backend response
    - indexOffset: Sometimes the function is called recursively, this lets us pass an offset so we can keep order
-   - multiFormName: When called recursively, this parameter passes the multi form name for every Form Line
-   - multiFormValue: When called recursively, this parameter passes the multi form value for every Form Line
 */
-func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil, multiFormValue: String? = nil) -> [FormLine] {
-	
+func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 	/// Set current WizardStep
 	if let wizardStep = json["callback"].string {
 		XS2AiOS.shared.currentStep = WizardStep(rawValue: wizardStep)
@@ -45,14 +41,11 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 	var formClasses: [FormLine] = []
 
 	if let formArray = form.array {
-		for formElement in formArray {
+		for (formElementIndex, formElement) in formArray.enumerated() {
 			if let elementType = FormLineTypes(rawValue: formElement["type"].stringValue) {
 				/**
-				The index to be used for the element to be decoded. Normally it is simply the index the element has in the formClasses array,
-				but in case of MultiForms, this function is called recursively and might get passed an offset.
-				*/
-				let formElementIndex = formClasses.count + indexOffset!
-
+				 Switch depending on form type.
+				 */
 				switch elementType {
 				case .text:
 					formClasses.append(
@@ -65,9 +58,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							value: formElement["value"].stringValue,
 							placeholder: formElement["placeholder"].stringValue,
 							index: formElementIndex,
-							isLoginCredential: formElement["login_credential"].boolValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							isLoginCredential: formElement["login_credential"].boolValue
 						)
 					)
 				case .select:
@@ -91,26 +82,20 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							options: optionsDic, label: formElement["label"].stringValue,
 							selected: formElement["selected"].stringValue,
 							name: formElement["name"].stringValue,
-							invalid: formElement["invalid"].boolValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							invalid: formElement["invalid"].boolValue
 						)
 					)
 				case .description:
 					formClasses.append(
 						DescriptionLine(
-							text: formElement["text"].stringValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							text: formElement["text"].stringValue
 						)
 					)
 				case .submit:
 					formClasses.append(
 						SubmitLine(
 							label: formElement["label"].stringValue,
-							actionType: .submit,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							actionType: .submit
 						)
 					)
 					
@@ -118,27 +103,21 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 						formClasses.append(
 							SubmitLine(
 								label: formElement["back"].stringValue,
-								actionType: .back,
-								multiFormName: multiFormName,
-								multiFormValue: multiFormValue
+								actionType: .back
 							)
 						)
 					}
 				case .restart:
 					formClasses.append(
 						RestartLine(
-							label: formElement["label"].stringValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							label: formElement["label"].stringValue
 						)
 					)
 				case .abort:
 					formClasses.append(
 						SubmitLine(
 							label: formElement["label"].stringValue,
-							actionType: .abort,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							actionType: .abort
 						)
 					)
 				case .paragraph:
@@ -146,9 +125,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 						ParagraphLine(
 							title: formElement["title"].stringValue,
 							text: formElement["text"].stringValue,
-							severity: Severity(rawValue: formElement["severity"].stringValue) ?? .none,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							severity: Severity(rawValue: formElement["severity"].stringValue) ?? .none
 						)
 					)
 				case .password:
@@ -160,9 +137,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							placeholder: formElement["placeholder"].stringValue,
 							invalid: formElement["invalid"].boolValue,
 							index: formElementIndex,
-							isLoginCredential: formElement["login_credential"].boolValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							isLoginCredential: formElement["login_credential"].boolValue
 						)
 					)
 				case .captcha:
@@ -173,18 +148,14 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							imageData: formElement["data"].stringValue,
 							placeholder: formElement["placeholder"].stringValue,
 							invalid: formElement["invalid"].boolValue,
-							index: formElementIndex,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							index: formElementIndex
 						)
 					)
 				case .redirect:
 					formClasses.append(
 						RedirectLine(
 							label: formElement["label"].stringValue,
-							url: formElement["url"].stringValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							url: formElement["url"].stringValue
 						)
 					)
 					
@@ -192,9 +163,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 						formClasses.append(
 							SubmitLine(
 								label: formElement["back"].stringValue,
-								actionType: .back,
-								multiFormName: multiFormName,
-								multiFormValue: multiFormValue
+								actionType: .back
 							)
 						)
 					}
@@ -202,9 +171,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 					formClasses.append(
 						HiddenLine(
 							name: formElement["name"].stringValue,
-							value: formElement["value"].stringValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							value: formElement["value"].stringValue
 						)
 					)
 				case .checkbox:
@@ -214,9 +181,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							checked: formElement["checked"].boolValue,
 							name: formElement["name"].stringValue,
 							disabled: formElement["disabled"].boolValue,
-							isLoginCredential: formElement["name"].stringValue == "privacy_policy",
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							isLoginCredential: formElement["name"].stringValue == "privacy_policy"
 						)
 					)
 				case .flicker:
@@ -233,38 +198,9 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							code: intArray,
 							label: formElement["label"].stringValue,
 							invalid: formElement["invalid"].boolValue,
-							index: formElementIndex,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							index: formElementIndex
 						)
 					)
-				case .multi:
-					formClasses.append(
-						MultiFormController(
-							name: formElement["name"].stringValue,
-							selectedMultiFormValue: formElement["selected"].stringValue,
-							forms: formElement["forms"].arrayValue
-						)
-					)
-					
-					/**
-					In order to assign the correct indices for the subform elements, we carry over the current index
-					*/
-					var indexOffset = formElementIndex + 1
-
-					for multiForm in formElement["forms"].arrayValue.enumerated() {
-						/// For every sub-form we recursively call this function again and attach the form lines in order
-						let decodedFormClasses = decodeJSON(
-							json: multiForm.element,
-							indexOffset: indexOffset,
-							multiFormName: formElement["name"].stringValue,
-							multiFormValue: multiForm.element["value"].stringValue
-						)
-						
-						formClasses.append(contentsOf: decodedFormClasses)
-						/// Recalculate the offset based on how many elements have been added in this iteration
-						indexOffset += decodedFormClasses.count
-					}
 				case .radio:
 					var formattedRadioOptions: [(label: String, disabled: Bool)] = []
 					for option in formElement["options"].arrayValue.enumerated() {
@@ -290,25 +226,19 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 							label: formElement["label"].stringValue,
 							checked: formElement["checked"].intValue,
 							name: formElement["name"].stringValue,
-							options: formattedRadioOptions,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							options: formattedRadioOptions
 						)
 					)
 				case .autosubmit:
 					formClasses.append(
 						AutosubmitLine(
-							interval: formElement["interval"].intValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							interval: formElement["interval"].intValue
 						)
 					)
 				case .image:
 					formClasses.append(
 						ImageLine(
-							data: formElement["data"].stringValue,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							data: formElement["data"].stringValue
 						)
 					)
 				case .tabs:
@@ -322,9 +252,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0, multiFormName: String? = nil,
 					formClasses.append(
 						TabLine(
 							selected: formElement["selected"].stringValue,
-							tabs: tabsDic,
-							multiFormName: multiFormName,
-							multiFormValue: multiFormValue
+							tabs: tabsDic
 						)
 					)
 				case .logo:

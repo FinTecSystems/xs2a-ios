@@ -17,8 +17,6 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	Example: `[[1, 0, 1, 0, 1],[0, 0, 1, 1, 0], ...]`
 	*/
 	private let code: Array<Array<Int>>
-	let multiFormName: String?
-	let multiFormValue: String?
 
 	var flickerContainer: [UIView] = []
 	private var flickerAlignment: FlickerAlignment = .horizontal
@@ -37,15 +35,11 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	   - label: The label for the input element
 	   - invalid:If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int) {
 		self.name = name
 		self.code = code
 		self.index = index
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 
 		labelElement.text = label
 		super.init(nibName: nil, bundle: nil)

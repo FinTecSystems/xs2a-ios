@@ -3,19 +3,14 @@ import UIKit
 class ImageLine: UIViewController, FormLine {
 	var actionDelegate: ActionDelegate?
 	
-	let multiFormName: String?
-	let multiFormValue: String?
-	
 	private var imageElement: UIImage
 	private var imageView: UIImageView
 	
 	/**
 	 - Parameters:
 	   - data: The base64 encoded image data
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(data: String, multiFormName: String?, multiFormValue: String?) {
+	init(data: String) {
 		imageView = UIImageView()
 		
 		if let base64ImageData = imageForBase64String(data) {
@@ -23,9 +18,6 @@ class ImageLine: UIViewController, FormLine {
 		} else {
 			imageElement = UIImage()
 		}
-		
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 		
 		super.init(nibName: nil, bundle: nil)
 	}

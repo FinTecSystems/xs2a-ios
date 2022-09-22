@@ -5,24 +5,18 @@ class SubmitLine: UIViewController, FormLine {
 
 	private let button: UIButton
 	private let actionType: XS2AButtonType
-
-	let multiFormName: String?
-	let multiFormValue: String?
 	
 	/**
 	 - Parameters:
 	   - label: The label for this submit line
 	   - actionType: The type of action for this submit line (the action submitted when tapped)
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(label: String, actionType: XS2AButtonType, multiFormName: String?, multiFormValue: String?) {
+	init(label: String, actionType: XS2AButtonType) {
 		button = UIButton.make(buttonType: actionType)
 		button.setTitle(label, for: .normal)
 
 		self.actionType = actionType
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
+
 		super.init(nibName: nil, bundle: nil)
 		
 		/// Attach buttonTapped function to the button

@@ -8,8 +8,6 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 
 	let index: Int
 	let isLoginCredential: Bool
-	let multiFormName: String?
-	let multiFormValue: String?
 
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement = Textfield()
@@ -23,10 +21,8 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - isLoginCredential: If this field is a login credential
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, isLoginCredential: Bool, multiFormName: String?, multiFormValue: String?) {
+	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, isLoginCredential: Bool) {
 		self.name = name
 		self.labelElement.text = label
 		self.disabled = disabled
@@ -38,8 +34,6 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 				NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.placeholderColor
 			]
 		)
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 		
 		super.init(nibName: nil, bundle: nil)
 

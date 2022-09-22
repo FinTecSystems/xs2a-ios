@@ -13,9 +13,6 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 	private var severity: Severity
 	private let paragraphTitle: String
 	private let paragraphText: String
-	
-	let multiFormName: String?
-	let multiFormValue: String?
 
 	private let titleLabel = UILabel.makeInteractive()
 	private let textLabel = UILabel.makeInteractive()
@@ -25,15 +22,11 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 	   - title: The title of this paragraph
 	   - text: The text of this paragraph
 	   - severity: The severity of this paragraph
-	   - multiFormName: The name of the multi form this element is part of (if any)
-	   - multiFormValue: The value of the sub form this element is part of (if any)
 	*/
-	init(title: String, text: String, severity: Severity, multiFormName: String?, multiFormValue: String?) {
+	init(title: String, text: String, severity: Severity) {
 		self.paragraphTitle = title
 		self.paragraphText = text
 		self.severity = severity
-		self.multiFormName = multiFormName
-		self.multiFormValue = multiFormValue
 
 		titleLabel.numberOfLines = 0
 		titleLabel.adjustsFontSizeToFitWidth = true

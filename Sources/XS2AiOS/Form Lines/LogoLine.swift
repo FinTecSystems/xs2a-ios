@@ -4,8 +4,6 @@ import SafariServices
 class LogoLine: UIViewController, FormLine {
 	/// Static FormLine Element, protocol variables will never be non-nil for LogoLine
 	var actionDelegate: ActionDelegate? = nil
-	let multiFormName: String? = nil
-	let multiFormValue: String? = nil
 	
 	/// Function called when the logo is tapped
 	/// Opens the imprint information
