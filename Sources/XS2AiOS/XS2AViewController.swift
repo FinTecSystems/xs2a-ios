@@ -688,7 +688,18 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		/// Set back to regular inset
 		scrollView.contentInset = .zero
 	}
-	
+
+	/// Tells the server to go one step back and calls `backButtonAction` if supplied but only if a back button is present.
+	public func goBack() {
+		if !backButtonIsPresent { return }
+		sendAction(actionType: .back, withLoadingIndicator: false, additionalPayload: nil)
+	}
+
+	/// Returns `true` if a back button is present on the current form.
+	public var backButtonIsPresent: Bool {
+		XS2AiOS.shared.backButtonIsPresent
+	}
+
 	/// Function called when the user tries to dismiss this ViewController
 	public func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
 		showAbortAlert()
