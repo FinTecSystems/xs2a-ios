@@ -98,8 +98,8 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							actionType: .submit
 						)
 					)
-					
-					if formElement["back"].string != nil {
+
+					if XS2AiOS.shared.configuration.enableBackButton && formElement["back"].string != nil {
 						formClasses.append(
 							SubmitLine(
 								label: formElement["back"].stringValue,
@@ -107,6 +107,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							)
 						)
 					}
+					XS2AiOS.shared.backButtonIsPresent = formElement["back"].string != nil
 				case .restart:
 					formClasses.append(
 						RestartLine(
@@ -159,7 +160,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 						)
 					)
 					
-					if formElement["back"].string != nil {
+					if XS2AiOS.shared.configuration.enableBackButton && formElement["back"].string != nil {
 						formClasses.append(
 							SubmitLine(
 								label: formElement["back"].stringValue,
@@ -167,6 +168,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							)
 						)
 					}
+					XS2AiOS.shared.backButtonIsPresent = formElement["back"].string != nil
 				case .hidden:
 					formClasses.append(
 						HiddenLine(

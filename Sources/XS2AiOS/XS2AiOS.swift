@@ -9,7 +9,8 @@ public class XS2AiOS {
 	public let loadingStateProvider: LoadingStateProvider
 	public let keychain: Keychain
 	let apiService: APIService
-	
+	var backButtonIsPresent: Bool = false
+
 	public var currentStep: WizardStep? {
 		didSet {
 			XS2AiOS.shared.configuration.onStepChanged(currentStep)
@@ -79,13 +80,15 @@ extension XS2AiOS {
 		var onStepChanged: (WizardStep?) -> Void
 		var baseURL: String
 		var language: Language?
+		var enableBackButton: Bool
 		
 		public init(
 			wizardSessionKey: String,
 			backButtonAction: @escaping () -> Void = {},
 			onStepChanged: @escaping (WizardStep?) -> Void = {_ in },
 			baseURL: String = "https://api.xs2a.com/jsonp",
-			language: Language? = nil
+			language: Language? = nil,
+			enableBackButton: Bool = true
 		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.permissionToStoreCredentials = false
@@ -97,6 +100,7 @@ extension XS2AiOS {
 			if let language = language {
 				self.language = language
 			}
+			self.enableBackButton = enableBackButton
 		}
 	}
 	
