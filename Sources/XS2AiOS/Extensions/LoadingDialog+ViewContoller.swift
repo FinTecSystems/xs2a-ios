@@ -17,6 +17,10 @@ extension UIViewController {
 }
 
 class XS2ALoadingStateProvider: LoadingStateProvider {
+	var loadingIndicatorView: LoadingView {
+		NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: XS2AiOS.shared.styleProvider.tintColor)
+	}
+
 	func showLoadingIndicator(title: String, message: String, over viewController: UIViewController) {
 		ProgressDialog.alert = UIAlertController(title: title.isEmpty ? nil : title, message: message, preferredStyle: .alert)
 		
@@ -77,4 +81,7 @@ class XS2ALoadingStateProvider: LoadingStateProvider {
 			ProgressDialog.indicatorView.stopAnimating()
 		}
 	}
+}
+
+extension NVActivityIndicatorView: LoadingView {
 }
