@@ -169,6 +169,25 @@ let config = XS2AiOS.Configuration(
 )
 ```
 
+#### Implementing Custom Back Button
+
+For certain use cases it is necessary to not show the default back button inside the form, but instead use a different custom element as
+the back button, which functionally should of course behave the same. This is possible by setting `enableBackButton` to `false` in the config:
+
+```swift
+let config = XS2AiOS.Configuration(
+  // ...
+  enableBackButton: false,
+)
+```
+
+This will not show the back button in the XS2AViewController anymore. You should then built your own button which can then call
+`goBack()` on the XS2AViewController:
+
+```swift
+self.xs2aViewController.goBack()
+```
+
 ### Styling API
 
 You can style the view according to your needs. Please note, that dark mode is overriden inside the module, but you can of course simply define another style provider for dark mode.
