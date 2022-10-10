@@ -174,6 +174,8 @@ let config = XS2AiOS.Configuration(
 For certain use cases it is necessary to not show the default back button inside the form, but instead use a different custom element as
 the back button, which functionally should of course behave the same. This is possible by setting `enableBackButton` to `false` in the config:
 
+> Only disable the back button if you are going to implement your own back button!
+
 ```swift
 let config = XS2AiOS.Configuration(
   // ...
