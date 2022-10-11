@@ -196,7 +196,11 @@ You can style the view according to your needs. Please note, that dark mode is o
 
 #### Custom Loading Animation
 
-You can overwrite the default loading animation by building your own logic that implements the `LoadingStateProvider` protocol.
+You can overwrite the default loading animation by building your own logic that implements the `LoadingStateProvider` protocol. 
+
+`showLoadingIndicator` and `hideLoadingIndicator` methods displays full screen loading state over provided view controller.
+The `loadingIndicatorView` provides view that is embedded in `AutosubmitLine` Form component.
+
 You can then pass your class via the configure method:
 
 ```swift
@@ -207,6 +211,18 @@ class MyCustomLoadingProvider: LoadingStateProvider {
 
   func hideLoadingIndicator(over viewController: UIViewController) {
     // Logic that hides the loading animation
+  }
+
+  var loadingIndicatorView: LoadingView {
+    // Returns UIView that displays the loading, for example:
+    // NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: .blue)
+    return MyCustomLoadingView()
+  }
+
+  // UIView that implements the LoadingView protocol
+  class MyCustomLoadingView: LoadingView {
+    func startAnimating() { ... }   
+    func stopAnimating() { ... }
   }
 }
 
