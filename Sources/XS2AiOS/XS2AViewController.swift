@@ -177,6 +177,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				
 			}
 			
+			XS2AiOS.shared.configuration.onRender()
+			
 			self.checkForStoredCredentials(payload: formElements) { prefilled in
 				if prefilled {
 					self.sendAction(actionType: .submit)

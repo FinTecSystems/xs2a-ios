@@ -155,19 +155,43 @@ func backButtonTapped() {
 }
 ```
 
-If you want to be notified when the step of the session has changed, you can pass a `onStepChanged` callback with the configuration:
+For being notified about a change of the current step, there are two ways:
 
-```swift
-func stepHasChanged(step: WizardStep?) {
-  // session step has changed
-}
+1. Option 1: Being notified when the step actually changes, meaning the session advances to the next step:
 
-let config = XS2AiOS.Configuration(
-  wizardSessionKey: key,
-  backButtonAction: backButtonTapped,
-  onStepChanged: stepHasChanged
-)
-```
+    You can pass a `onStepChanged` callback with the configuration:
+    
+    ```swift
+    func stepHasChanged(step: WizardStep?) {
+      // session step has changed
+    }
+    
+    let config = XS2AiOS.Configuration(
+      wizardSessionKey: key,
+      backButtonAction: backButtonTapped,
+      onStepChanged: stepHasChanged
+    )
+    ```
+
+2. Option 2: Being notified everytime a new form step renders:
+
+    You can pass a `onRender` callback with the configuration:
+    
+    ```swift
+    func onRender(step: WizardStep?) {
+      // a new form has been rendered
+    }
+    
+    let config = XS2AiOS.Configuration(
+      wizardSessionKey: key,
+      backButtonAction: backButtonTapped,
+      onRender: onRender
+    )
+    ```
+    
+The difference between these two approaches is relevant depending on if you want to be callbacked on validation errors as well. For example, when the session is 
+currently in the `login` step and the user submits wrong credentials, the response will still be the login form with an error, meaning it is still the `login` step. However, 
+option 1 above will not be called in this case, because the sessions did not advance. Option 2 however will be called, as it is always called when a new form is rendered.
 
 #### Implementing Custom Back Button
 

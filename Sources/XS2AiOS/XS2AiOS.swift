@@ -16,12 +16,6 @@ public class XS2AiOS {
 			XS2AiOS.shared.configuration.onStepChanged(currentStep)
 		}
 	}
-	
-	public var currentStepNormalized: WizardStep? {
-		didSet {
-			XS2AiOS.shared.configuration.onRender(currentStepNormalized)
-		}
-	}
 
 	/**
 	 - Parameters:
@@ -36,7 +30,6 @@ public class XS2AiOS {
 		self.apiService = APIService(wizardSessionKey: configuration.wizardSessionKey, baseURL: configuration.baseURL)
 		
 		self.currentStep = nil
-		self.currentStepNormalized = nil
 		self.keychain = Keychain(service: "\(String(describing: Bundle.main.bundleIdentifier))_XS2A")
 	}
 	
@@ -85,7 +78,7 @@ extension XS2AiOS {
 		var provider: String?
 		var backButtonAction: () -> Void
 		var onStepChanged: (WizardStep?) -> Void
-		var onRender: (WizardStep?) -> Void
+		var onRender: () -> Void
 		var baseURL: String
 		var language: Language?
 		var enableBackButton: Bool
@@ -94,7 +87,7 @@ extension XS2AiOS {
 			wizardSessionKey: String,
 			backButtonAction: @escaping () -> Void = {},
 			onStepChanged: @escaping (WizardStep?) -> Void = {_ in },
-			onRender: @escaping (WizardStep?) -> Void = {_ in },
+			onRender: @escaping () -> Void = { },
 			baseURL: String = "https://api.xs2a.com/jsonp",
 			language: Language? = nil,
 			enableBackButton: Bool = true

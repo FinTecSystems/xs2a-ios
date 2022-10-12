@@ -34,10 +34,6 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 		XS2AiOS.shared.currentStep = WizardStep(rawValue: wizardStep)
 	}
 	
-	if let wizardStepNormalized = json["step"].string {
-		XS2AiOS.shared.currentStepNormalized = WizardStep(rawValue: wizardStepNormalized)
-	}
-	
 	/// "form" is an array of multiple form lines to be rendered
 	let form = json["form"]
 
