@@ -178,7 +178,7 @@ For being notified about a change of the current step, there are two ways:
     You can pass a `onRender` callback with the configuration:
     
     ```swift
-    func onRender(step: WizardStep?) {
+    func onRender() {
       // a new form has been rendered
     }
     
