@@ -3,6 +3,7 @@ import KeychainAccess
 
 public class XS2AiOS {
 	private static var _shared: XS2AiOS?
+	internal var currentState: String?
 
 	public var configuration: Configuration
 	public let styleProvider: StyleProvider
@@ -78,7 +79,6 @@ extension XS2AiOS {
 		var provider: String?
 		var backButtonAction: () -> Void
 		var onStepChanged: (WizardStep?) -> Void
-		var onRender: () -> Void
 		var baseURL: String
 		var language: Language?
 		var enableBackButton: Bool
@@ -87,7 +87,6 @@ extension XS2AiOS {
 			wizardSessionKey: String,
 			backButtonAction: @escaping () -> Void = {},
 			onStepChanged: @escaping (WizardStep?) -> Void = {_ in },
-			onRender: @escaping () -> Void = { },
 			baseURL: String = "https://api.xs2a.com/jsonp",
 			language: Language? = nil,
 			enableBackButton: Bool = true
@@ -97,7 +96,6 @@ extension XS2AiOS {
 			self.provider = nil
 			self.backButtonAction = backButtonAction
 			self.onStepChanged = onStepChanged
-			self.onRender = onRender
 			self.baseURL = baseURL
 			
 			if let language = language {

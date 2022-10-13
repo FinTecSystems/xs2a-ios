@@ -177,8 +177,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				
 			}
 			
-			XS2AiOS.shared.configuration.onRender()
-			
 			self.checkForStoredCredentials(payload: formElements) { prefilled in
 				if prefilled {
 					self.sendAction(actionType: .submit)
@@ -700,6 +698,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Returns `true` if a back button is present on the current form.
 	public var backButtonIsPresent: Bool {
 		XS2AiOS.shared.backButtonIsPresent
+	}
+	
+	/// Returns `true` if the current form is the bank search, `false` otherwise
+	public func isBankSearch() -> Bool {
+		return XS2AiOS.shared.currentState == "bank"
+	}
+
+	/// Returns `true` if the current form is the first login screen, `false` otherwise
+	public func isLogin() -> Bool {
+		return XS2AiOS.shared.currentState == "login"
 	}
 
 	/// Function called when the user tries to dismiss this ViewController

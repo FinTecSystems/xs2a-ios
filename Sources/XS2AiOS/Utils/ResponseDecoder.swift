@@ -29,6 +29,11 @@ enum FormLineTypes: String {
    - indexOffset: Sometimes the function is called recursively, this lets us pass an offset so we can keep order
 */
 func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
+	/// Set the normalized state
+	if let wizardState = json["step"].string {
+		XS2AiOS.shared.currentState = wizardState
+	}
+	
 	/// Set current WizardStep
 	if let wizardStep = json["callback"].string {
 		XS2AiOS.shared.currentStep = WizardStep(rawValue: wizardStep)
