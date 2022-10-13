@@ -155,43 +155,31 @@ func backButtonTapped() {
 }
 ```
 
-For being notified about a change of the current step, there are two ways:
+If you want to be notified when the step of the session has changed, you can pass a `onStepChanged` callback with the configuration:
 
-1. Option 1: Being notified when the step actually changes, meaning the session advances to the next step:
+```swift
+func stepHasChanged(step: WizardStep?) {
+  // session step has changed
+}
 
-    You can pass a `onStepChanged` callback with the configuration:
-    
-    ```swift
-    func stepHasChanged(step: WizardStep?) {
-      // session step has changed
-    }
-    
-    let config = XS2AiOS.Configuration(
-      wizardSessionKey: key,
-      backButtonAction: backButtonTapped,
-      onStepChanged: stepHasChanged
-    )
-    ```
+let config = XS2AiOS.Configuration(
+  wizardSessionKey: key,
+  backButtonAction: backButtonTapped,
+  onStepChanged: stepHasChanged
+)
+```
 
-2. Option 2: Being notified everytime a new form step renders:
+In case you need to know if you the session is on the bank search screen or on the very first login screen, there are two methods
+available:
 
-    You can pass a `onRender` callback with the configuration:
-    
-    ```swift
-    func onRender() {
-      // a new form has been rendered
-    }
-    
-    let config = XS2AiOS.Configuration(
-      wizardSessionKey: key,
-      backButtonAction: backButtonTapped,
-      onRender: onRender
-    )
-    ```
-    
-The difference between these two approaches is relevant depending on if you want to be callbacked on validation errors as well. For example, when the session is 
-currently in the `login` step and the user submits wrong credentials, the response will still be the login form with an error, meaning it is still the `login` step. However, 
-option 1 above will not be called in this case, because the sessions did not advance. Option 2 however will be called, as it is always called when a new form is rendered.
+```swift
+// Will return true/false depending on if the session is on the bank search screen
+self.xs2aViewController.isBankSearch()
+
+// Will return true/false depending on if the session is on *first* login screen,
+// will return false if on any additional login screens
+self.xs2aViewController.isLogin()
+```
 
 #### Implementing Custom Back Button
 
