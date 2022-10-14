@@ -14,7 +14,8 @@ An [Android SDK](https://github.com/FinTecSystems/xs2a-android) and a [React Nat
 
 
 ### Demo Screencast
-<img src="https://demo.xs2a.com/img/ios-screencast.webp" alt="Screencast Demo" height="400"/>
+
+A demo screencast of the test bank login flow can be found [here](https://demo.xs2a.com/img/ios-screencast.webp).
 
 
 ## How to Integrate
