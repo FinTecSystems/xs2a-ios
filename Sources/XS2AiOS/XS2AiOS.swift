@@ -3,6 +3,7 @@ import KeychainAccess
 
 public class XS2AiOS {
 	private static var _shared: XS2AiOS?
+	internal var currentState: String?
 
 	public var configuration: Configuration
 	public let styleProvider: StyleProvider

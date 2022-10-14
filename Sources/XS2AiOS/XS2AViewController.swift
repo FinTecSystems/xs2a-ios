@@ -699,6 +699,16 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	public var backButtonIsPresent: Bool {
 		XS2AiOS.shared.backButtonIsPresent
 	}
+	
+	/// Returns `true` if the current form is the bank search, `false` otherwise
+	public func isBankSearch() -> Bool {
+		return XS2AiOS.shared.currentState == "bank"
+	}
+
+	/// Returns `true` if the current form is the first login screen, `false` otherwise
+	public func isLogin() -> Bool {
+		return XS2AiOS.shared.currentState == "login"
+	}
 
 	/// Function called when the user tries to dismiss this ViewController
 	public func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {

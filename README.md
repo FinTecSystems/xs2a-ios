@@ -169,6 +169,18 @@ let config = XS2AiOS.Configuration(
 )
 ```
 
+In case you need to know if you the session is on the bank search screen or on the very first login screen, there are two methods
+available:
+
+```swift
+// Will return true/false depending on if the session is on the bank search screen
+self.xs2aViewController.isBankSearch()
+
+// Will return true/false depending on if the session is on *first* login screen,
+// will return false if on any additional login screens
+self.xs2aViewController.isLogin()
+```
+
 #### Implementing Custom Back Button
 
 For certain use cases it is necessary to not show the default back button inside the form, but instead use a different custom element as
