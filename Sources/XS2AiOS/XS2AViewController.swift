@@ -153,7 +153,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				self.addChild(currentFormElement)
 				currentFormElement.didMove(toParent: self)
 				
-				if (shouldAnimate && containsAutoSubmit == false {
+				if (shouldAnimate && containsAutoSubmit == false) {
 					initializedView.alpha = 0
 					initializedView.isHidden = true
 				}
