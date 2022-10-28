@@ -137,9 +137,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 		hideElements {
 			for (_, currentFormElement) in formElements.enumerated() {
-				/// A Boolean indicating whether the Element should be added invisible
-				var initializeAsHidden: Bool = false
-
 				/// We set the actionDelegate to this ViewController which handles all actions
 				currentFormElement.actionDelegate = self
 				
@@ -156,7 +153,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				self.addChild(currentFormElement)
 				currentFormElement.didMove(toParent: self)
 				
-				if (shouldAnimate || initializeAsHidden) && containsAutoSubmit == false {
+				if (shouldAnimate && containsAutoSubmit == false {
 					initializedView.alpha = 0
 					initializedView.isHidden = true
 				}
@@ -164,7 +161,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				self.stackView.addArrangedSubview(initializedView)
 				self.view.layoutIfNeeded()
 
-				if shouldAnimate == true && initializeAsHidden == false && containsAutoSubmit == false {
+				if shouldAnimate == true && containsAutoSubmit == false {
 					UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: .curveEaseInOut) {
 						initializedView.isHidden = false
 						initializedView.alpha = 1
