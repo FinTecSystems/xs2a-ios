@@ -47,9 +47,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	@objc func getAutocompleteResults() {
-		guard let valueToSearch = self.searchField.text else {
-			return
-		}
+		let valueToSearch = self.searchField.text ?? "";
 		
 		setElementVisibility()
 		
@@ -256,5 +254,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 			stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
 			resultTable.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height),
 		])
+		
+		getAutocompleteResults()
 	}
 }
