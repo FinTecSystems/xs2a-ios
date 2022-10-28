@@ -22,7 +22,7 @@ A demo screencast of the test bank login flow can be found [here](https://demo.x
 
 ### Requirements
 
-- iOS >= 10.0
+- iOS >= 11.0
 
 ### Estimated Binary Size
 

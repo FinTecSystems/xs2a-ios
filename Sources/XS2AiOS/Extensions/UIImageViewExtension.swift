@@ -6,51 +6,27 @@ import CoreGraphics
 /// By User Michał Kwiecień https://stackoverflow.com/users/1189244/micha%c5%82-kwiecie%c5%84
 extension UIImage {
 	func fromPDF(data: Data) -> UIImage? {
-		if #available(iOS 11.0, *) {
-			guard
-				let pdf = PDFDocument(data: data),
-				let pdfPage = pdf.page(at: 0),
-				let pageRef = pdfPage.pageRef
-			else {
-				return nil
-			}
-			
-			let pageRect = pageRef.getBoxRect(.mediaBox)
-			let renderer = UIGraphicsImageRenderer(size: pageRect.size)
-			let img = renderer.image { ctx in
-				UIColor.clear.set()
-				ctx.fill(pageRect)
-
-				ctx.cgContext.translateBy(x: 0.0, y: pageRect.size.height)
-				ctx.cgContext.scaleBy(x: 1.0, y: -1.0)
-
-				ctx.cgContext.drawPDFPage(pageRef)
-			}
-
-			return img
-		} else {
-			guard
-				let provider = CGDataProvider(data: data as CFData),
-				let document = CGPDFDocument(provider),
-				let pageRef = document.page(at: 1)
-			else {
-				return nil
-			}
-			
-			let pageRect = pageRef.getBoxRect(.mediaBox)
-			let renderer = UIGraphicsImageRenderer(size: pageRect.size)
-			let img = renderer.image { ctx in
-				UIColor.clear.set()
-				ctx.fill(pageRect)
-
-				ctx.cgContext.translateBy(x: 0.0, y: pageRect.size.height)
-				ctx.cgContext.scaleBy(x: 1.0, y: -1.0)
-
-				ctx.cgContext.drawPDFPage(pageRef)
-			}
-
-			return img
+		guard
+			let pdf = PDFDocument(data: data),
+			let pdfPage = pdf.page(at: 0),
+			let pageRef = pdfPage.pageRef
+		else {
+			return nil
 		}
+		
+		let pageRect = pageRef.getBoxRect(.mediaBox)
+		let renderer = UIGraphicsImageRenderer(size: pageRect.size)
+		let img = renderer.image { ctx in
+			UIColor.clear.set()
+			ctx.fill(pageRect)
+
+			ctx.cgContext.translateBy(x: 0.0, y: pageRect.size.height)
+			ctx.cgContext.scaleBy(x: 1.0, y: -1.0)
+
+			ctx.cgContext.drawPDFPage(pageRef)
+		}
+
+		return img
 	}
 }
 

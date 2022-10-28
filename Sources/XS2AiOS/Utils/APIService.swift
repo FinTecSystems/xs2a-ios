@@ -74,7 +74,6 @@ class APIService {
 				completion(.finish)
 			}
 		} else {
-//			print(result)
 			if result["callbackParams"].array?.isEmpty == false {
 				let callbackParam = result["callbackParams"].arrayValue[0]
 				if let callbackDic = callbackParam.dictionaryObject {

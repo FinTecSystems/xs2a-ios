@@ -78,9 +78,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	/// Deliberately has no interaction allowed.
 	private lazy var internalContext: LAContext = {
 		let mainContext = LAContext()
-		if #available(iOS 11.0, *) {
-			mainContext.interactionNotAllowed = true
-		}
+		mainContext.interactionNotAllowed = true
 
 		return mainContext
 	}()
@@ -208,21 +206,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -sideSpacing),
 		])
 
-		if #available(iOS 11.0, *) {
-			NSLayoutConstraint.activate([
-				scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-				scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-				scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-				scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-			])
-		} else {
-			NSLayoutConstraint.activate([
-				scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-				scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-				scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-				scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			])
-		}
+		NSLayoutConstraint.activate([
+			scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+			scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+			scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+		])
 	}
 	
 	/// Function for serializing the current form
@@ -489,7 +478,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 							.set(value, key: key)
 					} catch let error {
 						print(error)
-						// Error handling if needed...
 					}
 
 					dispatchGroup.leave()
@@ -628,16 +616,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 			self.sendAction(actionType: .linkAutosubmit, withLoadingIndicator: true, additionalPayload: payload)
 		} else if UIApplication.shared.canOpenURL(url) == true {
-			if #available(iOS 11.0, *) {
-				let config = SFSafariViewController.Configuration()
-				config.barCollapsingEnabled = false
-				config.entersReaderIfAvailable = true
-				let safariVC = SFSafariViewController(url: url, configuration: config)
-				self.present(safariVC, animated: true, completion: nil)
-			} else {
-				let safariVC = SFSafariViewController(url: url)
-				self.present(safariVC, animated: true, completion: nil)
-			}
+			let config = SFSafariViewController.Configuration()
+			config.barCollapsingEnabled = false
+			config.entersReaderIfAvailable = true
+			let safariVC = SFSafariViewController(url: url, configuration: config)
+			self.present(safariVC, animated: true, completion: nil)
 		}
 	}
 
