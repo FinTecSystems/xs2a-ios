@@ -45,9 +45,14 @@ enum Strings {
 
 extension String {
 	static func localized(key: String) -> String {
-		let path = Bundle.current.path(forResource: XS2AiOS.shared.configuration.language.rawValue, ofType: "lproj")
-		let bundle = Bundle(path: path!)
+		guard let path = Bundle.current.path(forResource: XS2AiOS.shared.configuration.language.rawValue, ofType: "lproj") else {
+			fatalError("Bundle path not found for resource \(XS2AiOS.shared.configuration.language.rawValue)")
+		}
+		
+		guard let bundle = Bundle(path: path) else {
+			fatalError("Bundle not found for path \(path)")
+		}
 
-		return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
+		return NSLocalizedString(key, tableName: nil, bundle: bundle, value: "", comment: "")
 	}
 }
