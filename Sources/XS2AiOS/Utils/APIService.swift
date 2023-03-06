@@ -123,9 +123,7 @@ class APIService {
 			"client": "ios_sdk",
 		]
 		
-		if let language = XS2AiOS.shared.configuration.language {
-			payload["language"] = language.rawValue
-		}
+		payload["language"] = XS2AiOS.shared.configuration.language.rawValue
 
 		post(body: payload, completion: { result, error in
 			if let error = error {
@@ -143,17 +141,12 @@ class APIService {
 					return
 				}
 
-				if (XS2AiOS.shared.configuration.language == nil) {
-					/// The preferred localization of the client device
-					let deviceLanguage = String(Locale.preferredLanguages[0].prefix(2))
-
-					/// Check if current sessions language is not the device language and if we support the device language
-					if (languageFromServer != deviceLanguage && ["de", "en", "es", "fr", "it"].contains(deviceLanguage)) {
-						/// Language sent from server is not device language, but we know we support the device language, so lets change it
-						self.notifyServerOfLanguageChange(newLocalization: deviceLanguage, completion: completion)
-						
-						return
-					}
+				/// Check if current sessions language is not the client language
+				if (languageFromServer != XS2AiOS.shared.configuration.language.rawValue) {
+					/// Language sent from server is not client language, but we know we support the client language, so lets change it
+					self.notifyServerOfLanguageChange(newLocalization: XS2AiOS.shared.configuration.language.rawValue, completion: completion)
+					
+					return
 				}
 
 				self.responseHandler(result: result, completion: completion)
