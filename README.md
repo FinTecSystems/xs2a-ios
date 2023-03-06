@@ -71,7 +71,8 @@ The `XS2AViewController` will guide the customer through the process. After that
 let config = XS2AiOS.Configuration(
   wizardSessionKey: "YOUR_WIZARD_SESSION_KEY",
   // Use .de/.en/.fr/.es/.it to overwrite session language
-  // Default is device language
+  // Default is device language if part of supported languages,
+  // otherwise fallback to .en
   language: .en // (optional)
 )
 
