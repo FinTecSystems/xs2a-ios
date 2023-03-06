@@ -80,7 +80,7 @@ extension XS2AiOS {
 		var backButtonAction: () -> Void
 		var onStepChanged: (WizardStep?) -> Void
 		var baseURL: String
-		var language: Language?
+		var language: Language
 		var enableBackButton: Bool
 		
 		public init(
@@ -100,7 +100,14 @@ extension XS2AiOS {
 			
 			if let language = language {
 				self.language = language
+			} else if let deviceLanguage = Language(rawValue: String(Locale.preferredLanguages[0].prefix(2))) {
+				/// No language explicitly set but users device language is in our supported set of languages
+				self.language = deviceLanguage
+			} else {
+				self.language = .en
 			}
+
+
 			self.enableBackButton = enableBackButton
 		}
 	}
