@@ -93,8 +93,12 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	}
 	
 	func exposableFields() -> Dictionary<String, Any>? {
+		if (!checked) {
+			return [:]
+		}
+
 		return [
-			name: checked
+			name: "on"
 		]
 	}
 	
