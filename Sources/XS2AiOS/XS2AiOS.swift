@@ -82,6 +82,7 @@ extension XS2AiOS {
 		var baseURL: String
 		var language: Language
 		var enableBackButton: Bool
+		var withScrollView: Bool
 		
 		public init(
 			wizardSessionKey: String,
@@ -89,7 +90,8 @@ extension XS2AiOS {
 			onStepChanged: @escaping (WizardStep?) -> Void = {_ in },
 			baseURL: String = "https://api.xs2a.com/jsonp",
 			language: Language? = nil,
-			enableBackButton: Bool = true
+			enableBackButton: Bool = true,
+			withScrollView: Bool = true
 		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.permissionToStoreCredentials = false
@@ -97,6 +99,7 @@ extension XS2AiOS {
 			self.backButtonAction = backButtonAction
 			self.onStepChanged = onStepChanged
 			self.baseURL = baseURL
+			self.withScrollView = withScrollView
 			
 			if let language = language {
 				self.language = language
