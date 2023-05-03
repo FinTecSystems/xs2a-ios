@@ -83,6 +83,10 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		return mainContext
 	}()
 	
+	/// Bool to set whether to expose a UIScrollView (default)
+	/// or a UIView instead
+	private lazy var withScrollView: Bool = true
+	
 	/// Initializer called by host app
 	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
 		self.ApiService = xs2a.apiService
@@ -90,6 +94,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		super.init(nibName: nil, bundle: nil)
 
 		self.ApiService.notificationDelegate = self
+		self.withScrollView = xs2a.configuration.withScrollView
 
 	}
 	
@@ -106,7 +111,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			self.children.forEach({ $0.removeFromParent() })
 			self.hideLoadingIndicator()
 			completion()
-			
+			self.preferredContentSize = self.contentView.bounds.size
 			return
 		}
 		
@@ -118,10 +123,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				}
 			})
 			self.stackView.layoutIfNeeded()
+			self.preferredContentSize = .zero
 		} completion: { (_) in
 			self.children.forEach({ $0.removeFromParent() })
 			self.hideLoadingIndicator()
 			completion()
+			self.preferredContentSize = self.contentView.bounds.size
 		}
 	}
 	
@@ -169,7 +176,6 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				}
 				
 				self.stackView.addCustomSpacing(CGFloat(12), after: initializedView)
-				
 			}
 			
 			self.checkForStoredCredentials(payload: formElements) { prefilled in
@@ -190,24 +196,26 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			topPadding = 20
 		}
 		
+		if (withScrollView) {
+			NSLayoutConstraint.activate([
+				contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+				contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+				contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+				contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+				contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+				scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+				scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+				scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+				scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+			]);
+		}
+			
 		NSLayoutConstraint.activate([
-			contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-			contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-			contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-			contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-			contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 			stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topPadding),
-			stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
+			stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: withScrollView ? -50 : 0),
 			stackView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth),
 			stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideSpacing),
 			stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -sideSpacing),
-		])
-
-		NSLayoutConstraint.activate([
-			scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-			scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-			scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-			scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 		])
 	}
 	
@@ -434,8 +442,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 	}
 	
-    @available(iOS 11.3, *)
-    private func storeCredentials(payload: Dictionary<String, Any>? = [:], completion: @escaping () -> Void) {
+	@available(iOS 11.3, *)
+	private func storeCredentials(payload: Dictionary<String, Any>? = [:], completion: @escaping () -> Void) {
 		guard let payload = payload else {
 			return
 		}
@@ -810,8 +818,19 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		stackView.addArrangedSubview(blankView)
 
 		contentView.addSubview(stackView)
-		scrollView.addSubview(contentView)
-		view.addSubview(scrollView)
+		
+		if (withScrollView) {
+			scrollView.addSubview(contentView)
+			view.addSubview(scrollView)
+		} else {
+			view.addSubview(contentView)
+			
+			NSLayoutConstraint.activate([
+				contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+				contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+				contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+			])
+		}
 
 		setupLayout()
 
