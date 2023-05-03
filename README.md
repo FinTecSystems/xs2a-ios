@@ -73,7 +73,10 @@ let config = XS2AiOS.Configuration(
   // Use .de/.en/.fr/.es/.it to overwrite session language
   // Default is device language if part of supported languages,
   // otherwise fallback to .en
-  language: .en // (optional)
+  language: .en, // (optional)
+  // Boolean to control whether the exposes View from XS2AViewController
+  // is an UIScrollView (default) or an UIView.
+  withScrollView: true
 )
 
 // See the detailed Styling API below
