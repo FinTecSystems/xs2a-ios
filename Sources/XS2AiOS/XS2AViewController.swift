@@ -110,8 +110,8 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			})
 			self.children.forEach({ $0.removeFromParent() })
 			self.hideLoadingIndicator()
-            completion()
-            self.preferredContentSize = self.contentView.bounds.size
+			completion()
+			self.preferredContentSize = self.contentView.bounds.size
 			return
 		}
 		
@@ -123,12 +123,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				}
 			})
 			self.stackView.layoutIfNeeded()
-            self.preferredContentSize = .zero
+			self.preferredContentSize = .zero
 		} completion: { (_) in
 			self.children.forEach({ $0.removeFromParent() })
 			self.hideLoadingIndicator()
 			completion()
-            self.preferredContentSize = self.contentView.bounds.size
+			self.preferredContentSize = self.contentView.bounds.size
 		}
 	}
 	
@@ -209,14 +209,14 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 				scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 			]);
 		}
-            
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topPadding),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: withScrollView ? -50 : 0),
-            stackView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideSpacing),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -sideSpacing),
-        ])
+			
+		NSLayoutConstraint.activate([
+			stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topPadding),
+			stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: withScrollView ? -50 : 0),
+			stackView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth),
+			stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sideSpacing),
+			stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -sideSpacing),
+		])
 	}
 	
 	/// Function for serializing the current form
@@ -824,12 +824,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			view.addSubview(scrollView)
 		} else {
 			view.addSubview(contentView)
-            
-            NSLayoutConstraint.activate([
-                contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-                contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-                contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            ])
+			
+			NSLayoutConstraint.activate([
+				contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+				contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+				contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+			])
 		}
 
 		setupLayout()
