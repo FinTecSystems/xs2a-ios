@@ -16,6 +16,10 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 
 	private let button: UIButton
 	
+	private let validAppRedirectionUrls = [
+		"https://myaccount.ing.com/granting"
+	]
+	
 	/**
 	 - Parameters:
 	   - label: The button text of this redirect line
@@ -33,16 +37,29 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 		button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
 	}
 	
-	@objc func buttonTapped() {
+	/*
+	 Method that checks whether the redirect URL is in
+	 a list of supported URLs that have a dedicated app-to-app
+	 authentication flow.
+	 */
+	private func urlSupportsAppFlow() -> Bool {
+		var supportsAppFlow = false
+
+		for redirectionUrl in validAppRedirectionUrls {
+			if (self.url.contains(redirectionUrl)) {
+				supportsAppFlow = true
+				break
+			}
+		}
+		
+		return supportsAppFlow
+	}
+	
+	private func openInWebView() {
 		guard let urlToOpen = URL(string: url) else {
 			return
 		}
 
-		/// If the keyboard is still open, close it
-		view.superview?.endEditing(true)
-
-		triggerHapticFeedback(style: .light)
-		
 		let webview = WebViewController(url: urlToOpen)
 		webview.redirectActionDelegate = self
 		
@@ -50,6 +67,64 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 		let navigationController = UINavigationController(rootViewController: webview)
 		self.present(navigationController, animated: true, completion: nil)
 	}
+	
+	private func openInAppOrSystemBrowser() {
+		guard let urlToOpen = URL(string: url) else {
+			return
+		}
+		
+		UIApplication.shared.open(urlToOpen, options: [:], completionHandler: nil)
+	}
+	
+	@objc func buttonTapped() {
+		/// If the keyboard is still open, close it
+		view.superview?.endEditing(true)
+
+		triggerHapticFeedback(style: .light)
+		
+		if (urlSupportsAppFlow()) {
+			showAppOrBrowserDialog(
+				decidedForBrowserCallback: openInWebView,
+				decidedForAppCallback: openInAppOrSystemBrowser
+			)
+		} else {
+			openInWebView()
+		}
+	}
+	
+	private func showAppOrBrowserDialog(
+		decidedForBrowserCallback: @escaping () -> Void,
+		decidedForAppCallback: @escaping () -> Void
+	) {
+		let alert = UIAlertController(
+			title: "Authentifizierungs-Methode wählen",
+			message: "Wie möchtest du dich einloggen? Hast du die App deiner Bank installiert, wähle \"Banking App\", andernfalls \"Webseite\".",
+			preferredStyle: .alert
+		)
+		
+		alert.addAction(
+			UIAlertAction(
+				title: "Webseite",
+				style: .default,
+				handler: { action in
+					decidedForBrowserCallback()
+				}
+			)
+		)
+		
+		alert.addAction(
+			UIAlertAction(
+				title: "Banking App",
+				style: .default,
+				handler: { action in
+					decidedForAppCallback()
+				}
+			)
+		)
+		
+		self.present(alert, animated: true, completion: nil)
+	}
+	
 	
 	func sendAction(redirectActionType: RedirectActionTypes) {
 		actionDelegate?.sendAction(actionType: .redirect, withLoadingIndicator: true, additionalPayload: nil)
