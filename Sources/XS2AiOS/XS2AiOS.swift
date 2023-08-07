@@ -83,6 +83,7 @@ extension XS2AiOS {
 		var language: Language
 		var enableBackButton: Bool
 		var redirectDeepLink: String?
+		var withScrollView: Bool
 		
 		public init(
 			wizardSessionKey: String,
@@ -91,7 +92,8 @@ extension XS2AiOS {
 			baseURL: String = "https://api.xs2a.com/jsonp",
 			language: Language? = nil,
 			enableBackButton: Bool = true,
-			redirectDeepLink: String? = nil
+			redirectDeepLink: String? = nil,
+			withScrollView: Bool = true
 		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.permissionToStoreCredentials = false
@@ -100,6 +102,7 @@ extension XS2AiOS {
 			self.onStepChanged = onStepChanged
 			self.baseURL = baseURL
 			self.redirectDeepLink = redirectDeepLink
+			self.withScrollView = withScrollView
 			
 			if let language = language {
 				self.language = language
