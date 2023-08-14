@@ -708,7 +708,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		return false
 	}
 	
-	/// Let's the hot app manually send a `redirect` action to advance the session. Used for app-to-app flows after coming back to the hot app.
+	/// Let's the host app manually send a `redirect` action to advance the session. Used for app-to-app flows after coming back to the host app.
 	public func submitRedirect() -> Void {
 		sendAction(actionType: .redirect, withLoadingIndicator: true, additionalPayload: nil)
 	}
