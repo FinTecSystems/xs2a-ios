@@ -82,7 +82,9 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 
 		triggerHapticFeedback(style: .light)
 		
-		if (urlSupportsAppFlow()) {
+		let redirectFeatureEnabled = XS2AiOS.shared.configuration.redirectDeepLink != nil
+		
+		if (redirectFeatureEnabled && urlSupportsAppFlow()) {
 			showAppOrBrowserDialog(
 				decidedForBrowserCallback: openInWebView,
 				decidedForAppCallback: openInAppOrSystemBrowser
@@ -97,14 +99,14 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 		decidedForAppCallback: @escaping () -> Void
 	) {
 		let alert = UIAlertController(
-			title: "Authentifizierungs-Methode wählen",
-			message: "Wie möchtest du dich einloggen? Hast du die App deiner Bank installiert, wähle \"Banking App\", andernfalls \"Webseite\".",
+			title: Strings.RedirectAppPrompt.title,
+			message: Strings.RedirectAppPrompt.message,
 			preferredStyle: .alert
 		)
 		
 		alert.addAction(
 			UIAlertAction(
-				title: "Webseite",
+				title: Strings.website,
 				style: .default,
 				handler: { action in
 					decidedForBrowserCallback()
@@ -114,7 +116,7 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 		
 		alert.addAction(
 			UIAlertAction(
-				title: "Banking App",
+				title: Strings.bankingApp,
 				style: .default,
 				handler: { action in
 					decidedForAppCallback()
