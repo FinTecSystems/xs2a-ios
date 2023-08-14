@@ -10,6 +10,9 @@ enum Strings {
 	static let notice = getStringForKey(key: "Notice")
 	static let choose = getStringForKey(key: "Choose")
 	static let next = getStringForKey(key: "Next")
+	static let bankingApp = getStringForKey(key: "Banking_App")
+	static let website = getStringForKey(key: "Website")
+
 
 	enum Alert {
 		static let close = getStringForKey(key: "Alert.Close")
@@ -40,6 +43,11 @@ enum Strings {
 	enum OfflineNotice {
 		static let title = getStringForKey(key: "OfflineNotice.Title")
 		static let text = getStringForKey(key: "OfflineNotice.Text")
+	}
+	
+	enum RedirectAppPrompt {
+		static let title = getStringForKey(key: "RedirectAppPrompt.Title")
+		static let message = getStringForKey(key: "RedirectAppPrompt.Message")
 	}
 }
 

@@ -61,6 +61,21 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		view = webView
 	}
 	
+	/**
+	 Function that checks when a redirect is received and if that redirect is to the provided redirectLink,
+	 the redirect is aborted and the session advanced. This is for cases where a redirectLink is provided and the user
+	 decided to use this in-app webview for authentication with the bank, where we after authentcation should just close
+	 this view and advance the session.
+	 */
+	func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+		if (self.webView!.url?.absoluteString == XS2AiOS.shared.configuration.redirectDeepLink) {
+			self.webView!.stopLoading()
+			dismiss(animated: true) {
+				self.redirectActionDelegate?.sendAction(redirectActionType: .done)
+			}
+		}
+	}
+	
 	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
 		if let key = change?[NSKeyValueChangeKey.newKey] {
 			if let keyURL = URL(string: String(describing: key)) {

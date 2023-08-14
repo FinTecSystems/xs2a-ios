@@ -708,6 +708,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		return false
 	}
 	
+	/// Let's the host app manually send a `redirect` action to advance the session. Used for app-to-app flows after coming back to the host app.
+	public func submitRedirect() -> Void {
+		sendAction(actionType: .redirect, withLoadingIndicator: true, additionalPayload: nil)
+	}
+	
 	/// Function for showing an abort alert when user tries to leave this view
 	private func showAbortAlert() {
 		let alert = UIAlertController(

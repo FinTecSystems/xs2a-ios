@@ -3,6 +3,8 @@
 "Notice" = "Notice";
 "Choose" = "Choose ...";
 "Next" = "Next";
+"Banking_App" = "Banking App";
+"Website" = "Website";
 "Alert.Close" = "Close";
 "Alert.Imprint.Title" = "Imprint";
 "Alert.Imprint.Message" = "Tink Germany GmbH\nGottfried-Keller-Straße 33\n81245 Munich\n\nDistrict Court of Munich\nHRB 210653\n\nGerman Financial Supervisory Authority: Bundesanstalt für Finanzdienstleistungsaufsicht.";
@@ -17,3 +19,5 @@
 "AutofillQuestion.Text" = "You have access data for this bank stored on your device. Should we use these credentials to automatically log you into the bank and carry out the next steps?";
 "OfflineNotice.Title" = "Offline";
 "OfflineNotice.Text" = "You will be automatically redirected as soon as your device has an internet connection again.";
+"RedirectAppPrompt.Title" = "Choose Authentication Method";
+"RedirectAppPrompt.Message" = "How would you like to login? If you have your bank's app installed, choose \"Banking App\", otherwise \"Website\".";

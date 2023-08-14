@@ -124,6 +124,10 @@ class APIService {
 		]
 		
 		payload["language"] = XS2AiOS.shared.configuration.language.rawValue
+		
+		if let redirectDeepLink = XS2AiOS.shared.configuration.redirectDeepLink {
+			payload["location"] = redirectDeepLink
+		}
 
 		post(body: payload, completion: { result, error in
 			if let error = error {
