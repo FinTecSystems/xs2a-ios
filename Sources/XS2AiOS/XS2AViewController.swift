@@ -525,7 +525,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		
 		// Check if store credentials notice checkbox is part of payload and is checked
 		let storeCredentialsAccepted = payload.contains { (key, value) in
-			return key == "store_credentials" && value as? Bool == true
+			return key == "store_credentials" && value as? String == "on"
 		}
 		
 		if storeCredentialsAccepted {
