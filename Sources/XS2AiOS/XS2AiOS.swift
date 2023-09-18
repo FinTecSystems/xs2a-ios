@@ -141,7 +141,19 @@ extension XS2AiOS {
 			self.backgroundColor = backgroundColor
 		}
 	}
-	
+
+	public struct LinkStyle {
+		var textColor: UIColor
+		var underlineColor: UIColor
+		var underlineStyle: NSUnderlineStyle
+
+		public init(textColor: UIColor = .tintColor, underlineColor: UIColor = .tintColor, underlineStyle: NSUnderlineStyle = .single) {
+			self.textColor = textColor
+			self.underlineColor = underlineColor
+			self.underlineStyle = underlineStyle
+		}
+	}
+
 	public struct StyleProvider {
 		/// General Styles
 		var font: Font
@@ -171,6 +183,8 @@ extension XS2AiOS {
 		var errorStyle: AlertStyle
 		var warningStyle: AlertStyle
 		var infoStyle: AlertStyle
+
+		var linkStyle: LinkStyle
 		
 		public enum LogoVariation: String {
 			case standard = "logo_standard"
@@ -199,7 +213,8 @@ extension XS2AiOS {
 			alertBorderRadius: CGFloat = 6,
 			errorStyle: AlertStyle = AlertStyle(textColor: .white, backgroundColor: UIColor(red: 234.0 / 255.0, green: 84.0 / 255.0, blue: 74.0 / 255.0, alpha: 1)),
 			warningStyle: AlertStyle = AlertStyle(textColor: .black, backgroundColor: UIColor(red: 254.0 / 255.0, green: 174.0 / 255.0, blue: 34.0 / 255.0, alpha: 1)),
-			infoStyle: AlertStyle = AlertStyle(textColor: .white, backgroundColor: UIColor(red: 0.05, green: 0.62, blue: 0.76, alpha: 1.00))
+			infoStyle: AlertStyle = AlertStyle(textColor: .white, backgroundColor: UIColor(red: 0.05, green: 0.62, blue: 0.76, alpha: 1.00)),
+			linkStyle: LinkStyle? = nil
 		) {
 			self.font = Font(fontName: font)
 			self.tintColor = tintColor
@@ -222,6 +237,7 @@ extension XS2AiOS {
 			self.errorStyle = errorStyle
 			self.warningStyle = warningStyle
 			self.infoStyle = infoStyle
+			self.linkStyle = LinkStyle(textColor: tintColor, underlineColor: tintColor, underlineStyle: .single)
 		}
 	}
 }
