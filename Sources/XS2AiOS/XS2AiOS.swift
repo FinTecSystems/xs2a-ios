@@ -147,7 +147,7 @@ extension XS2AiOS {
 		var underlineColor: UIColor
 		var underlineStyle: NSUnderlineStyle
 
-		public init(textColor: UIColor = .tintColor, underlineColor: UIColor = .tintColor, underlineStyle: NSUnderlineStyle = .single) {
+		public init(textColor: UIColor, underlineColor: UIColor, underlineStyle: NSUnderlineStyle = .single) {
 			self.textColor = textColor
 			self.underlineColor = underlineColor
 			self.underlineStyle = underlineStyle
@@ -237,7 +237,12 @@ extension XS2AiOS {
 			self.errorStyle = errorStyle
 			self.warningStyle = warningStyle
 			self.infoStyle = infoStyle
-			self.linkStyle = LinkStyle(textColor: tintColor, underlineColor: tintColor, underlineStyle: .single)
+
+			if let linkStyle = linkStyle {
+				self.linkStyle = linkStyle
+			} else {
+				self.linkStyle = LinkStyle(textColor: tintColor, underlineColor: tintColor, underlineStyle: .single)
+			}
 		}
 	}
 }
