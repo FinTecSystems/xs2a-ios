@@ -131,9 +131,9 @@ func constructLabelString(stringToTest: String) -> NSMutableAttributedString {
 					}
 					
 					let attributesForLink = [
-						NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.tintColor,
-						NSAttributedString.Key.underlineColor: XS2AiOS.shared.styleProvider.tintColor,
-						NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
+						NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.linkStyle.textColor,
+						NSAttributedString.Key.underlineColor: XS2AiOS.shared.styleProvider.linkStyle.underlineColor,
+						NSAttributedString.Key.underlineStyle: XS2AiOS.shared.styleProvider.linkStyle.underlineStyle,
 						// We use .attachment instead of .link so we can change the colors
 						NSAttributedString.Key.attachment: url,
 					] as [NSAttributedString.Key: Any]

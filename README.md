@@ -286,6 +286,8 @@ var errorStyle: AlertStyle /// (textColor & backgroundColor)
 var warningStyle: AlertStyle
 var infoStyle: AlertStyle
 
+var linkStyle: LinkStyle /// (textColor, underlineColor and underlineStyle)
+
 ```
 ![Styling API](https://demo.xs2a.com/img/ios-styling.jpg)
 
