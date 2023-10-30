@@ -17,7 +17,7 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 	private let button: UIButton
 	
 	private let validAppRedirectionUrls = [
-		"https://myaccount.ing.com/granting"
+		"https://myaccount.ing.com"
 	]
 	
 	/**
