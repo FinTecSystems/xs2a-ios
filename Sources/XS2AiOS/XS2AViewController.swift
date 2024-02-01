@@ -596,7 +596,9 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	func notifyOfSessionError(error: XS2ASessionError) {
-		permanentCompletion?(.sessionError(error))
+		presentedViewController?.dismiss(animated: true) {
+			self.permanentCompletion?(.sessionError(error))
+		}
 	}
 	
 	/// Hides all UI Elements with an animation,
