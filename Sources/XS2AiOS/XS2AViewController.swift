@@ -596,8 +596,12 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	func notifyOfSessionError(error: XS2ASessionError) {
-		presentedViewController?.dismiss(animated: true) {
-			self.permanentCompletion?(.sessionError(error))
+		if let presentedViewController {
+			presentedViewController.dismiss(animated: true) {
+				self.permanentCompletion?(.sessionError(error))
+			}
+		} else {
+			permanentCompletion?(.sessionError(error))
 		}
 	}
 	
