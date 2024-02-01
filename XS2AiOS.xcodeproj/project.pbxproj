@@ -28,7 +28,6 @@
 		DC68480D278EDA5200A5054F /* SubmitLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847D3278EDA5200A5054F /* SubmitLine.swift */; };
 		DC68480E278EDA5200A5054F /* ImageLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847D4278EDA5200A5054F /* ImageLine.swift */; };
 		DC68480F278EDA5200A5054F /* ParagraphLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847D5278EDA5200A5054F /* ParagraphLine.swift */; };
-		DC684810278EDA5200A5054F /* MultiFormController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847D6278EDA5200A5054F /* MultiFormController.swift */; };
 		DC684811278EDA5200A5054F /* CheckboxLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847D7278EDA5200A5054F /* CheckboxLine.swift */; };
 		DC684812278EDA5200A5054F /* RestartLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847D8278EDA5200A5054F /* RestartLine.swift */; };
 		DC684813278EDA5200A5054F /* TabLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847D9278EDA5200A5054F /* TabLine.swift */; };
@@ -90,7 +89,6 @@
 		DC6847D3278EDA5200A5054F /* SubmitLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitLine.swift; sourceTree = "<group>"; };
 		DC6847D4278EDA5200A5054F /* ImageLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLine.swift; sourceTree = "<group>"; };
 		DC6847D5278EDA5200A5054F /* ParagraphLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParagraphLine.swift; sourceTree = "<group>"; };
-		DC6847D6278EDA5200A5054F /* MultiFormController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiFormController.swift; sourceTree = "<group>"; };
 		DC6847D7278EDA5200A5054F /* CheckboxLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxLine.swift; sourceTree = "<group>"; };
 		DC6847D8278EDA5200A5054F /* RestartLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestartLine.swift; sourceTree = "<group>"; };
 		DC6847D9278EDA5200A5054F /* TabLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabLine.swift; sourceTree = "<group>"; };
@@ -221,7 +219,6 @@
 				DC6847D3278EDA5200A5054F /* SubmitLine.swift */,
 				DC6847D4278EDA5200A5054F /* ImageLine.swift */,
 				DC6847D5278EDA5200A5054F /* ParagraphLine.swift */,
-				DC6847D6278EDA5200A5054F /* MultiFormController.swift */,
 				DC6847D7278EDA5200A5054F /* CheckboxLine.swift */,
 				DC6847D8278EDA5200A5054F /* RestartLine.swift */,
 				DC6847D9278EDA5200A5054F /* TabLine.swift */,
@@ -385,7 +382,6 @@
 			files = (
 				DC68480C278EDA5200A5054F /* CaptchaLine.swift in Sources */,
 				DC684820278EDA5200A5054F /* ResultCell.swift in Sources */,
-				DC684810278EDA5200A5054F /* MultiFormController.swift in Sources */,
 				DC68481E278EDA5200A5054F /* APIService.swift in Sources */,
 				DC68482F278EDA5200A5054F /* ExposableFormElement.swift in Sources */,
 				DC68482B278EDA5200A5054F /* LoadingDialog+ViewContoller.swift in Sources */,
