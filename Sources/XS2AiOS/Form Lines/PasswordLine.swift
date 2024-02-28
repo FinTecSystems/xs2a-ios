@@ -43,6 +43,33 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		if invalid {
 			textfieldElement.styleTextfield(style: .error)
 		}
+		
+		if (XS2AiOS.shared.configuration.showPasswordVisiblityToggle) {
+			setPasswordToggleButton(eyeOpened: true)
+		}
+	}
+	
+	func setPasswordToggleButton(eyeOpened: Bool) {
+		let background = UIImage(named: eyeOpened ? "eye_opened" : "eye_closed", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+		let button = UIButton(type: .custom)
+		button.tintColor = XS2AiOS.shared.styleProvider.placeholderColor
+		button.setImage(background, for: .normal)
+		button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
+		button.frame = CGRect(x: CGFloat(self.textfieldElement.frame.size.width - 20), y: CGFloat(5), width: CGFloat(30), height: CGFloat(30))
+		button.addTarget(self, action: #selector(self.togglePassword), for: .touchUpInside)
+		self.textfieldElement.rightView = button
+		self.textfieldElement.rightViewMode = .always
+	}
+	
+	@objc func togglePassword() {
+		triggerHapticFeedback(style: .light)
+		self.textfieldElement.isSecureTextEntry.toggle()
+		
+		if (!self.textfieldElement.isSecureTextEntry) {
+			setPasswordToggleButton(eyeOpened: false)
+		} else {
+			setPasswordToggleButton(eyeOpened: true)
+		}
 	}
 	
 	required init?(coder: NSCoder) {

@@ -84,6 +84,7 @@ extension XS2AiOS {
 		var enableBackButton: Bool
 		var redirectDeepLink: String?
 		var withScrollView: Bool
+		var showPasswordVisiblityToggle: Bool
 		
 		public init(
 			wizardSessionKey: String,
@@ -93,7 +94,8 @@ extension XS2AiOS {
 			language: Language? = nil,
 			enableBackButton: Bool = true,
 			redirectDeepLink: String? = nil,
-			withScrollView: Bool = true
+			withScrollView: Bool = true,
+			showPasswordVisiblityToggle: Bool = false
 		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.permissionToStoreCredentials = false
@@ -103,6 +105,7 @@ extension XS2AiOS {
 			self.baseURL = baseURL
 			self.redirectDeepLink = redirectDeepLink
 			self.withScrollView = withScrollView
+			self.showPasswordVisiblityToggle = showPasswordVisiblityToggle
 			
 			if let language = language {
 				self.language = language
