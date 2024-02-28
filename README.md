@@ -69,14 +69,60 @@ The `XS2AViewController` will guide the customer through the process. After that
 
 ```swift
 let config = XS2AiOS.Configuration(
+  /*
+   * Required: The Session Key from the XS2A API.
+   */
   wizardSessionKey: "YOUR_WIZARD_SESSION_KEY",
-  // Use .de/.en/.fr/.es/.it to overwrite session language
-  // Default is device language if part of supported languages,
-  // otherwise fallback to .en
-  language: .en, // (optional)
-  // Boolean to control whether the exposes View from XS2AViewController
-  // is an UIScrollView (default) or an UIView.
-  withScrollView: true
+  /*
+   * (Optional)
+   * Use .de/.en/.fr/.es/.it to overwrite session language.
+   * Default is device language if part of supported languages,
+   * otherwise fallback to .en.
+   */
+  language: .en,
+  /*
+   * (Optional)
+   * Boolean to control whether the exposes View from XS2AViewController
+   * is an UIScrollView (default) or an UIView.
+   */
+  withScrollView: true,
+  /*
+   * (Optional)
+   * If you want to show a small eye icon at the end of a password 
+   * input textfield, that allows to toggle showing (unmasking) the password.
+   */
+  showPasswordVisiblityToggle: false,
+  /*
+   * (Optional)
+   * Whether the SDK has permission to store users credentials on the Keychain.
+   * This is a feature that first needs to be enabled by Tink Support for your account
+   * before also enabling it here.
+   */
+  permissionToStoreCredentials: false,
+  /*
+   * (Optional)
+   * You can disable the back button shown during sessions here.
+   * WARNING: Carefully read the section "Implementing Custom Back Button" below before doing so.
+   */
+  enableBackButton: true,
+  /*
+   * (Optional)
+   * You can register a function that will be called when the back button has been pressed.
+   * Read the "Get Current Step & Registering Custom Back Button Function" section below for more info.
+   */
+  backButtonAction: @escaping () -> Void = {},
+  /*
+   * (Optional)
+   * You can register a function that will be called when the step has changed.
+   * Read the "Get Current Step & Registering Custom Back Button Function" section below for more info.
+   */
+  onStepChanged: @escaping (WizardStep?) -> Void = {_ in },
+  /*
+   * (Optional)
+   * Register the deeplink to be redirected to after a bank redirection.
+   * Read https://github.com/FinTecSystems/xs2a-ios/releases/tag/1.14.0 for detailed info.
+   */
+  redirectDeepLink: nil,
 )
 
 // See the detailed Styling API below
