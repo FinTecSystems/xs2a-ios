@@ -91,7 +91,7 @@ let config = XS2AiOS.Configuration(
    * If you want to show a small eye icon at the end of a password 
    * input textfield, that allows to toggle showing (unmasking) the password.
    */
-  showPasswordVisiblityToggle: false,
+  showPasswordVisiblityToggle: true,
   /*
    * (Optional)
    * Whether the SDK has permission to store users credentials on the Keychain.

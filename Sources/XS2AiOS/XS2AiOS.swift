@@ -95,7 +95,7 @@ extension XS2AiOS {
 			enableBackButton: Bool = true,
 			redirectDeepLink: String? = nil,
 			withScrollView: Bool = true,
-			showPasswordVisiblityToggle: Bool = false
+			showPasswordVisiblityToggle: Bool = true
 		) {
 			self.wizardSessionKey = wizardSessionKey
 			self.permissionToStoreCredentials = false
