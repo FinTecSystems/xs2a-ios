@@ -784,43 +784,11 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		
 		self.present(alert, animated: true, completion: nil)
 	}
-
-	
-	@available(iOS 12.0, *)
-	func setupNetworkStatusMonitor() {
-		let networkMonitor = NWPathMonitor()
-		networkMonitor.pathUpdateHandler = { [self] path in
-			if path.status == .satisfied {
-				if (!networkConnected) {
-					networkConnected = true
-					DispatchQueue.main.async {
-						self.hideLoadingIndicator()
-						self.sendAction(actionType: .none, withLoadingIndicator: false, additionalPayload: nil)
-					}
-				}
-			} else {
-				if (networkConnected) {
-					networkConnected = false
-					DispatchQueue.main.async {
-						self.showLoadingIndicator(title: Strings.OfflineNotice.title, message: "\(Strings.OfflineNotice.text)\n\n\n")
-						self.cancelNetworkTask()
-					}
-				}
-			}
-		}
-		
-		let queue = DispatchQueue(label: "NetworkMonitor")
-		networkMonitor.start(queue: queue)
-	}
 	
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 
 		presentationController?.delegate = self
-		
-		if #available(iOS 12.0, *) {
-			setupNetworkStatusMonitor()
-		}
 
 		/// We add an empty view because of buggy stackview animations
 		let blankView = UIView()
