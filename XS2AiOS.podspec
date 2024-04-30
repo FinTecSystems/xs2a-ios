@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'XS2AiOS'
-  s.version          = '1.15.5'
+  s.version          = '1.15.6'
   s.summary          = 'Native integration of Tink Germany XS2A API for your iOS apps.'
 
   s.homepage         = 'https://github.com/FinTecSystems/xs2a-ios'
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.cocoapods_version = '>= 1.10.0'
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '12.0'
   s.swift_version = '5.3'
 
   s.source_files = 'Sources/XS2AiOS/**/*.swift'
