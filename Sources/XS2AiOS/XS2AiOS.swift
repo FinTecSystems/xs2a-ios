@@ -109,11 +109,11 @@ extension XS2AiOS {
 			
 			if let language = language {
 				self.language = language
-			} else if let deviceLanguage = Language(rawValue: String(Locale.preferredLanguages[0].prefix(2))) {
-				/// No language explicitly set but users device language is in our supported set of languages
+			} else if let deviceLanguage = Language(rawValue: String(Locale.preferredLanguages.first?.prefix(2) ?? "de")) {
+				/// No language explicitly set but users device language might be in our supported set of languages
 				self.language = deviceLanguage
 			} else {
-				self.language = .en
+				self.language = .de
 			}
 
 
