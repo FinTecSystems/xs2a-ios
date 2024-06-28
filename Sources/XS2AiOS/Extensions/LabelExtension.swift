@@ -10,13 +10,13 @@ extension UILabel {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.adjustsFontSizeToFitWidth = true
-		label.textColor = XS2AiOS.shared.styleProvider.textColor
+		label.textColor = XS2A.shared.styleProvider.textColor
 		label.contentMode = .bottom
 		switch size {
 		case .small:
-			label.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
+			label.font = XS2A.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
 		case .large:
-			label.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 16, ofWeight: .traitBold)
+			label.font = XS2A.shared.styleProvider.font.getFont(ofSize: 16, ofWeight: .traitBold)
 		}
 
 		return label
@@ -26,8 +26,8 @@ extension UILabel {
 		let label = InteractiveLinkLabel()
 		label.numberOfLines = 0
 		label.adjustsFontSizeToFitWidth = true
-		label.textColor = XS2AiOS.shared.styleProvider.textColor
-		label.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
+		label.textColor = XS2A.shared.styleProvider.textColor
+		label.font = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
 		return label
 	}
 }

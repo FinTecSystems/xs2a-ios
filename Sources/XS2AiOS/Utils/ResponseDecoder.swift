@@ -31,12 +31,12 @@ enum FormLineTypes: String {
 func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 	/// Set the normalized state
 	if let wizardState = json["step"].string {
-		XS2AiOS.shared.currentState = wizardState
+		XS2A.shared.currentState = wizardState
 	}
 	
 	/// Set current WizardStep
 	if let wizardStep = json["callback"].string {
-		XS2AiOS.shared.currentStep = WizardStep(rawValue: wizardStep)
+		XS2A.shared.currentStep = WizardStep(rawValue: wizardStep)
 	}
 	
 	/// "form" is an array of multiple form lines to be rendered
@@ -104,7 +104,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 						)
 					)
 
-					if XS2AiOS.shared.configuration.enableBackButton && formElement["back"].string != nil {
+					if XS2A.shared.configuration.enableBackButton && formElement["back"].string != nil {
 						formClasses.append(
 							SubmitLine(
 								label: formElement["back"].stringValue,
@@ -112,7 +112,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							)
 						)
 					}
-					XS2AiOS.shared.backButtonIsPresent = formElement["back"].string != nil
+					XS2A.shared.backButtonIsPresent = formElement["back"].string != nil
 				case .restart:
 					formClasses.append(
 						RestartLine(
@@ -165,7 +165,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 						)
 					)
 					
-					if XS2AiOS.shared.configuration.enableBackButton && formElement["back"].string != nil {
+					if XS2A.shared.configuration.enableBackButton && formElement["back"].string != nil {
 						formClasses.append(
 							SubmitLine(
 								label: formElement["back"].stringValue,
@@ -173,7 +173,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							)
 						)
 					}
-					XS2AiOS.shared.backButtonIsPresent = formElement["back"].string != nil
+					XS2A.shared.backButtonIsPresent = formElement["back"].string != nil
 				case .hidden:
 					formClasses.append(
 						HiddenLine(

@@ -1,8 +1,8 @@
 import UIKit
 import KeychainAccess
 
-public class XS2AiOS {
-	private static var _shared: XS2AiOS?
+public class XS2A {
+	private static var _shared: XS2A?
 	internal var currentState: String?
 
 	public var configuration: Configuration
@@ -14,7 +14,7 @@ public class XS2AiOS {
 
 	public var currentStep: WizardStep? {
 		didSet {
-			XS2AiOS.shared.configuration.onStepChanged(currentStep)
+			XS2A.shared.configuration.onStepChanged(currentStep)
 		}
 	}
 
@@ -44,7 +44,7 @@ public class XS2AiOS {
 	}
 	
 	public static func configure(withConfig configuration: Configuration, withStyle styleProvider: StyleProvider) {
-		_shared = XS2AiOS(configuration: configuration, styleProvider: styleProvider, loadingStateProvider: XS2ALoadingStateProvider())
+		_shared = XS2A(configuration: configuration, styleProvider: styleProvider, loadingStateProvider: XS2ALoadingStateProvider())
 	}
 
 	public static func configure(
@@ -52,10 +52,10 @@ public class XS2AiOS {
 		withStyle styleProvider: StyleProvider,
 		withLoading loadingStateProvider: LoadingStateProvider
 	) {
-		_shared = XS2AiOS(configuration: configuration, styleProvider: styleProvider, loadingStateProvider: loadingStateProvider)
+		_shared = XS2A(configuration: configuration, styleProvider: styleProvider, loadingStateProvider: loadingStateProvider)
 	}
 	
-	public static var shared: XS2AiOS {
+	public static var shared: XS2A {
 		guard let shared = _shared else {
 			fatalError("Did you forget to Configure XS2A by calling `XS2A.configure(withConfig:withStyle:)`?")
 		}
@@ -64,7 +64,7 @@ public class XS2AiOS {
 	}
 }
 
-extension XS2AiOS {
+extension XS2A {
 	public enum Language: String {
 		case de = "de"
 		case en = "en"

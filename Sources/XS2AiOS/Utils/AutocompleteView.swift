@@ -54,7 +54,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		let startsAsIban = stringStartsAsIban(stringToTest: valueToSearch)
 
 		if (!startsAsIban) {
-			XS2AiOS.shared.apiService.autocomplete(countryId: self.countryId, bankCode: valueToSearch) { (result, error) in
+			XS2A.shared.apiService.autocomplete(countryId: self.countryId, bankCode: valueToSearch) { (result, error) in
 				guard let result = result else {
 					return
 				}
@@ -168,7 +168,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	init(countryId: String, label: String, prefilledText: String?) {
 		self.countryId = countryId
 		self.label.text = label
-	        self.infoLabel.textColor = XS2AiOS.shared.styleProvider.textColor
+	        self.infoLabel.textColor = XS2A.shared.styleProvider.textColor
 		self.infoLabel.text = Strings.AutocompleteView.notice
 		self.infoLabel.numberOfLines = 3
 		self.searchField.autocorrectionType = .no
@@ -176,7 +176,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		self.nextButton.setTitle(Strings.next, for: .normal)
 
 		
-		let font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
+		let font = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
 		let italicFont = UIFont(descriptor: font.fontDescriptor.withSymbolicTraits(.traitItalic)!, size: 14)
 		
 		self.infoLabel.font = italicFont
@@ -208,7 +208,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 			overrideUserInterfaceStyle = .light
 		}
 
-		view.backgroundColor = XS2AiOS.shared.styleProvider.backgroundColor
+		view.backgroundColor = XS2A.shared.styleProvider.backgroundColor
 	        resultTable.backgroundColor = .clear
 		searchField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
 		resultTable.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

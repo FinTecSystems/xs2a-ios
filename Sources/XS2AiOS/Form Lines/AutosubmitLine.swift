@@ -8,7 +8,7 @@ class AutosubmitLine: UIViewController, FormLine {
 	/// The interval in milliseconds after which the autosubmit is triggered
 	private let interval: Int
 	
-	let indicatorView = XS2AiOS.shared.loadingStateProvider.loadingIndicatorView
+	let indicatorView = XS2A.shared.loadingStateProvider.loadingIndicatorView
 
 	var timer = Timer()
 

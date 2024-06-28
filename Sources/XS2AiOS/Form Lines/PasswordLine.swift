@@ -31,7 +31,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(
 			string: placeholder,
 			attributes: [
-				NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.placeholderColor
+				NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor
 			]
 		)
 		
@@ -44,7 +44,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 			textfieldElement.styleTextfield(style: .error)
 		}
 		
-		if (XS2AiOS.shared.configuration.showPasswordVisiblityToggle) {
+		if (XS2A.shared.configuration.showPasswordVisiblityToggle) {
 			setPasswordToggleButton(eyeOpened: true)
 		}
 	}
@@ -52,7 +52,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	func setPasswordToggleButton(eyeOpened: Bool) {
 		let background = UIImage(named: eyeOpened ? "eye_opened" : "eye_closed", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		let button = UIButton(type: .custom)
-		button.tintColor = XS2AiOS.shared.styleProvider.placeholderColor
+		button.tintColor = XS2A.shared.styleProvider.placeholderColor
 		button.setImage(background, for: .normal)
 		button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
 		button.frame = CGRect(x: CGFloat(self.textfieldElement.frame.size.width - 20), y: CGFloat(5), width: CGFloat(30), height: CGFloat(30))

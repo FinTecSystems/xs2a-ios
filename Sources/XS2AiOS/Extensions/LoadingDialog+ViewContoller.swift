@@ -3,22 +3,22 @@ import NVActivityIndicatorView
 
 struct ProgressDialog {
 	static var alert = UIAlertController()
-	static var indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: XS2AiOS.shared.styleProvider.tintColor)
+	static var indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: XS2A.shared.styleProvider.tintColor)
 }
 
 extension UIViewController {
 	func showLoadingIndicator(title: String = "", message: String = "") {
-		XS2AiOS.shared.loadingStateProvider.showLoadingIndicator(title: title, message: message, over: self)
+		XS2A.shared.loadingStateProvider.showLoadingIndicator(title: title, message: message, over: self)
 	}
 
 	func hideLoadingIndicator() {
-		XS2AiOS.shared.loadingStateProvider.hideLoadingIndicator(over: self)
+		XS2A.shared.loadingStateProvider.hideLoadingIndicator(over: self)
 	}
 }
 
 class XS2ALoadingStateProvider: LoadingStateProvider {
 	var loadingIndicatorView: LoadingView {
-		NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: XS2AiOS.shared.styleProvider.tintColor)
+		NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineScale, color: XS2A.shared.styleProvider.tintColor)
 	}
 
 	func showLoadingIndicator(title: String, message: String, over viewController: UIViewController) {
@@ -29,8 +29,8 @@ class XS2ALoadingStateProvider: LoadingStateProvider {
 				NSAttributedString(
 					string: title,
 					attributes: [
-						NSAttributedString.Key.font: XS2AiOS.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: .traitBold),
-						NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.textColor
+						NSAttributedString.Key.font: XS2A.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: .traitBold),
+						NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.textColor
 					]
 				),
 				forKey: "attributedTitle"
@@ -42,8 +42,8 @@ class XS2ALoadingStateProvider: LoadingStateProvider {
 				NSAttributedString(
 					string: message,
 					attributes: [
-						NSAttributedString.Key.font: XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil),
-						NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.textColor
+						NSAttributedString.Key.font: XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil),
+						NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.textColor
 					]
 				),
 				forKey: "attributedMessage"
@@ -53,7 +53,7 @@ class XS2ALoadingStateProvider: LoadingStateProvider {
 		ProgressDialog.alert.view.addSubview(ProgressDialog.indicatorView)
 		
 		let alertBackground = (ProgressDialog.alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
-		alertBackground.backgroundColor = XS2AiOS.shared.styleProvider.backgroundColor
+		alertBackground.backgroundColor = XS2A.shared.styleProvider.backgroundColor
 
 		ProgressDialog.indicatorView.translatesAutoresizingMaskIntoConstraints = false
 		ProgressDialog.indicatorView.centerXAnchor.constraint(lessThanOrEqualTo: ProgressDialog.alert.view.centerXAnchor).isActive = true

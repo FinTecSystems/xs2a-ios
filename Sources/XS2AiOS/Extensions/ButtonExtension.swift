@@ -17,28 +17,28 @@ extension UIButton {
 	static func make(buttonType: XS2AButtonType) -> UIButton {
 		let button = UIButton()
 
-		let style: XS2AiOS.ButtonStyle
+		let style: XS2A.ButtonStyle
 		switch buttonType {
 		case .abort:
-			style = XS2AiOS.shared.styleProvider.abortButtonStyle
+			style = XS2A.shared.styleProvider.abortButtonStyle
 		case .back:
-			style = XS2AiOS.shared.styleProvider.backButtonStyle
+			style = XS2A.shared.styleProvider.backButtonStyle
 		case .restart:
-			style = XS2AiOS.shared.styleProvider.restartButtonStyle
+			style = XS2A.shared.styleProvider.restartButtonStyle
 		default:
-			style = XS2AiOS.shared.styleProvider.submitButtonStyle
+			style = XS2A.shared.styleProvider.submitButtonStyle
 		}
 
 		button.setTitleColor(style.textColor, for: .normal)
 		button.setBackgroundColor(color: style.backgroundColor, forState: .normal)
 		button.setBackgroundColor(color: style.backgroundColor.lighter(), forState: .highlighted)
 
-		button.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
+		button.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
 		button.layer.borderWidth = style.borderWidth
 		button.layer.borderColor = style.borderColor.cgColor
 
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.titleLabel?.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 18, ofWeight: .traitBold)
+		button.titleLabel?.font = XS2A.shared.styleProvider.font.getFont(ofSize: 18, ofWeight: .traitBold)
 		button.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
 		return button

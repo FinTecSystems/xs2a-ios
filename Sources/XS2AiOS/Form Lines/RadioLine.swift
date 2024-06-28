@@ -33,8 +33,8 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 			radioBtn.setTitle(option.label, for: .normal)
 			radioBtn.tag = index
 			radioBtn.titleLabel?.numberOfLines = 2
-			radioBtn.titleLabel?.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
-			radioBtn.setTitleColor(XS2AiOS.shared.styleProvider.textColor, for: .normal)
+			radioBtn.titleLabel?.font = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
+			radioBtn.setTitleColor(XS2A.shared.styleProvider.textColor, for: .normal)
 			radioBtn.isEnabled = !option.disabled
 			
 			/// Attach buttonTapped function to the radio button

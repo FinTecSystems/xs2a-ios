@@ -78,7 +78,7 @@ class APIService {
 				let callbackParam = result["callbackParams"].arrayValue[0]
 				if let callbackDic = callbackParam.dictionaryObject {
 					if let provider = callbackDic["provider"] {
-						XS2AiOS.shared.configuration.provider = String(describing: provider)
+						XS2A.shared.configuration.provider = String(describing: provider)
 					}
 				}
 			}
@@ -123,9 +123,9 @@ class APIService {
 			"client": "ios_sdk",
 		]
 		
-		payload["language"] = XS2AiOS.shared.configuration.language.rawValue
+		payload["language"] = XS2A.shared.configuration.language.rawValue
 		
-		if let redirectDeepLink = XS2AiOS.shared.configuration.redirectDeepLink {
+		if let redirectDeepLink = XS2A.shared.configuration.redirectDeepLink {
 			payload["location"] = redirectDeepLink
 		}
 
@@ -146,9 +146,9 @@ class APIService {
 				}
 
 				/// Check if current sessions language is not the client language
-				if (languageFromServer != XS2AiOS.shared.configuration.language.rawValue) {
+				if (languageFromServer != XS2A.shared.configuration.language.rawValue) {
 					/// Language sent from server is not client language, but we know we support the client language, so lets change it
-					self.notifyServerOfLanguageChange(newLocalization: XS2AiOS.shared.configuration.language.rawValue, completion: completion)
+					self.notifyServerOfLanguageChange(newLocalization: XS2A.shared.configuration.language.rawValue, completion: completion)
 					
 					return
 				}

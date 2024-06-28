@@ -36,7 +36,7 @@
 		DC684815278EDA5200A5054F /* SelectLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847DB278EDA5200A5054F /* SelectLine.swift */; };
 		DC684816278EDA5200A5054F /* RadioLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847DC278EDA5200A5054F /* RadioLine.swift */; };
 		DC684817278EDA5200A5054F /* AutosubmitLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847DD278EDA5200A5054F /* AutosubmitLine.swift */; };
-		DC684818278EDA5200A5054F /* XS2AiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847DE278EDA5200A5054F /* XS2AiOS.swift */; };
+		DC684818278EDA5200A5054F /* XS2A.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847DE278EDA5200A5054F /* XS2A.swift */; };
 		DC684819278EDA5200A5054F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC6847E0278EDA5200A5054F /* Localizable.strings */; };
 		DC68481A278EDA5200A5054F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC6847E5278EDA5200A5054F /* Images.xcassets */; };
 		DC68481B278EDA5200A5054F /* ResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC6847E7278EDA5200A5054F /* ResultCell.xib */; };
@@ -99,7 +99,7 @@
 		DC6847DB278EDA5200A5054F /* SelectLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLine.swift; sourceTree = "<group>"; };
 		DC6847DC278EDA5200A5054F /* RadioLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioLine.swift; sourceTree = "<group>"; };
 		DC6847DD278EDA5200A5054F /* AutosubmitLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosubmitLine.swift; sourceTree = "<group>"; };
-		DC6847DE278EDA5200A5054F /* XS2AiOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2AiOS.swift; sourceTree = "<group>"; };
+		DC6847DE278EDA5200A5054F /* XS2A.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2A.swift; sourceTree = "<group>"; };
 		DC6847E1278EDA5200A5054F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DC6847E2278EDA5200A5054F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DC6847E3278EDA5200A5054F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -187,7 +187,7 @@
 				DC6847C3278EDA5200A5054F /* XS2AViewController.swift */,
 				DC6847C4278EDA5200A5054F /* Base Elements */,
 				DC6847CB278EDA5200A5054F /* Form Lines */,
-				DC6847DE278EDA5200A5054F /* XS2AiOS.swift */,
+				DC6847DE278EDA5200A5054F /* XS2A.swift */,
 				DC6847DF278EDA5200A5054F /* Resources */,
 				DC6847E8278EDA5200A5054F /* Utils */,
 				DC6847F4278EDA5200A5054F /* Extensions */,
@@ -418,7 +418,7 @@
 				DC684815278EDA5200A5054F /* SelectLine.swift in Sources */,
 				DC684824278EDA5200A5054F /* WebViewController.swift in Sources */,
 				DC68481F278EDA5200A5054F /* BundleFinder.swift in Sources */,
-				DC684818278EDA5200A5054F /* XS2AiOS.swift in Sources */,
+				DC684818278EDA5200A5054F /* XS2A.swift in Sources */,
 				DC684812278EDA5200A5054F /* RestartLine.swift in Sources */,
 				DC684827278EDA5200A5054F /* UIImageViewExtension.swift in Sources */,
 				DC684825278EDA5200A5054F /* AutocompleteView.swift in Sources */,

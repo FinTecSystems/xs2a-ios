@@ -38,7 +38,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		} else {
 			self.textfieldElement.attributedPlaceholder = NSAttributedString(
 				string: Strings.choose,
-				attributes: [NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.placeholderColor]
+				attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor]
 			)
 		}
 		

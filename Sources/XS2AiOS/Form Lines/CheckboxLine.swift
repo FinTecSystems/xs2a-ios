@@ -25,8 +25,8 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 		let label = InteractiveLinkLabel()
 		label.numberOfLines = 0
 		label.adjustsFontSizeToFitWidth = true
-		label.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: nil)
-		label.textColor = XS2AiOS.shared.styleProvider.textColor
+		label.font = XS2A.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: nil)
+		label.textColor = XS2A.shared.styleProvider.textColor
 
 		return label
 	}()
@@ -69,7 +69,7 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 		labelElement.attributedText = attributedString
 		labelElement.sizeToFit()
 		
-		button.tintColor = XS2AiOS.shared.styleProvider.tintColor
+		button.tintColor = XS2A.shared.styleProvider.tintColor
 
 		self.isLoginCredential = isLoginCredential
 		self.disabled = disabled

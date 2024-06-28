@@ -166,33 +166,33 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		let smallerButton = UIButton()
 		let minusGlassImage = UIImage(named: "minus_glass", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		smallerButton.setImage(minusGlassImage, for: .normal)
-		smallerButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
-		smallerButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
-		smallerButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
+		smallerButton.tintColor = XS2A.shared.styleProvider.submitButtonStyle.textColor
+		smallerButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
+		smallerButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		smallerButton.addTarget(self, action: #selector(decreaseFlickerSize), for: .touchUpInside)
 		
 		let biggerButton = UIButton()
 		let plusGlassImage = UIImage(named: "plus_glass", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		biggerButton.setImage(plusGlassImage, for: .normal)
-		biggerButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
-		biggerButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
-		biggerButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
+		biggerButton.tintColor = XS2A.shared.styleProvider.submitButtonStyle.textColor
+		biggerButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
+		biggerButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		biggerButton.addTarget(self, action: #selector(increaseFlickerSize), for: .touchUpInside)
 		
 		let fasterButton = UIButton()
 		let plusGaugeImage = UIImage(named: "gauge_plus", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		fasterButton.setImage(plusGaugeImage, for: .normal)
-		fasterButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
-		fasterButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
-		fasterButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
+		fasterButton.tintColor = XS2A.shared.styleProvider.submitButtonStyle.textColor
+		fasterButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
+		fasterButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		fasterButton.addTarget(self, action: #selector(increaseFlickerSpeed), for: .touchUpInside)
 		
 		let slowerButton = UIButton()
 		let minusGaugeImage = UIImage(named: "gauge_minus", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		slowerButton.setImage(minusGaugeImage, for: .normal)
-		slowerButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
-		slowerButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
-		slowerButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
+		slowerButton.tintColor = XS2A.shared.styleProvider.submitButtonStyle.textColor
+		slowerButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
+		slowerButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		slowerButton.addTarget(self, action: #selector(decreaseFlickerSpeed), for: .touchUpInside)
 		
 		let rotateButton = UIButton()
@@ -200,9 +200,9 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		let rotateImage = UIImage(named: "rotate_clockwise", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 		
 		rotateButton.setImage(rotateImage, for: .normal)
-		rotateButton.tintColor = XS2AiOS.shared.styleProvider.submitButtonStyle.textColor
-		rotateButton.layer.cornerRadius = XS2AiOS.shared.styleProvider.buttonBorderRadius
-		rotateButton.backgroundColor = XS2AiOS.shared.styleProvider.submitButtonStyle.backgroundColor
+		rotateButton.tintColor = XS2A.shared.styleProvider.submitButtonStyle.textColor
+		rotateButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
+		rotateButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		rotateButton.addTarget(self, action: #selector(rotateFlicker), for: .touchUpInside)
 		
 		let buttonStackView = UIStackView(arrangedSubviews: [biggerButton, smallerButton, slowerButton, fasterButton, rotateButton])

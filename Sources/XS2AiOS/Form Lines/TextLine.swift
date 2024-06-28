@@ -52,7 +52,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		textfieldElement.text = value
 		textfieldElement.attributedPlaceholder = NSAttributedString(
 			string: placeholder,
-			attributes: [NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.placeholderColor]
+			attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor]
 		)
 
 		if disabled {
