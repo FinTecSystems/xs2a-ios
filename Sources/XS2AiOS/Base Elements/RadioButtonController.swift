@@ -9,7 +9,7 @@ class RadioButtonController {
 			for b in buttonsArray {
 				b.setImage(radioImage, for: .normal)
 				b.setImage(tickedRadioImage, for: .selected)
-				b.tintColor = XS2AiOS.shared.styleProvider.tintColor
+				b.tintColor = XS2A.shared.styleProvider.tintColor
 			}
 		}
 	}

@@ -100,7 +100,7 @@ func constructLabelString(stringToTest: String) -> NSMutableAttributedString {
 					}
 
 					let attributesForLink = [
-						NSAttributedString.Key.font: XS2AiOS.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: traitToUse)
+						NSAttributedString.Key.font: XS2A.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: traitToUse)
 					] as [NSAttributedString.Key: Any]
 
 					// Append Space
@@ -131,9 +131,9 @@ func constructLabelString(stringToTest: String) -> NSMutableAttributedString {
 					}
 					
 					let attributesForLink = [
-						NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.linkStyle.textColor,
-						NSAttributedString.Key.underlineColor: XS2AiOS.shared.styleProvider.linkStyle.underlineColor,
-						NSAttributedString.Key.underlineStyle: XS2AiOS.shared.styleProvider.linkStyle.underlineStyle,
+						NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.linkStyle.textColor,
+						NSAttributedString.Key.underlineColor: XS2A.shared.styleProvider.linkStyle.underlineColor,
+						NSAttributedString.Key.underlineStyle: XS2A.shared.styleProvider.linkStyle.underlineStyle,
 						// We use .attachment instead of .link so we can change the colors
 						NSAttributedString.Key.attachment: url,
 					] as [NSAttributedString.Key: Any]

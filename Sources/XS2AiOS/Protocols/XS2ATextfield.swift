@@ -5,15 +5,15 @@ class XS2ATextfield: UITextField {
 	func styleTextfield(style: TextFieldStyles) {
 		switch style {
 		case .error:
-			self.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidthActive
-			self.layer.borderColor = XS2AiOS.shared.styleProvider.errorStyle.backgroundColor.cgColor
+			self.layer.borderWidth = XS2A.shared.styleProvider.inputBorderWidthActive
+			self.layer.borderColor = XS2A.shared.styleProvider.errorStyle.backgroundColor.cgColor
 			self.layer.add(getBorderWidthAnimation(type: .didStart), forKey: "Width")
 		case .normal:
-			if self.layer.borderWidth != XS2AiOS.shared.styleProvider.inputBorderWidth {
-				self.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidth
+			if self.layer.borderWidth != XS2A.shared.styleProvider.inputBorderWidth {
+				self.layer.borderWidth = XS2A.shared.styleProvider.inputBorderWidth
 				self.layer.add(getBorderWidthAnimation(type: .didEnd), forKey: "Width")
 			}
-			self.layer.borderColor = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
+			self.layer.borderColor = XS2A.shared.styleProvider.inputBorderColor.cgColor
 		}
 	}
 	

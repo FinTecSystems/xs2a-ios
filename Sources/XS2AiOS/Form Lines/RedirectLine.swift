@@ -82,7 +82,7 @@ class RedirectLine: UIViewController, FormLine, WebViewNotificationDelegate {
 
 		triggerHapticFeedback(style: .light)
 		
-		let redirectFeatureEnabled = XS2AiOS.shared.configuration.redirectDeepLink != nil
+		let redirectFeatureEnabled = XS2A.shared.configuration.redirectDeepLink != nil
 		
 		if (redirectFeatureEnabled && urlSupportsAppFlow()) {
 			showAppOrBrowserDialog(

@@ -30,10 +30,10 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 
 		titleLabel.numberOfLines = 0
 		titleLabel.adjustsFontSizeToFitWidth = true
-		titleLabel.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 16, ofWeight: .traitBold)
+		titleLabel.font = XS2A.shared.styleProvider.font.getFont(ofSize: 16, ofWeight: .traitBold)
 
 		textLabel.numberOfLines = 0
-		textLabel.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: nil)
+		textLabel.font = XS2A.shared.styleProvider.font.getFont(ofSize: 13, ofWeight: nil)
 		textLabel.adjustsFontSizeToFitWidth = true
 
 		super.init(nibName: nil, bundle: nil)
@@ -54,19 +54,19 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 		/// Style the paragraph according to its severity
 		switch severity {
 		case .error:
-			self.view.backgroundColor = XS2AiOS.shared.styleProvider.errorStyle.backgroundColor
-			self.textLabel.textColor = XS2AiOS.shared.styleProvider.errorStyle.textColor
-			self.titleLabel.textColor = XS2AiOS.shared.styleProvider.errorStyle.textColor
+			self.view.backgroundColor = XS2A.shared.styleProvider.errorStyle.backgroundColor
+			self.textLabel.textColor = XS2A.shared.styleProvider.errorStyle.textColor
+			self.titleLabel.textColor = XS2A.shared.styleProvider.errorStyle.textColor
 		case .info:
-			self.view.backgroundColor = XS2AiOS.shared.styleProvider.infoStyle.backgroundColor
-			self.textLabel.textColor = XS2AiOS.shared.styleProvider.infoStyle.textColor
-			self.titleLabel.textColor = XS2AiOS.shared.styleProvider.infoStyle.textColor
+			self.view.backgroundColor = XS2A.shared.styleProvider.infoStyle.backgroundColor
+			self.textLabel.textColor = XS2A.shared.styleProvider.infoStyle.textColor
+			self.titleLabel.textColor = XS2A.shared.styleProvider.infoStyle.textColor
 		case .warning:
-			self.view.backgroundColor = XS2AiOS.shared.styleProvider.warningStyle.backgroundColor
-			self.textLabel.textColor = XS2AiOS.shared.styleProvider.warningStyle.textColor
-			self.titleLabel.textColor = XS2AiOS.shared.styleProvider.warningStyle.textColor
+			self.view.backgroundColor = XS2A.shared.styleProvider.warningStyle.backgroundColor
+			self.textLabel.textColor = XS2A.shared.styleProvider.warningStyle.textColor
+			self.titleLabel.textColor = XS2A.shared.styleProvider.warningStyle.textColor
 		default:
-			self.view.backgroundColor = XS2AiOS.shared.styleProvider.backgroundColor
+			self.view.backgroundColor = XS2A.shared.styleProvider.backgroundColor
 		}
 		
 		/// We assign the texts for the labels here, because constructLabelString assigns colors to parts of the strings
@@ -81,7 +81,7 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 			titleLabel.isUserInteractionEnabled = true
 		}
 		
-		self.view.layer.cornerRadius = XS2AiOS.shared.styleProvider.alertBorderRadius
+		self.view.layer.cornerRadius = XS2A.shared.styleProvider.alertBorderRadius
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		titleLabel.openLinkDelegate = self
 		textLabel.translatesAutoresizingMaskIntoConstraints = false

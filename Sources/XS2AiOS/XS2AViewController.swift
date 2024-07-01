@@ -88,7 +88,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	private lazy var withScrollView: Bool = true
 	
 	/// Initializer called by host app
-	public init(xs2a: XS2AiOS = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
+	public init(xs2a: XS2A = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
 		self.ApiService = xs2a.apiService
 		self.permanentCompletion = completion
 		super.init(nibName: nil, bundle: nil)
@@ -332,7 +332,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		case .autosubmit:
 			handleFormSubmit(action: "autosubmit")
 		case .back:
-			XS2AiOS.shared.configuration.backButtonAction()
+			XS2A.shared.configuration.backButtonAction()
 			handleFormSubmit(action: "back")
 		case .redirect:
 			handleFormSubmit(action: "post-code")
@@ -366,7 +366,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	
 	private func getKeychainItem(itemName: String, completion: (String?) -> Void) {
 		do {
-			let item = try XS2AiOS.shared.keychain
+			let item = try XS2A.shared.keychain
 				.authenticationPrompt("Authenticate to login to server")
 				.authenticationContext(self.context)
 				.get(itemName)
@@ -378,7 +378,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	}
 	
 	private func checkForStoredCredentials(payload: [FormLine], completion: @escaping (Bool) -> Void) {
-		guard let provider = XS2AiOS.shared.configuration.provider else {
+		guard let provider = XS2A.shared.configuration.provider else {
 			return completion(false)
 		}
 
@@ -448,7 +448,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			return
 		}
 
-		guard let provider = XS2AiOS.shared.configuration.provider else {
+		guard let provider = XS2A.shared.configuration.provider else {
 			return
 		}
 
@@ -477,7 +477,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 					dispatchGroup.enter()
 
 					do {
-						try XS2AiOS.shared.keychain
+						try XS2A.shared.keychain
 							.accessibility(.whenUnlockedThisDeviceOnly, authenticationPolicy: [.biometryAny])
 							.authenticationContext(self.context)
 							.set(value, key: key)
@@ -529,13 +529,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 		}
 		
 		if storeCredentialsAccepted {
-			XS2AiOS.shared.configuration.permissionToStoreCredentials = true
+			XS2A.shared.configuration.permissionToStoreCredentials = true
 		}
 		
 		self.ApiService.postBody(payload: payload) { result in
 			switch result {
 			case .success(let formElements, let containsError):
-				if containsError == false && XS2AiOS.shared.configuration.permissionToStoreCredentials {
+				if containsError == false && XS2A.shared.configuration.permissionToStoreCredentials {
 					if #available(iOS 11.3, *) {
 						self.storeCredentials(payload: payload) {
 							self.setupViews(formElements: formElements)
@@ -553,7 +553,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			case .finish:
 				self.result = .success(.finish)
 
-				if XS2AiOS.shared.configuration.permissionToStoreCredentials {
+				if XS2A.shared.configuration.permissionToStoreCredentials {
 					if #available(iOS 11.3, *) {
 						self.storeCredentials(payload: payload) {
 							self.dismissAndComplete();
@@ -691,17 +691,17 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 
 	/// Returns `true` if a back button is present on the current form.
 	public var backButtonIsPresent: Bool {
-		XS2AiOS.shared.backButtonIsPresent
+		XS2A.shared.backButtonIsPresent
 	}
 	
 	/// Returns `true` if the current form is the bank search, `false` otherwise
 	public func isBankSearch() -> Bool {
-		return XS2AiOS.shared.currentState == "bank"
+		return XS2A.shared.currentState == "bank"
 	}
 
 	/// Returns `true` if the current form is the first login screen, `false` otherwise
 	public func isLogin() -> Bool {
-		return XS2AiOS.shared.currentState == "login"
+		return XS2A.shared.currentState == "login"
 	}
 
 	/// Function called when the user tries to dismiss this ViewController
@@ -860,7 +860,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 			navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
 		}
 
-		self.view.backgroundColor = XS2AiOS.shared.styleProvider.backgroundColor
+		self.view.backgroundColor = XS2A.shared.styleProvider.backgroundColor
 
 		self.hideKeyboardWhenTappedAround()
 		

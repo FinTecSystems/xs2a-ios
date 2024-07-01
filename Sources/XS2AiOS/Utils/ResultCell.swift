@@ -14,17 +14,17 @@ class ResultCell: UITableViewCell {
 			return
 		}
 		
-		resultLabelLine1.textColor = XS2AiOS.shared.styleProvider.textColor
+		resultLabelLine1.textColor = XS2A.shared.styleProvider.textColor
 		resultLabelLine1.translatesAutoresizingMaskIntoConstraints = false
 		resultLabelLine1.numberOfLines = 1
 		resultLabelLine1.baselineAdjustment = .alignCenters
-		resultLabelLine1.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: nil)
+		resultLabelLine1.font = XS2A.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: nil)
 		
-		resultLabelLine2.textColor = XS2AiOS.shared.styleProvider.textColor
+		resultLabelLine2.textColor = XS2A.shared.styleProvider.textColor
 		resultLabelLine2.translatesAutoresizingMaskIntoConstraints = false
 		resultLabelLine2.numberOfLines = 1
 		resultLabelLine2.baselineAdjustment = .alignCenters
-		resultLabelLine2.font = XS2AiOS.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
+		resultLabelLine2.font = XS2A.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
 		
 		NSLayoutConstraint.activate([
 			// Line 1

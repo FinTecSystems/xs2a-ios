@@ -24,7 +24,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 		self.name = name
 		self.labelElement.text = label
 		self.index = index
-		self.textfieldElement.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: XS2AiOS.shared.styleProvider.placeholderColor])
+		self.textfieldElement.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor])
 		imageElement = UIImage()
 		imageViewElement = UIImageView()
 
@@ -92,12 +92,12 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	private func styleTextfield(style: TextFieldStyles) {
 		switch style {
 		case .error:
-			textfieldElement.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidthActive
-			textfieldElement.layer.borderColor = XS2AiOS.shared.styleProvider.errorStyle.backgroundColor.cgColor
+			textfieldElement.layer.borderWidth = XS2A.shared.styleProvider.inputBorderWidthActive
+			textfieldElement.layer.borderColor = XS2A.shared.styleProvider.errorStyle.backgroundColor.cgColor
 			textfieldElement.layer.add(getBorderAnimation(type: .didStart), forKey: "Border")
 		default:
-			textfieldElement.layer.borderColor = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
-			textfieldElement.layer.borderWidth = XS2AiOS.shared.styleProvider.inputBorderWidth
+			textfieldElement.layer.borderColor = XS2A.shared.styleProvider.inputBorderColor.cgColor
+			textfieldElement.layer.borderWidth = XS2A.shared.styleProvider.inputBorderWidth
 			textfieldElement.layer.add(getBorderAnimation(type: .didEnd), forKey: "Border")
 		}
 	}

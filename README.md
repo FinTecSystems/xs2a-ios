@@ -68,7 +68,7 @@ Before doing so, you need to `configure` the SDK first.
 The `XS2AViewController` will guide the customer through the process. After that process is finished, you will receive a callback as described below.
 
 ```swift
-let config = XS2AiOS.Configuration(
+let config = XS2A.Configuration(
   /*
    * Required: The Session Key from the XS2A API.
    */
@@ -126,9 +126,9 @@ let config = XS2AiOS.Configuration(
 )
 
 // See the detailed Styling API below
-let style = XS2AiOS.StyleProvider()
+let style = XS2A.StyleProvider()
 
-XS2AiOS.configure(
+XS2A.configure(
   withConfig: config,
   withStyle: style
 )
@@ -198,7 +198,7 @@ You can be notified when the back button has been pressed by passing a `backButt
 ```swift
 func backButtonTapped() {
   /// get the current step of the session
-  let currentStep = XS2AiOS.shared.currentStep
+  let currentStep = XS2A.shared.currentStep
   
   if (currentStep == .login) {
     /// e.g. do something when the back button is pressed during the login step
@@ -213,7 +213,7 @@ func stepHasChanged(step: WizardStep?) {
   // session step has changed
 }
 
-let config = XS2AiOS.Configuration(
+let config = XS2A.Configuration(
   wizardSessionKey: key,
   backButtonAction: backButtonTapped,
   onStepChanged: stepHasChanged
@@ -240,7 +240,7 @@ the back button, which functionally should of course behave the same. This is po
 > Only disable the back button if you are going to implement your own back button!
 
 ```swift
-let config = XS2AiOS.Configuration(
+let config = XS2A.Configuration(
   // ...
   enableBackButton: false,
 )
@@ -291,7 +291,7 @@ class MyCustomLoadingProvider: LoadingStateProvider {
 
 let myCustomLoadingAnimation = MyCustomLoadingProvider()
 
-XS2AiOS.configure(
+XS2A.configure(
   withConfig: config,
   withStyle: style,
   withLoading: myCustomLoadingAnimation

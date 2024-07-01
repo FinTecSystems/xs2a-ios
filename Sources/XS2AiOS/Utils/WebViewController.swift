@@ -68,7 +68,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 	 this view and advance the session.
 	 */
 	func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
-		if (self.webView!.url?.absoluteString == XS2AiOS.shared.configuration.redirectDeepLink) {
+		if (self.webView!.url?.absoluteString == XS2A.shared.configuration.redirectDeepLink) {
 			self.webView!.stopLoading()
 			dismiss(animated: true) {
 				self.redirectActionDelegate?.sendAction(redirectActionType: .done)

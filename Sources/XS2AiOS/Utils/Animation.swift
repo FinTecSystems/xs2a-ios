@@ -10,11 +10,11 @@ func getBorderWidthAnimation(type: BorderAnimationType) -> CAAnimation {
 
 	switch type {
 	case .didStart:
-		borderWidthAnimation.fromValue = XS2AiOS.shared.styleProvider.inputBorderWidth
-		borderWidthAnimation.toValue = XS2AiOS.shared.styleProvider.inputBorderWidthActive
+		borderWidthAnimation.fromValue = XS2A.shared.styleProvider.inputBorderWidth
+		borderWidthAnimation.toValue = XS2A.shared.styleProvider.inputBorderWidthActive
 	case .didEnd:
-		borderWidthAnimation.fromValue = XS2AiOS.shared.styleProvider.inputBorderWidthActive
-		borderWidthAnimation.toValue = XS2AiOS.shared.styleProvider.inputBorderWidth
+		borderWidthAnimation.fromValue = XS2A.shared.styleProvider.inputBorderWidthActive
+		borderWidthAnimation.toValue = XS2A.shared.styleProvider.inputBorderWidth
 	}
 
 	borderWidthAnimation.duration = 0.15
@@ -27,11 +27,11 @@ func getBorderColorAnimation(type: BorderAnimationType) -> CAAnimation {
 
 	switch type {
 	case .didStart:
-		animation.fromValue = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
-		animation.toValue = XS2AiOS.shared.styleProvider.tintColor.cgColor
+		animation.fromValue = XS2A.shared.styleProvider.inputBorderColor.cgColor
+		animation.toValue = XS2A.shared.styleProvider.tintColor.cgColor
 	case .didEnd:
-		animation.fromValue = XS2AiOS.shared.styleProvider.tintColor.cgColor
-		animation.toValue = XS2AiOS.shared.styleProvider.inputBorderColor.cgColor
+		animation.fromValue = XS2A.shared.styleProvider.tintColor.cgColor
+		animation.toValue = XS2A.shared.styleProvider.inputBorderColor.cgColor
 	}
 
 	animation.duration = 0.15
