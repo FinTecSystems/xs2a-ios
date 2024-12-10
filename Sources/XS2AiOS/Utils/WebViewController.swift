@@ -2,7 +2,7 @@ import WebKit
 
 /// WebView Wrapper Class
 /// Used for showing webviews in case of redirect based flows
-class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler, UIAdaptivePresentationControllerDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler, WKUIDelegate, UIAdaptivePresentationControllerDelegate {
 	
 	/// Delegate for notifying the constructing parent class of the next action to take
 	var redirectActionDelegate: WebViewNotificationDelegate?
@@ -49,6 +49,11 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 		webView = WKWebView(frame: frame, configuration: config)
 		webView.navigationDelegate = self
+		if #available(iOS 16.4, *) {
+			webView.isInspectable = true
+		} else {
+			// Fallback on earlier versions
+		}
 		
 		webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
 
@@ -137,6 +142,16 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 			self.navigationItem.rightBarButtonItem = self.getSecureIcon(isSecure: false)
 		}
 	}
+	
+	// this handles target=_blank links by opening them in the same view
+	func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+		if let frame = navigationAction.targetFrame,
+			frame.isMainFrame {
+			return nil
+		}
+		webView.load(navigationAction.request)
+		return nil
+	}
 
 	@objc func closeButtonPressed() {
 		self.dismiss(animated: true, completion: nil)
@@ -144,7 +159,9 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 	
 	override func viewDidLoad() {
 		self.presentationController?.delegate = self
-		webView.load(URLRequest(url: url))
+		webView.uiDelegate = self
+
+		webView.load(URLRequest(url: URL(string: "https://frontend-previews.staging.oxford.tink.se/tink-link/12228/1.0/pay/direct?client_id=727c5c765d29451480f2f6200358bc66&redirect_uri=https://demo-oxford-staging.tink.teleport.sh/donate/callback&market=SE&locale=en_US&payment_request_id=e2900e0bc50649fbba29d264c6ef88a8")!))
 		webView.allowsBackForwardNavigationGestures = false
 	}
 }

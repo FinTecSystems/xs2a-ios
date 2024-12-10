@@ -64,7 +64,7 @@ public enum XS2ASessionError: Error {
 	case other(errorCode: String, recoverable: Bool)
 }
 
-public enum Result<XS2ASuccess, XS2AError, XS2ASessionError> {
+public enum XS2AResult<XS2ASuccess, XS2AError, XS2ASessionError> {
 	/**
 	 The session has finished successfully.
 	 */

@@ -22,13 +22,13 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	private var isBusy = false
 
 	/// The result of the session, set after the process has been completed by the user
-	private var result: Result<XS2ASuccess, XS2AError, XS2ASessionError>?
+	private var result: XS2AResult<XS2ASuccess, XS2AError, XS2ASessionError>?
 	
 	/// The payload to send to XS2A backend
 	private var payload: [String: Any] = [:]
 
 	/// Completion handler registered by the host app
-	private let permanentCompletion: ((Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void)?
+	private let permanentCompletion: ((XS2AResult<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void)?
 
 	/// Instance of APIService
 	/// Used for making network requests
@@ -88,7 +88,7 @@ public class XS2AViewController: UIViewController, UIAdaptivePresentationControl
 	private lazy var withScrollView: Bool = true
 	
 	/// Initializer called by host app
-	public init(xs2a: XS2A = .shared, completion: @escaping (Result<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
+	public init(xs2a: XS2A = .shared, completion: @escaping (XS2AResult<XS2ASuccess, XS2AError, XS2ASessionError>) -> Void) {
 		self.ApiService = xs2a.apiService
 		self.permanentCompletion = completion
 		super.init(nibName: nil, bundle: nil)

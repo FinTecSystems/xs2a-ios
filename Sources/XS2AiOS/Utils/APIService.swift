@@ -1,6 +1,5 @@
 import Foundation
 import SwiftyJSON
-@_implementationOnly import XS2AiOSNetService
 
 /// The different Types of Responses from the API
 enum APIResponseType {
