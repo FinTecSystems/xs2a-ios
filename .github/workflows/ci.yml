@@ -4,15 +4,12 @@ on:
     branches: [ "master", "develop" ]
   pull_request:
     branches: [ "master", "develop" ]
-  workflow_dispatch:
     
 jobs:
   build:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Publish to CocoaPod register
-        env:
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      - name: Build using Cocoapods
         run: |
-          pod trunk me
+          pod lib lint XS2AiOS.podspec --allow-warnings
