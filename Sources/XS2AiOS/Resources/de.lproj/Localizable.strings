@@ -21,3 +21,14 @@
 "OfflineNotice.Text" = "Sie werden automatisch weitergeleitet, sobald Ihr Gerät wieder eine Internetverbindung hat.";
 "RedirectAppPrompt.Title" = "Authentifizierungs-Methode wählen";
 "RedirectAppPrompt.Message" = "Wie möchtest du dich einloggen? Hast du die App deiner Bank installiert, wähle \"Banking App\", andernfalls \"Webseite\".";
+"ParagraphLine.Title" = "Absatzüberschrift";
+"ParagraphLine.Text" = "Absatzinhalt";
+"TextLine.Textfield" = "Texteingabefeld";
+"PasswordLine.Textfield" = "Passworteingabefeld";
+"RadioLine.Option" = "Option";
+"RadioLine.OptionDisabled" = "Deaktiviert";
+"RadioLine.OptionSelected" = "ausgewählt";
+"CheckboxLine.Checkbox" = "Auswahlkästchen";
+"CheckboxLine.Selected" = "ausgewählt";
+"CheckboxLine.Disabled" = "deaktiviert";
+"CheckboxLine.Required" = "erforderlich";

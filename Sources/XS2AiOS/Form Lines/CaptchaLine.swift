@@ -11,6 +11,10 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement = Textfield()
 	
+    private let placeholder: String
+    private let invalid: Bool
+    private let label: String
+    
 	/**
 	 - Parameters:
 	   - name: The name of the captcha line
@@ -25,6 +29,9 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 		self.labelElement.text = label
 		self.index = index
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor])
+        self.placeholder = placeholder
+        self.invalid = invalid
+        self.label = label
 		imageElement = UIImage()
 		imageViewElement = UIImageView()
 
@@ -76,6 +83,15 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
 		])
+        
+        setupAccessibility()
+        // Observe when VoiceOver focuses this element
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAccessibilityFocus(_:)),
+            name: UIAccessibility.elementFocusedNotification,
+            object: nil
+        )
 	}
 
 	func exposableFields() -> Dictionary<String, Any>? {
@@ -101,4 +117,27 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 			textfieldElement.layer.add(getBorderAnimation(type: .didEnd), forKey: "Border")
 		}
 	}
+    
+    private func setupAccessibility() {
+        view.isAccessibilityElement = true
+        view.accessibilityLabel = labelElement.text
+        labelElement.isAccessibilityElement = false
+        textfieldElement.isAccessibilityElement = true
+        view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield")) \(placeholder))"
+    }
+    
+    @objc private func handleAccessibilityFocus(_ notification: Notification) {
+      guard let focused = notification.userInfo?[UIAccessibility.focusedElementUserInfoKey] as? UIView else {
+           return
+       }
+       if focused === view {
+           // When this view is focused, activate the text field
+           textfieldElement.becomeFirstResponder()
+       } else {
+           // Lose focus (resign) when moving away
+           if textfieldElement.isFirstResponder {
+               textfieldElement.resignFirstResponder()
+           }
+       }
+    }
 }

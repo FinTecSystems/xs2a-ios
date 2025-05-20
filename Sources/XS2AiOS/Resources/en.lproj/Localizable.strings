@@ -21,3 +21,14 @@
 "OfflineNotice.Text" = "You will be automatically redirected as soon as your device has an internet connection again.";
 "RedirectAppPrompt.Title" = "Choose Authentication Method";
 "RedirectAppPrompt.Message" = "How would you like to login? If you have your bank's app installed, choose \"Banking App\", otherwise \"Website\".";
+"ParagraphLine.Title" = "Paragraph title";
+"ParagraphLine.Text" = "Paragraph body text";
+"TextLine.Textfield" = "Text input field";
+"PasswordLine.Textfield" = "Password input field";
+"RadioLine.Option" = "Option";
+"RadioLine.OptionDisabled" = "Disabled";
+"RadioLine.OptionSelected" = "selected";
+"CheckboxLine.Checkbox" = "Checkbox";
+"CheckboxLine.Selected" = "selected";
+"CheckboxLine.Disabled" = "disabled";
+"CheckboxLine.Required" = "required";

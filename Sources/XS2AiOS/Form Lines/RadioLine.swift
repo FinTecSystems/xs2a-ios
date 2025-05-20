@@ -36,6 +36,19 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 			radioBtn.titleLabel?.font = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
 			radioBtn.setTitleColor(XS2A.shared.styleProvider.textColor, for: .normal)
 			radioBtn.isEnabled = !option.disabled
+        
+            //Accessibility
+            radioBtn.isAccessibilityElement = true
+            radioBtn.accessibilityTraits = []
+            let textIfDisabled = option.disabled ? getStringForKey(key: "RadioLine.OptionDisabled") : ""
+            radioBtn.accessibilityLabel = "\(textIfDisabled). \(getStringForKey(key: "RadioLine.Option")) \(index + 1): \(option.label)."
+            
+            let isChecked = (index == checked)
+            if isChecked {
+              radioBtn.accessibilityValue = getStringForKey(key: "RadioLine.OptionSelected")
+            } else {
+              radioBtn.accessibilityValue = ""
+            }
 			
 			/// Attach buttonTapped function to the radio button
 			radioBtn.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -55,6 +68,18 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 		view.superview?.endEditing(true)
 		self.checked = sender.tag
 		radioController.setSelectedButton(buttonSelected: radioController.buttonsArray[sender.tag])
+        
+        // update accessibilityValue for each button
+        for btn in radioController.buttonsArray {
+          if btn.tag == checked {
+            btn.accessibilityValue = getStringForKey(key: "RadioLine.OptionSelected")
+          } else {
+            btn.accessibilityValue = ""
+          }
+        }
+
+        // optionally move VoiceOver focus to the newly selected button
+        UIAccessibility.post(notification: .layoutChanged, argument: sender)
 	}
 
 	required init?(coder: NSCoder) {
@@ -89,5 +114,17 @@ class RadioLine: UIViewController, FormLine, ExposableFormElement {
 			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
 		])
+        
+        setupAccessibility()
 	}
+    
+    private func setupAccessibility() {
+//        labelElement.isAccessibilityElement = false
+//        view.isAccessibilityElement = true
+        labelElement.accessibilityLabel = self.labelElement.text
+        labelElement.accessibilityTraits = []
+        
+        view.accessibilityLabel = labelElement.text
+        
+    }
 }

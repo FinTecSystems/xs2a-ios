@@ -33,50 +33,83 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		self.selectedElementId = selected
 		self.name = name
 		
-		if !selected.isEmpty {
-			self.textfieldElement.text = options[selected] as? String
-		} else {
-			self.textfieldElement.attributedPlaceholder = NSAttributedString(
-				string: Strings.choose,
-				attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor]
-			)
-		}
+        super.init(nibName: nil, bundle: nil)
+  
+        // setup textfield
+        pickerElement.delegate = self
+        pickerElement.dataSource = self
+        textfieldElement.inputView = pickerElement
+        if let idx = self.options.firstIndex(where: { $0.id == selected }) {
+            textfieldElement.text = self.options[idx].label as? String
+            pickerElement.selectRow(idx, inComponent: 0, animated: false)
+        } else {
+            textfieldElement.attributedPlaceholder = NSAttributedString(
+                string: Strings.choose,
+                attributes: [.foregroundColor: XS2A.shared.styleProvider.placeholderColor]
+            )
+        }
+        if invalid { textfieldElement.styleTextfield(style: .error) }
+        labelElement.text = label
+        
+//		if !selected.isEmpty {
+//			self.textfieldElement.text = options[selected] as? String
+//		} else {
+//			self.textfieldElement.attributedPlaceholder = NSAttributedString(
+//				string: Strings.choose,
+//				attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor]
+//			)
+//		}
+//		
+//		labelElement.text = label
+//		
+//		if invalid {
+//			textfieldElement.styleTextfield(style: .error)
+//		}
 		
-		labelElement.text = label
 		
-		if invalid {
-			textfieldElement.styleTextfield(style: .error)
-		}
-		
-		super.init(nibName: nil, bundle: nil)
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		textfieldElement.inputView = pickerElement
-		pickerElement.delegate = self
-		pickerElement.dataSource = self
+	
+        let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+        stackView.addCustomSpacing(5, after: labelElement)
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
+            stackView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
+        ])
 
-		/// In case we get a preselected value from the server, set the corresponding text
-		if let selectedIndex = self.options.firstIndex(where: { $0.id == selectedElementId }) {
-			textfieldElement.text = self.options[selectedIndex].label as? String
-		}
-		
-		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
-		stackView.addCustomSpacing(5, after: labelElement)
-		stackView.axis = .vertical
-		stackView.distribution = .fill
-		stackView.translatesAutoresizingMaskIntoConstraints = false
-		
-		view.addSubview(stackView)
-
-		NSLayoutConstraint.activate([
-			stackView.topAnchor.constraint(equalTo: self.view.topAnchor),
-			stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
-		])
+       setupAccessibility()
+        
+//		textfieldElement.inputView = pickerElement
+//		pickerElement.delegate = self
+//		pickerElement.dataSource = self
+//
+//		/// In case we get a preselected value from the server, set the corresponding text
+//		if let selectedIndex = self.options.firstIndex(where: { $0.id == selectedElementId }) {
+//			textfieldElement.text = self.options[selectedIndex].label as? String
+//		}
+//		
+//		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+//		stackView.addCustomSpacing(5, after: labelElement)
+//		stackView.axis = .vertical
+//		stackView.distribution = .fill
+//		stackView.translatesAutoresizingMaskIntoConstraints = false
+//		
+//		view.addSubview(stackView)
+//
+//		NSLayoutConstraint.activate([
+//			stackView.topAnchor.constraint(equalTo: self.view.topAnchor),
+//			stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+//			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+//			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
+//		])
 	}
 	
 	required init?(coder: NSCoder) {
@@ -93,17 +126,30 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 		self.textfieldElement.styleDisabledState()
 	}
 	
-	func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-		if row == 0 {
-			var attributes = [NSAttributedString.Key: AnyObject]()
-			attributes[.foregroundColor] = UIColor.systemGray
-
-			let attributedString = NSAttributedString(string: self.options[row].label as? String ?? Strings.choose, attributes: attributes)
-
-			return attributedString
-		}
-		
-		return NSAttributedString(string: self.options[row].label as! String)
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selection = options[row]
+                // enforce skip first placeholder
+                if row == 0 {
+                    pickerView.selectRow(1, inComponent: 0, animated: true)
+                    return
+                }
+                textfieldElement.text = selection.label as? String
+                selectedElementId = selection.id
+                textfieldElement.resignFirstResponder()
+                // update accessibility value
+                view.accessibilityValue = selection.label as? String
+                UIAccessibility.post(notification: .layoutChanged, argument: view)
+        
+//		if row == 0 {
+//			var attributes = [NSAttributedString.Key: AnyObject]()
+//			attributes[.foregroundColor] = UIColor.systemGray
+//
+//			let attributedString = NSAttributedString(string: self.options[row].label as? String ?? Strings.choose, attributes: attributes)
+//
+//			return attributedString
+//		}
+//		
+//		return NSAttributedString(string: self.options[row].label as! String)
 	}
 	
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -121,17 +167,44 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
 	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 		return false
 	}
-	
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		if row == 0 {
-			/// If the first row ("Choose ...") row was selected, roll to next row
-			pickerView.selectRow(1, inComponent: 0, animated: true)
+//	
+//	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//		if row == 0 {
+//			/// If the first row ("Choose ...") row was selected, roll to next row
+//			pickerView.selectRow(1, inComponent: 0, animated: true)
+//
+//			return
+//		}
+//
+//		textfieldElement.text = options[row].label as? String
+//		selectedElementId = options[row].id
+//		textfieldElement.resignFirstResponder()
+//	}
+    
+    private func setupAccessibility() {
+            // hide child elements
+            labelElement.isAccessibilityElement = false
+            textfieldElement.isAccessibilityElement = false
+            pickerElement.isAccessibilityElement = false
+            // container as one element
+            view.isAccessibilityElement = true
+            view.accessibilityTraits = .adjustable
+            view.accessibilityLabel = label
+            view.accessibilityValue = textfieldElement.text ?? Strings.choose
+//            view.accessibilityHint = getStringForKey(key: "SelectLine.Hint")
+        }
 
-			return
-		}
-
-		textfieldElement.text = options[row].label as? String
-		selectedElementId = options[row].id
-		textfieldElement.resignFirstResponder()
-	}
+        // support adjustable trait
+        override func accessibilityIncrement() {
+            var next = pickerElement.selectedRow(inComponent: 0) + 1
+            if next >= options.count { next = options.count - 1 }
+            pickerElement.selectRow(next, inComponent: 0, animated: true)
+            pickerView(pickerElement, didSelectRow: next, inComponent: 0)
+        }
+        override func accessibilityDecrement() {
+            var prev = pickerElement.selectedRow(inComponent: 0) - 1
+            if prev < 0 { prev = 0 }
+            pickerElement.selectRow(prev, inComponent: 0, animated: true)
+            pickerView(pickerElement, didSelectRow: prev, inComponent: 0)
+        }
 }

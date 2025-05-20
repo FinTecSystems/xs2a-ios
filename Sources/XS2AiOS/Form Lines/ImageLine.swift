@@ -41,4 +41,9 @@ class ImageLine: UIViewController, FormLine {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+    
+    private func setupAccessibility() {
+        view.isAccessibilityElement = true
+        view.accessibilityTraits = [.image]
+    }
 }
