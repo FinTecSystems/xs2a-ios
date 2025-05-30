@@ -126,11 +126,20 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
         titleLabel.isAccessibilityElement = false
         textLabel.isAccessibilityElement = false
         view.isAccessibilityElement = true
-        
-//        let titleKey = getStringForKey(key: "ParagraphLine.Title")
-//        let textKey = getStringForKey(key: "ParagraphLine.Text")
-        view.accessibilityLabel = "\(constructLabelString(stringToTest: paragraphTitle).string). \(constructLabelString(stringToTest: paragraphText).string)."
-//        view.accessibilityHint = getStringForKey(key: "ParagraphLine.Hint")
         view.accessibilityTraits = .staticText
+        
+        var serverityString = ""
+        switch severity {
+        case .warning:
+            serverityString = getStringForKey(key: "ParagraphLine.Warning")
+        case .info:
+            serverityString = getStringForKey(key: "ParagraphLine.Info")
+        case .error:
+            serverityString = getStringForKey(key: "ParagraphLine.Error")
+        case .none:
+            serverityString = ""
+        }
+     
+        view.accessibilityLabel = "\(constructLabelString(stringToTest: paragraphTitle).string). \(constructLabelString(stringToTest: paragraphText).string). \(serverityString)"
     }
 }

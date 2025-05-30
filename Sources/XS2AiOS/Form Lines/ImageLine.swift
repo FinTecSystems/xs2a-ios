@@ -5,13 +5,16 @@ class ImageLine: UIViewController, FormLine {
 	
 	private var imageElement: UIImage
 	private var imageView: UIImageView
+    
+    private var imageDescription: String
 	
 	/**
 	 - Parameters:
 	   - data: The base64 encoded image data
 	*/
-	init(data: String) {
+    init(data: String, description: String) {
 		imageView = UIImageView()
+        imageDescription = description
 		
 		if let base64ImageData = imageForBase64String(data) {
 			imageElement = base64ImageData
@@ -36,6 +39,8 @@ class ImageLine: UIViewController, FormLine {
 			imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 			view.heightAnchor.constraint(equalTo: imageView.heightAnchor),
 		])
+        
+        setupAccessibility()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -45,5 +50,6 @@ class ImageLine: UIViewController, FormLine {
     private func setupAccessibility() {
         view.isAccessibilityElement = true
         view.accessibilityTraits = [.image]
+        view.accessibilityLabel = imageDescription
     }
 }

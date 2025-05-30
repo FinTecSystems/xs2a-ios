@@ -18,16 +18,24 @@ extension UIButton {
 		let button = UIButton()
 
 		let style: XS2A.ButtonStyle
+        let accessibilityHint: String
 		switch buttonType {
 		case .abort:
 			style = XS2A.shared.styleProvider.abortButtonStyle
+            accessibilityHint = getStringForKey(key: "Button.Abort")
 		case .back:
 			style = XS2A.shared.styleProvider.backButtonStyle
+            accessibilityHint = getStringForKey(key: "Button.Back")
 		case .restart:
 			style = XS2A.shared.styleProvider.restartButtonStyle
+            accessibilityHint = getStringForKey(key: "Button.Restart")
 		default:
 			style = XS2A.shared.styleProvider.submitButtonStyle
+            accessibilityHint = getStringForKey(key: "Button.Submit")
 		}
+        
+        button.accessibilityHint = accessibilityHint
+        button.accessibilityTraits = []
 
 		button.setTitleColor(style.textColor, for: .normal)
 		button.setBackgroundColor(color: style.backgroundColor, forState: .normal)

@@ -163,5 +163,23 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 
 		webView.load(URLRequest(url: URL(string: "https://frontend-previews.staging.oxford.tink.se/tink-link/12228/1.0/pay/direct?client_id=727c5c765d29451480f2f6200358bc66&redirect_uri=https://demo-oxford-staging.tink.teleport.sh/donate/callback&market=SE&locale=en_US&payment_request_id=e2900e0bc50649fbba29d264c6ef88a8")!))
 		webView.allowsBackForwardNavigationGestures = false
+        
+        navigationController?.view.accessibilityViewIsModal = true
 	}
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+     
+        //we want to navigate to the web view first
+        guard
+            let nav = navigationController,
+            let barElements = nav.navigationBar.accessibilityElements,
+            let wk = webView
+        else { return }
+        nav.view.accessibilityElements = barElements + [wk] 
+        UIAccessibility.post(
+            notification: .screenChanged,
+            argument: wk
+        )
+    }
 }

@@ -245,7 +245,8 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 				case .image:
 					formClasses.append(
 						ImageLine(
-							data: formElement["data"].stringValue
+                            data: formElement["data"].stringValue,
+                            description: formElement["description"].stringValue
 						)
 					)
 				case .tabs:
