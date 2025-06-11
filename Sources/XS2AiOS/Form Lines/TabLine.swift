@@ -50,9 +50,56 @@ class TabLine: UIViewController, FormLine {
 			view.heightAnchor.constraint(equalTo: tabBtn.heightAnchor),
 			tabBtn.widthAnchor.constraint(equalTo: view.widthAnchor),
 		])
+        
+        tabBtn.isAccessibilityElement = true
+        tabBtn.accessibilityLabel = getStringForKey(key: "TabLine.Description")
+        tabBtn.accessibilityHint = getStringForKey(key: "TabLine.Hint")
+        tabBtn.accessibilityValue = tabBtn.titleForSegment(at: tabBtn.selectedSegmentIndex)
+
+        // Add these two actions:
+        tabBtn.accessibilityCustomActions = [
+          UIAccessibilityCustomAction(
+            name: getStringForKey(key: "TabLine.Next"),
+            target: self,
+            selector: #selector(accessibilityNextTab)
+          ),
+          UIAccessibilityCustomAction(
+            name: getStringForKey(key: "TabLine.Previous"),
+            target: self,
+            selector: #selector(accessibilityPreviousTab)
+          )
+        ]
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+    
+    @objc private func accessibilityNextTab(_ action: UIAccessibilityCustomAction) -> Bool {
+      let next = min(tabBtn.selectedSegmentIndex + 1, tabBtn.numberOfSegments - 1)
+      guard next != tabBtn.selectedSegmentIndex else { return false }
+      tabBtn.selectedSegmentIndex = next
+      tabBtn.sendActions(for: .valueChanged)
+      updateAccessibilityAnnouncement()
+      return true
+    }
+
+    @objc private func accessibilityPreviousTab(_ action: UIAccessibilityCustomAction) -> Bool {
+      let prev = max(tabBtn.selectedSegmentIndex - 1, 0)
+      guard prev != tabBtn.selectedSegmentIndex else { return false }
+      tabBtn.selectedSegmentIndex = prev
+      tabBtn.sendActions(for: .valueChanged)
+      updateAccessibilityAnnouncement()
+      return true
+    }
+
+    // Helper to announce and refresh value
+    private func updateAccessibilityAnnouncement() {
+      let title = tabBtn.titleForSegment(at: tabBtn.selectedSegmentIndex) ?? ""
+      tabBtn.accessibilityValue = title
+      UIAccessibility.post(
+        notification: .announcement,
+        argument: "\(getStringForKey(key: "TabLine.Switched")) \(title)"
+      )
+    }
 }

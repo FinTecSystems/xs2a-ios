@@ -61,5 +61,9 @@ class LogoLine: UIViewController, FormLine {
 			imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 			view.heightAnchor.constraint(equalTo: imageView.heightAnchor),
 		])
+        
+        imageView.isAccessibilityElement = true
+        imageView.accessibilityLabel = Strings.Alert.Imprint.title
+        imageView.accessibilityTraits = .button
 	}
 }

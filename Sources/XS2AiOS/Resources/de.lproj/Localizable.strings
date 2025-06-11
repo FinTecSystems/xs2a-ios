@@ -44,3 +44,11 @@
 "Button.Back" = "Zurück Taste";
 "Button.Restart" = "Neustart Taste";
 "Button.Submit" = "Absenden Taste";
+"TabLine.Description" = "Login Auswahl";
+"TabLine.Hint" = "Streichen Sie zur Auswahl vor und zurück";
+"TabLine.Next" = "Nächster Tab";
+"TabLine.Previous" = "Vorheriger Tab";
+"TabLine.Switched" = "Gewechselt zu ";
+"LoadingDialog.Loading" = "Lade";
+"LoadingDialog.PleaseWait" = "Bitte warten";
+"LoadingDialog.LoadingComplete" = "Fertig geladen";

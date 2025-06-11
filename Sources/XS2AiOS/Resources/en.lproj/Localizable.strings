@@ -44,3 +44,11 @@
 "Button.Back" = "Back Button";
 "Button.Restart" = "Restart Button";
 "Button.Submit" = "Submit Button";
+"TabLine.Description" = "Login method tabs";
+"TabLine.Hint" = "Swipe up for next tab, down for previous tab";
+"TabLine.Next" = "Next Tab";
+"TabLine.Previous" = "Previous Tab";
+"TabLine.Switched" = "Switched to ";
+"LoadingDialog.Loading" = "Loading";
+"LoadingDialog.PleaseWait" = "Please wait";
+"LoadingDialog.LoadingComplete" = "Finished loading";
