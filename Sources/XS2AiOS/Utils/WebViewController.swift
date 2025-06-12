@@ -161,7 +161,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKScriptMessage
 		self.presentationController?.delegate = self
 		webView.uiDelegate = self
 
-		webView.load(URLRequest(url: URL(string: "https://frontend-previews.staging.oxford.tink.se/tink-link/12228/1.0/pay/direct?client_id=727c5c765d29451480f2f6200358bc66&redirect_uri=https://demo-oxford-staging.tink.teleport.sh/donate/callback&market=SE&locale=en_US&payment_request_id=e2900e0bc50649fbba29d264c6ef88a8")!))
+		webView.load(URLRequest(url: url)
 		webView.allowsBackForwardNavigationGestures = false
         
         navigationController?.view.accessibilityViewIsModal = true
