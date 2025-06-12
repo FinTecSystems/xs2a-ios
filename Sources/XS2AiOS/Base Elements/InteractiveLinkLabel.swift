@@ -26,6 +26,7 @@ class InteractiveLinkLabel: UILabel {
 	
 	override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
 		let superBool = super.point(inside: point, with: event)
+        if event == nil { return superBool } // Workaround for VoiceOver
 		
 		// Configure NSTextContainer
 		let textContainer = NSTextContainer(size: bounds.size)

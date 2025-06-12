@@ -29,3 +29,37 @@ extension UIColor {
 	func lighter(by amount: CGFloat = 0.2) -> Self { mix(with: .white, amount: amount) }
 	func darker(by amount: CGFloat = 0.2) -> Self { mix(with: .black, amount: amount) }
 }
+
+extension UIColor {
+    /// Initialize with hex string; uses fallback color if invalid
+    public convenience init(hex: String, defaultAlpha: CGFloat = 1.0, fallback: UIColor = .clear) {
+        let hexStr = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+                        .replacingOccurrences(of: "#", with: "")
+        var int: UInt64 = 0
+        guard Scanner(string: hexStr).scanHexInt64(&int) else {
+            var rF: CGFloat = 0, gF: CGFloat = 0, bF: CGFloat = 0, aF: CGFloat = 0
+            fallback.getRed(&rF, green: &gF, blue: &bF, alpha: &aF)
+            self.init(red: rF, green: gF, blue: bF, alpha: aF)
+            return
+        }
+        let r, g, b, a: CGFloat
+        switch hexStr.count {
+        case 6:
+            r = CGFloat((int >> 16) & 0xFF)/255
+            g = CGFloat((int >> 8)  & 0xFF)/255
+            b = CGFloat(int         & 0xFF)/255
+            a = defaultAlpha
+        case 8:
+            a = CGFloat((int >> 24) & 0xFF)/255
+            r = CGFloat((int >> 16) & 0xFF)/255
+            g = CGFloat((int >> 8)  & 0xFF)/255
+            b = CGFloat(int         & 0xFF)/255
+        default:
+            var rF: CGFloat = 0, gF: CGFloat = 0, bF: CGFloat = 0, aF: CGFloat = 0
+            fallback.getRed(&rF, green: &gF, blue: &bF, alpha: &aF)
+            self.init(red: rF, green: gF, blue: bF, alpha: aF)
+            return
+        }
+        self.init(red: r, green: g, blue: b, alpha: a)
+    }
+}
