@@ -58,6 +58,10 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 		
 		return shouldReturn ?? false
 	}
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateAccessibilityValue()
+    }
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
@@ -116,7 +120,8 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
         view.accessibilityLabel = labelElement.text
         labelElement.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = true
-        textfieldElement.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield")) \(placeholder))"
+        view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
+        updateAccessibilityValue()
         
         // Observe when VoiceOver focuses this element
         NotificationCenter.default.addObserver(
@@ -125,6 +130,10 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
             name: UIAccessibility.elementFocusedNotification,
             object: nil
         )
+    }
+    
+    private func updateAccessibilityValue() {
+        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

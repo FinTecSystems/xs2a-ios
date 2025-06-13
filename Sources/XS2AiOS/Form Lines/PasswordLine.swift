@@ -94,6 +94,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		
 		return shouldReturn ?? false
 	}
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateAccessibilityValue()
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -132,7 +136,8 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
         textfieldElement.isAccessibilityElement = false
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
-        view.accessibilityLabel = "\(label). \(getStringForKey(key: "PasswordLine.Textfield")) \(placeholder))"
+        view.accessibilityLabel = "\(label). \(getStringForKey(key: "PasswordLine.Textfield"))"
+        updateAccessibilityValue()
         
         // Observe when VoiceOver focuses this element
         NotificationCenter.default.addObserver(
@@ -141,6 +146,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
             name: UIAccessibility.elementFocusedNotification,
             object: nil
         )
+    }
+    
+    private func updateAccessibilityValue() {
+        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

@@ -10,6 +10,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	
 	internal let name: String
 	private let index: Int
+    private let placeholder: String
 	
 	/**
 	An array of arrays that contain 5 integers each, indicating on/white (1) or off/black (0) for the flickerContainers.
@@ -36,10 +37,11 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	   - invalid:If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	*/
-	init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int) {
+    init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int, placeholder: String) {
 		self.name = name
 		self.code = code
 		self.index = index
+        self.placeholder = placeholder
 
 		labelElement.text = label
 		super.init(nibName: nil, bundle: nil)
@@ -65,6 +67,10 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		
 		return shouldReturn ?? false
 	}
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateAccessibilityValue()
+    }
 	
 	/// Function for stepping through the code array and 'flickering' between white and black
 	@objc private func step() {
@@ -378,6 +384,10 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
             name: UIAccessibility.elementFocusedNotification,
             object: nil
         )
+    }
+    
+    private func updateAccessibilityValue() {
+        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {
