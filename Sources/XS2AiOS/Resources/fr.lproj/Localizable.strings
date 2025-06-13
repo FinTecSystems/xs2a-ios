@@ -29,6 +29,7 @@
 "TextLine.Textfield" = "Champ de texte";
 "TextLine.AutocompleteModal.CloseHint" = "Effectuez le geste Z avec deux doigts pour fermer la modale.";
 "PasswordLine.Textfield" = "Champ de mot de passe";
+"PasswordLine.Textfield.ValueHidden" = "Valeur d'entrée cachée";
 "RadioLine.Option" = "Bouton radio";
 "RadioLine.OptionDisabled" = "Désactivé";
 "RadioLine.OptionSelected" = "Sélectionné";

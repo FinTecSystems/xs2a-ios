@@ -149,7 +149,11 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
     }
     
     private func updateAccessibilityValue() {
-        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
+        let textFieldValue = textfieldElement.isSecureTextEntry
+            ? getStringForKey(key: "PasswordLine.Textfield.ValueHidden")
+            : textfieldElement.text
+        
+        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textFieldValue : placeholder
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

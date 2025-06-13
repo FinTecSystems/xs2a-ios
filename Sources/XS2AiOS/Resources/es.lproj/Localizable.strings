@@ -29,6 +29,7 @@
 "TextLine.Textfield" = "Campo de texto";
 "TextLine.AutocompleteModal.CloseHint" = "Realiza el gesto Z con dos dedos para cerrar el modal.";
 "PasswordLine.Textfield" = "Campo de contraseña";
+"PasswordLine.Textfield.ValueHidden" = "Valor de entrada oculto";
 "RadioLine.Option" = "Botón de opción";
 "RadioLine.OptionDisabled" = "Deshabilitado";
 "RadioLine.OptionSelected" = "Seleccionado";
