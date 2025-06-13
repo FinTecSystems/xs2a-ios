@@ -27,6 +27,7 @@
 "ParagraphLine.Error" = "Champ d’erreur";
 "ParagraphLine.Info" = "Champ d’information";
 "TextLine.Textfield" = "Champ de texte";
+"TextLine.AutocompleteModal.CloseHint" = "Effectuez le geste Z avec deux doigts pour fermer la modale.";
 "PasswordLine.Textfield" = "Champ de mot de passe";
 "RadioLine.Option" = "Bouton radio";
 "RadioLine.OptionDisabled" = "Désactivé";

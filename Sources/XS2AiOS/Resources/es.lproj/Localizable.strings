@@ -27,6 +27,7 @@
 "ParagraphLine.Error" = "Campo de error";
 "ParagraphLine.Info" = "Campo de información";
 "TextLine.Textfield" = "Campo de texto";
+"TextLine.AutocompleteModal.CloseHint" = "Realiza el gesto Z con dos dedos para cerrar el modal.";
 "PasswordLine.Textfield" = "Campo de contraseña";
 "RadioLine.Option" = "Botón de opción";
 "RadioLine.OptionDisabled" = "Deshabilitado";

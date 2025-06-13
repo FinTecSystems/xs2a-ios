@@ -27,6 +27,7 @@
 "ParagraphLine.Error" = "Fehlerfeld";
 "ParagraphLine.Info" = "Infofeld";
 "TextLine.Textfield" = "Texteingabefeld";
+"TextLine.AutocompleteModal.CloseHint" = "Zum Schließen des Modals Z-Geste mit zwei Fingern ausführen.";
 "PasswordLine.Textfield" = "Passworteingabefeld";
 "RadioLine.Option" = "Optionsfeld";
 "RadioLine.OptionDisabled" = "Deaktiviert";

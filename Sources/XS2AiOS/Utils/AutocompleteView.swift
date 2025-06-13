@@ -172,6 +172,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		self.infoLabel.text = Strings.AutocompleteView.notice
 		self.infoLabel.numberOfLines = 3
 		self.searchField.autocorrectionType = .no
+        self.searchField.accessibilityHint = getStringForKey(key: "TextLine.AutocompleteModal.CloseHint")
 		self.nextButton = UIButton.make(buttonType: .submit)
 		self.nextButton.setTitle(Strings.next, for: .normal)
 
