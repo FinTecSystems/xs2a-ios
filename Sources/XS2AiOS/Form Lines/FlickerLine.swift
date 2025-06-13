@@ -10,6 +10,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	
 	internal let name: String
 	private let index: Int
+    private let placeholder: String
 	
 	/**
 	An array of arrays that contain 5 integers each, indicating on/white (1) or off/black (0) for the flickerContainers.
@@ -36,10 +37,11 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	   - invalid:If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	*/
-	init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int) {
+    init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int, placeholder: String) {
 		self.name = name
 		self.code = code
 		self.index = index
+        self.placeholder = placeholder
 
 		labelElement.text = label
 		super.init(nibName: nil, bundle: nil)
@@ -65,6 +67,10 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		
 		return shouldReturn ?? false
 	}
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateAccessibilityValue()
+    }
 	
 	/// Function for stepping through the code array and 'flickering' between white and black
 	@objc private func step() {
@@ -170,6 +176,8 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		smallerButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
 		smallerButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		smallerButton.addTarget(self, action: #selector(decreaseFlickerSize), for: .touchUpInside)
+        smallerButton.isAccessibilityElement = true
+        smallerButton.accessibilityLabel = getStringForKey(key: "FlickerLine.minus_glass")
 		
 		let biggerButton = UIButton()
 		let plusGlassImage = UIImage(named: "plus_glass", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -178,6 +186,8 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		biggerButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
 		biggerButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		biggerButton.addTarget(self, action: #selector(increaseFlickerSize), for: .touchUpInside)
+        biggerButton.isAccessibilityElement = true
+        biggerButton.accessibilityLabel = getStringForKey(key: "FlickerLine.plus_glass")
 		
 		let fasterButton = UIButton()
 		let plusGaugeImage = UIImage(named: "gauge_plus", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -186,6 +196,8 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		fasterButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
 		fasterButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		fasterButton.addTarget(self, action: #selector(increaseFlickerSpeed), for: .touchUpInside)
+        fasterButton.isAccessibilityElement = true
+        fasterButton.accessibilityLabel = getStringForKey(key: "FlickerLine.gauge_plus")
 		
 		let slowerButton = UIButton()
 		let minusGaugeImage = UIImage(named: "gauge_minus", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -194,6 +206,8 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		slowerButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
 		slowerButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		slowerButton.addTarget(self, action: #selector(decreaseFlickerSpeed), for: .touchUpInside)
+        slowerButton.isAccessibilityElement = true
+        slowerButton.accessibilityLabel = getStringForKey(key: "FlickerLine.gauge_minus")
 		
 		let rotateButton = UIButton()
 		
@@ -204,6 +218,8 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		rotateButton.layer.cornerRadius = XS2A.shared.styleProvider.buttonBorderRadius
 		rotateButton.backgroundColor = XS2A.shared.styleProvider.submitButtonStyle.backgroundColor
 		rotateButton.addTarget(self, action: #selector(rotateFlicker), for: .touchUpInside)
+        rotateButton.isAccessibilityElement = true
+        rotateButton.accessibilityLabel = getStringForKey(key: "FlickerLine.rotate_clockwise")
 		
 		let buttonStackView = UIStackView(arrangedSubviews: [biggerButton, smallerButton, slowerButton, fasterButton, rotateButton])
 		buttonStackView.addCustomSpacing(10, after: biggerButton)
@@ -351,5 +367,41 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		super.viewDidLoad()
 		
 		setupFlickerView()
+        
+        setupAccessibility()
 	}
+    
+    private func setupAccessibility() {
+        flickerStackView.isAccessibilityElement = false
+        labelElement.isAccessibilityElement = false
+        textfieldElement.isAccessibilityElement = true
+        textfieldElement.accessibilityLabel = "\(labelElement.text ?? "")."
+        
+        // Observe when VoiceOver focuses this element
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAccessibilityFocus(_:)),
+            name: UIAccessibility.elementFocusedNotification,
+            object: nil
+        )
+    }
+    
+    private func updateAccessibilityValue() {
+        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
+    }
+    
+    @objc private func handleAccessibilityFocus(_ notification: Notification) {
+      guard let focused = notification.userInfo?[UIAccessibility.focusedElementUserInfoKey] as? UIView else {
+           return
+       }
+       if focused === textfieldElement {
+           // When this view is focused, activate the text field
+           textfieldElement.becomeFirstResponder()
+       } else {
+           // Lose focus (resign) when moving away
+           if textfieldElement.isFirstResponder {
+               textfieldElement.resignFirstResponder()
+           }
+       }
+    }
 }

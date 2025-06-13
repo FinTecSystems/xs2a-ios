@@ -205,7 +205,8 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							code: intArray,
 							label: formElement["label"].stringValue,
 							invalid: formElement["invalid"].boolValue,
-							index: formElementIndex
+							index: formElementIndex,
+                            placeholder: formElement["placeholder"].stringValue
 						)
 					)
 				case .radio:
@@ -245,7 +246,8 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 				case .image:
 					formClasses.append(
 						ImageLine(
-							data: formElement["data"].stringValue
+                            data: formElement["data"].stringValue,
+                            description: formElement["description"].stringValue
 						)
 					)
 				case .tabs:

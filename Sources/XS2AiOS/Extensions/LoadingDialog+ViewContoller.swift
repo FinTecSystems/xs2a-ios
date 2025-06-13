@@ -71,9 +71,20 @@ class XS2ALoadingStateProvider: LoadingStateProvider {
 				ProgressDialog.indicatorView.bottomAnchor.constraint(equalTo: ProgressDialog.alert.view.bottomAnchor, constant: -20),
 			]);
 		}
+        
+        let alertView = ProgressDialog.alert.view!
+        alertView.isAccessibilityElement = true
+        alertView.accessibilityViewIsModal = true
+        alertView.accessibilityLabel = title.isEmpty ? getStringForKey(key: "LoadingDialog.Loading") : title
+        alertView.accessibilityHint  = message.isEmpty ? getStringForKey(key: "LoadingDialog.PleaseWait") : message
 		
 		ProgressDialog.indicatorView.startAnimating()
-		viewController.present(ProgressDialog.alert, animated: true, completion: nil)
+        viewController.present(ProgressDialog.alert, animated: true) {
+            UIAccessibility.post(
+                notification: .screenChanged,
+                argument: alertView
+            )
+        }
 	}
 
 	func hideLoadingIndicator(over viewController: UIViewController) {

@@ -112,6 +112,8 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 		view.superview?.endEditing(true)
 		triggerHapticFeedback(style: .light)
 		checked = !checked
+        
+        setCheckedAccessibilityValue()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -153,5 +155,29 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 			stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
 			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
 		])
+        
+        setupAccessibility()
 	}
+    
+    private func setupAccessibility() {
+        view.isAccessibilityElement = true
+        labelElement.accessibilityTraits = []
+        
+        setCheckedAccessibilityValue()
+        
+        let stringDisabled = disabled ? getStringForKey(key: "CheckboxLine.Disabled") : ""
+
+        // where is the required implementation?
+        //        let stringRequired = required ? getStringForKey(key: "CheckboxLine.Required") : ""
+        
+        view.accessibilityLabel = "\(getStringForKey(key: "CheckboxLine.Checkbox")): \(stringDisabled). \(labelElement.text ?? "")"
+    }
+    
+    private func setCheckedAccessibilityValue() {
+        if checked {
+            view.accessibilityValue = getStringForKey(key: "CheckboxLine.Selected")
+        } else {
+            view.accessibilityValue = ""
+        }
+    }
 }

@@ -4,8 +4,11 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	var actionDelegate: ActionDelegate?
 	
 	let name: String
+    private let label: String
 	private let disabled: Bool?
 
+    private let placeholder: String
+    
 	let index: Int
 	let isLoginCredential: Bool
 
@@ -24,8 +27,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	*/
 	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, isLoginCredential: Bool) {
 		self.name = name
+        self.label = label
 		self.labelElement.text = label
 		self.disabled = disabled
+        self.placeholder = placeholder
 		self.index = index
 		self.isLoginCredential = isLoginCredential
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(
@@ -89,6 +94,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		
 		return shouldReturn ?? false
 	}
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateAccessibilityValue()
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -108,6 +117,8 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
 		])
+        
+        setupAccessibility()
 	}
 
 	func exposableFields() -> Dictionary<String, Any>? {
@@ -119,4 +130,44 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	func styleDisabled() {
 		self.textfieldElement.styleDisabledState()
 	}
+    
+    private func setupAccessibility() {
+        labelElement.isAccessibilityElement = false
+        textfieldElement.isAccessibilityElement = false
+        view.isAccessibilityElement = true
+        view.accessibilityTraits = .none
+        view.accessibilityLabel = "\(label). \(getStringForKey(key: "PasswordLine.Textfield"))"
+        updateAccessibilityValue()
+        
+        // Observe when VoiceOver focuses this element
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAccessibilityFocus(_:)),
+            name: UIAccessibility.elementFocusedNotification,
+            object: nil
+        )
+    }
+    
+    private func updateAccessibilityValue() {
+        let textFieldValue = textfieldElement.isSecureTextEntry
+            ? getStringForKey(key: "PasswordLine.Textfield.ValueHidden")
+            : textfieldElement.text
+        
+        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textFieldValue : placeholder
+    }
+    
+    @objc private func handleAccessibilityFocus(_ notification: Notification) {
+        guard let focused = notification.userInfo?[UIAccessibility.focusedElementUserInfoKey] as? UIView else {
+             return
+         }
+         if focused === view {
+             // When this view is focused, activate the text field
+             textfieldElement.becomeFirstResponder()
+         } else {
+             // Lose focus (resign) when moving away
+             if textfieldElement.isFirstResponder {
+                 textfieldElement.resignFirstResponder()
+             }
+         }
+    }
 }
