@@ -54,3 +54,6 @@
 "LoadingDialog.Loading" = "Lade";
 "LoadingDialog.PleaseWait" = "Bitte warten";
 "LoadingDialog.LoadingComplete" = "Fertig geladen";
+"SelectLine.Done" = "Fertig";
+"SelectLine.Hint" = "Doppelt tippen zum Öffnen und dann die Auswahl darunten selektieren";
+"SelectLine.PickerHint" = "Benutze Fertig Schaltfläche oben zum Schliessen";

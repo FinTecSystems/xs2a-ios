@@ -54,3 +54,6 @@
 "LoadingDialog.Loading" = "Cargando";
 "LoadingDialog.PleaseWait" = "Por favor, espera";
 "LoadingDialog.LoadingComplete" = "Carga completada";
+"SelectLine.Done" = "Hecho";
+"SelectLine.Hint" = "Toque dos veces para abrir y luego seleccione la opción de abajo";
+"SelectLine.PickerHint" = "Use el botón Hecho de arriba para cerrar";

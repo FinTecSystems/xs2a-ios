@@ -54,3 +54,6 @@
 "LoadingDialog.Loading" = "Chargement";
 "LoadingDialog.PleaseWait" = "Veuillez patienter";
 "LoadingDialog.LoadingComplete" = "Chargement terminé";
+"SelectLine.Done" = "Terminé";
+"SelectLine.Hint" = "Appuyez deux fois pour ouvrir, puis sélectionnez l’option ci-dessous";
+"SelectLine.PickerHint" = "Utilisez le bouton Terminé en haut pour fermer";

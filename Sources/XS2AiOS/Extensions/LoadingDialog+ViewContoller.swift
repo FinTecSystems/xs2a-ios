@@ -90,10 +90,6 @@ class XS2ALoadingStateProvider: LoadingStateProvider {
 	func hideLoadingIndicator(over viewController: UIViewController) {
 		ProgressDialog.alert.dismiss(animated: true) {
 			ProgressDialog.indicatorView.stopAnimating()
-            UIAccessibility.post(
-               notification: .announcement,
-               argument: getStringForKey(key: "LoadingDialog.LoadingComplete")
-            )
 		}
 	}
 }
