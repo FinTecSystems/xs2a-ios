@@ -168,28 +168,5 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield")) \(placeholder))"
-        
-        // Observe when VoiceOver focuses this element
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleAccessibilityFocus(_:)),
-            name: UIAccessibility.elementFocusedNotification,
-            object: nil
-        )
-    }
-    
-    @objc private func handleAccessibilityFocus(_ notification: Notification) {
-      guard let focused = notification.userInfo?[UIAccessibility.focusedElementUserInfoKey] as? UIView else {
-           return
-       }
-       if focused === view {
-           // When this view is focused, activate the text field
-           textfieldElement.becomeFirstResponder()
-       } else {
-           // Lose focus (resign) when moving away
-           if textfieldElement.isFirstResponder {
-               textfieldElement.resignFirstResponder()
-           }
-       }
     }
 }
