@@ -25,7 +25,7 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 	*/
 	init(title: String, text: String, severity: Severity) {
 		self.paragraphTitle = title
-		self.paragraphText = text
+        self.paragraphText = text
 		self.severity = severity
 
 		titleLabel.numberOfLines = 0
@@ -117,5 +117,28 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
 		])
+        
+        setupAccessibility()
 	}
+    
+    private func setupAccessibility() {
+        titleLabel.isAccessibilityElement = false
+        textLabel.isAccessibilityElement = false
+        view.isAccessibilityElement = true
+        view.accessibilityTraits = .staticText
+        
+        var serverityString = ""
+        switch severity {
+        case .warning:
+            serverityString = getStringForKey(key: "ParagraphLine.Warning")
+        case .info:
+            serverityString = getStringForKey(key: "ParagraphLine.Info")
+        case .error:
+            serverityString = getStringForKey(key: "ParagraphLine.Error")
+        case .none:
+            serverityString = ""
+        }
+     
+        view.accessibilityLabel = "\(constructLabelString(stringToTest: paragraphTitle).string). \(constructLabelString(stringToTest: paragraphText).string). \(serverityString)"
+    }
 }

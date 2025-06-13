@@ -8,7 +8,8 @@ protocol NotificationDelegate {
 
 protocol TextfieldParentDelegate {
  	func shouldBeginEditing() -> Bool
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+	func textFieldDidEndEditing(_ textField: UITextField)
 }
 
 class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, PotentialLoginCredentialFormLine {
@@ -16,6 +17,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	
 	internal let name: String
 	private let label: String
+    private let placeholder: String
 	private let autocompleteAction: String?
 	let index: Int
 	let isLoginCredential: Bool
@@ -38,6 +40,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool) {
 		self.name = name
 		self.label = label
+        self.placeholder = placeholder
 		self.labelElement.text = label
 		self.autocompleteAction = autocompleteAction
 		self.index = index
@@ -112,11 +115,16 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 
 		return shouldReturn ?? false
 	}
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateAccessibilityValue()
+    }
 	
 	/// Called from AutocompleteView, lets us set the selected text
 	func notifyWithSelectedBank(selectedBank: String) {
 		textfieldElement.text = selectedBank
 		textfieldElement.styleTextfield(style: .normal)
+        updateAccessibilityValue()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -141,6 +149,8 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
 		])
+        
+        setupAccessibility()
 	}
 
 	func exposableFields() -> Dictionary<String, Any>? {
@@ -157,4 +167,17 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		
 		return fieldPayload
 	}
+    
+    private func setupAccessibility() {
+        labelElement.isAccessibilityElement = false
+        textfieldElement.isAccessibilityElement = false
+        view.isAccessibilityElement = true
+        view.accessibilityTraits = .none
+        view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
+        updateAccessibilityValue()
+    }
+    
+    private func updateAccessibilityValue() {
+        view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
+    }
 }

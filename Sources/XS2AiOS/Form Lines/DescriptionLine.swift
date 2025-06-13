@@ -43,5 +43,13 @@ class DescriptionLine: UIViewController, FormLine, OpenLinkDelegate {
 			label.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			view.heightAnchor.constraint(equalTo: label.heightAnchor),
 		])
+        
+        setupAccessibility()
 	}
+    
+    private func setupAccessibility() {
+        view.isAccessibilityElement = true
+        view.accessibilityLabel = label.attributedText?.string
+        
+    }
 }

@@ -64,6 +64,7 @@ class Textfield: XS2ATextfield, UITextFieldDelegate {
 		self.layer.borderWidth = XS2A.shared.styleProvider.inputBorderWidth
 		self.layer.borderColor = XS2A.shared.styleProvider.inputBorderColor.cgColor
 		self.layer.add(getBorderAnimation(type: .didEnd), forKey: "Border")
+        parentDelegate?.textFieldDidEndEditing(textField)
 	}
 	
 	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
