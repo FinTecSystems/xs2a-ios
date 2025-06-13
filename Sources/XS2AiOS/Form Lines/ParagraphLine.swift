@@ -25,7 +25,6 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 	*/
 	init(title: String, text: String, severity: Severity) {
 		self.paragraphTitle = title
-//        self.paragraphText = constructLabelString(stringToTest: text).string
         self.paragraphText = text
 		self.severity = severity
 

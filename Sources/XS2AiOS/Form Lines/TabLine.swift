@@ -51,12 +51,18 @@ class TabLine: UIViewController, FormLine {
 			tabBtn.widthAnchor.constraint(equalTo: view.widthAnchor),
 		])
         
+        setupAccessibility()
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+    
+    private func setupAccessibility() {
         tabBtn.isAccessibilityElement = true
         tabBtn.accessibilityLabel = getStringForKey(key: "TabLine.Description")
         tabBtn.accessibilityHint = getStringForKey(key: "TabLine.Hint")
         tabBtn.accessibilityValue = tabBtn.titleForSegment(at: tabBtn.selectedSegmentIndex)
-
-        // Add these two actions:
         tabBtn.accessibilityCustomActions = [
           UIAccessibilityCustomAction(
             name: getStringForKey(key: "TabLine.Next"),
@@ -69,11 +75,7 @@ class TabLine: UIViewController, FormLine {
             selector: #selector(accessibilityPreviousTab)
           )
         ]
-	}
-	
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
+    }
     
     @objc private func accessibilityNextTab(_ action: UIAccessibilityCustomAction) -> Bool {
       let next = min(tabBtn.selectedSegmentIndex + 1, tabBtn.numberOfSegments - 1)

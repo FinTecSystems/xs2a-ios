@@ -363,13 +363,6 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		setupFlickerView()
         
         setupAccessibility()
-        // Observe when VoiceOver focuses this element
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleAccessibilityFocus(_:)),
-            name: UIAccessibility.elementFocusedNotification,
-            object: nil
-        )
 	}
     
     private func setupAccessibility() {
@@ -377,6 +370,14 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
         labelElement.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = true
         textfieldElement.accessibilityLabel = "\(labelElement.text ?? "")."
+        
+        // Observe when VoiceOver focuses this element
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAccessibilityFocus(_:)),
+            name: UIAccessibility.elementFocusedNotification,
+            object: nil
+        )
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

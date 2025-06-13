@@ -50,23 +50,6 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         }
         if invalid { textfieldElement.styleTextfield(style: .error) }
         labelElement.text = label
-        
-//		if !selected.isEmpty {
-//			self.textfieldElement.text = options[selected] as? String
-//		} else {
-//			self.textfieldElement.attributedPlaceholder = NSAttributedString(
-//				string: Strings.choose,
-//				attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor]
-//			)
-//		}
-//		
-//		labelElement.text = label
-//		
-//		if invalid {
-//			textfieldElement.styleTextfield(style: .error)
-//		}
-		
-		
 	}
 	
 	override func viewDidLoad() {
@@ -86,30 +69,6 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         ])
 
        setupAccessibility()
-        
-//		textfieldElement.inputView = pickerElement
-//		pickerElement.delegate = self
-//		pickerElement.dataSource = self
-//
-//		/// In case we get a preselected value from the server, set the corresponding text
-//		if let selectedIndex = self.options.firstIndex(where: { $0.id == selectedElementId }) {
-//			textfieldElement.text = self.options[selectedIndex].label as? String
-//		}
-//		
-//		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
-//		stackView.addCustomSpacing(5, after: labelElement)
-//		stackView.axis = .vertical
-//		stackView.distribution = .fill
-//		stackView.translatesAutoresizingMaskIntoConstraints = false
-//		
-//		view.addSubview(stackView)
-//
-//		NSLayoutConstraint.activate([
-//			stackView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//			stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-//			stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-//			view.heightAnchor.constraint(equalTo: stackView.heightAnchor)
-//		])
 	}
 	
 	required init?(coder: NSCoder) {

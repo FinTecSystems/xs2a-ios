@@ -115,13 +115,6 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 		])
         
         setupAccessibility()
-        // Observe when VoiceOver focuses this element
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleAccessibilityFocus(_:)),
-            name: UIAccessibility.elementFocusedNotification,
-            object: nil
-        )
 	}
 
 	func exposableFields() -> Dictionary<String, Any>? {
@@ -141,6 +134,13 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "PasswordLine.Textfield")) \(placeholder))"
         
+        // Observe when VoiceOver focuses this element
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAccessibilityFocus(_:)),
+            name: UIAccessibility.elementFocusedNotification,
+            object: nil
+        )
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {
