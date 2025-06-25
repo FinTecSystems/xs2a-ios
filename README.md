@@ -55,7 +55,7 @@ github "SwiftyJSON/SwiftyJSON" ~> 5.0.1
 github "kishikawakatsumi/KeychainAccess" ~> 4.2.2
 ```
 
-Then run `carthage update --use-xcframeworks` and drag the resulting XCFrameworks into your Xcode projects' framework section.
+Then run `carthage update --use-xcframeworks --platform iOS` and drag the resulting XCFrameworks into your Xcode projects' framework section.
 ## Usage
 ```swift
 import XS2AiOS
