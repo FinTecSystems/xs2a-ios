@@ -10,6 +10,9 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Install Cocoapods dependencies
+        run: |
+          pod install --repo-update
       - name: Build using Cocoapods
         run: |
           pod lib lint XS2AiOS.podspec --allow-warnings
