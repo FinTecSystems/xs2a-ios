@@ -1,5 +1,5 @@
 import UIKit
-import KeychainAccess
+internal import KeychainAccess
 
 public class XS2A {
 	private static var _shared: XS2A?
@@ -8,7 +8,7 @@ public class XS2A {
 	public var configuration: Configuration
 	public let styleProvider: StyleProvider
 	public let loadingStateProvider: LoadingStateProvider
-	public let keychain: Keychain
+	internal let keychain: Keychain
 	let apiService: APIService
 	var backButtonIsPresent: Bool = false
 

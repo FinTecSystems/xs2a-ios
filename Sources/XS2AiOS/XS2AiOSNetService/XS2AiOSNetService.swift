@@ -6,6 +6,8 @@
 //
 
 import Foundation
+internal import AesEverywhere
+internal import SwCrypt
 
 public enum XS2ANetError: Error {
 	case networkError

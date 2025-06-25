@@ -9,23 +9,11 @@
 /* Begin PBXBuildFile section */
 		25E9570D2B6BDA7F001146E0 /* XS2AiOSNetService in Frameworks */ = {isa = PBXBuildFile; productRef = 25E9570C2B6BDA7F001146E0 /* XS2AiOSNetService */; };
 		25E9570F2B6BDB22001146E0 /* LoadingStateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */; };
-		C934083E2E0BE85600DC7477 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408322E0BE85600DC7477 /* Status.swift */; };
-		C934083F2E0BE85600DC7477 /* AES256.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408272E0BE85600DC7477 /* AES256.swift */; };
-		C93408402E0BE85600DC7477 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408342E0BE85600DC7477 /* Updatable.swift */; };
-		C93408412E0BE85600DC7477 /* StreamCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408332E0BE85600DC7477 /* StreamCryptor.swift */; };
 		C93408422E0BE85600DC7477 /* XS2AiOSNetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */; };
-		C93408432E0BE85600DC7477 /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934082D2E0BE85600DC7477 /* HMAC.swift */; };
-		C93408442E0BE85600DC7477 /* SSLPointerTricks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408312E0BE85600DC7477 /* SSLPointerTricks.swift */; };
-		C93408452E0BE85600DC7477 /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934082E2E0BE85600DC7477 /* KeyDerivation.swift */; };
-		C93408462E0BE85600DC7477 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934082A2E0BE85600DC7477 /* Crypto.swift */; };
-		C93408472E0BE85600DC7477 /* SwCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408392E0BE85600DC7477 /* SwCrypt.swift */; };
-		C93408482E0BE85600DC7477 /* Cryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934082B2E0BE85600DC7477 /* Cryptor.swift */; };
-		C93408492E0BE85600DC7477 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408302E0BE85600DC7477 /* Random.swift */; };
-		C934084A2E0BE85600DC7477 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408352E0BE85600DC7477 /* Utilities.swift */; };
-		C934084B2E0BE85600DC7477 /* Digest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934082C2E0BE85600DC7477 /* Digest.swift */; };
-		C934084C2E0BE85600DC7477 /* SwCrypt.h in Headers */ = {isa = PBXBuildFile; fileRef = C93408382E0BE85600DC7477 /* SwCrypt.h */; };
 		C934084F2E0BE85600DC7477 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C934083B2E0BE85600DC7477 /* README.md */; };
 		C93408522E0BE8AD00DC7477 /* XS2AResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408512E0BE8AD00DC7477 /* XS2AResult.swift */; };
+		C93408552E0BF0C900DC7477 /* SwCrypt in Frameworks */ = {isa = PBXBuildFile; productRef = C93408542E0BF0C900DC7477 /* SwCrypt */; };
+		C93408582E0BF0E300DC7477 /* AesEverywhere in Frameworks */ = {isa = PBXBuildFile; productRef = C93408572E0BF0E300DC7477 /* AesEverywhere */; };
 		DC5228E1281C175300B607C7 /* TriggerTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E0281C175300B607C7 /* TriggerTextfield.swift */; };
 		DC5228E3281C178D00B607C7 /* XS2ATextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */; };
 		DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -86,23 +74,6 @@
 
 /* Begin PBXFileReference section */
 		25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingStateProvider.swift; sourceTree = "<group>"; };
-		C93408272E0BE85600DC7477 /* AES256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AES256.swift; sourceTree = "<group>"; };
-		C93408282E0BE85600DC7477 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		C934082A2E0BE85600DC7477 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
-		C934082B2E0BE85600DC7477 /* Cryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cryptor.swift; sourceTree = "<group>"; };
-		C934082C2E0BE85600DC7477 /* Digest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digest.swift; sourceTree = "<group>"; };
-		C934082D2E0BE85600DC7477 /* HMAC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMAC.swift; sourceTree = "<group>"; };
-		C934082E2E0BE85600DC7477 /* KeyDerivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyDerivation.swift; sourceTree = "<group>"; };
-		C934082F2E0BE85600DC7477 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		C93408302E0BE85600DC7477 /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
-		C93408312E0BE85600DC7477 /* SSLPointerTricks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSLPointerTricks.swift; sourceTree = "<group>"; };
-		C93408322E0BE85600DC7477 /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
-		C93408332E0BE85600DC7477 /* StreamCryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamCryptor.swift; sourceTree = "<group>"; };
-		C93408342E0BE85600DC7477 /* Updatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
-		C93408352E0BE85600DC7477 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		C93408372E0BE85600DC7477 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		C93408382E0BE85600DC7477 /* SwCrypt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwCrypt.h; sourceTree = "<group>"; };
-		C93408392E0BE85600DC7477 /* SwCrypt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwCrypt.swift; sourceTree = "<group>"; };
 		C934083B2E0BE85600DC7477 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AiOSNetService.swift; sourceTree = "<group>"; };
 		C93408512E0BE8AD00DC7477 /* XS2AResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AResult.swift; sourceTree = "<group>"; };
@@ -174,7 +145,9 @@
 			files = (
 				DCEFBD8827F459ED009E71CC /* KeychainAccess in Frameworks */,
 				25E9570D2B6BDA7F001146E0 /* XS2AiOSNetService in Frameworks */,
+				C93408552E0BF0C900DC7477 /* SwCrypt in Frameworks */,
 				DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */,
+				C93408582E0BF0E300DC7477 /* AesEverywhere in Frameworks */,
 				DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -182,50 +155,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C93408292E0BE85600DC7477 /* aes-everywhere-swift */ = {
-			isa = PBXGroup;
-			children = (
-				C93408272E0BE85600DC7477 /* AES256.swift */,
-				C93408282E0BE85600DC7477 /* LICENSE */,
-			);
-			path = "aes-everywhere-swift";
-			sourceTree = "<group>";
-		};
-		C93408362E0BE85600DC7477 /* Cryptor */ = {
-			isa = PBXGroup;
-			children = (
-				C934082A2E0BE85600DC7477 /* Crypto.swift */,
-				C934082B2E0BE85600DC7477 /* Cryptor.swift */,
-				C934082C2E0BE85600DC7477 /* Digest.swift */,
-				C934082D2E0BE85600DC7477 /* HMAC.swift */,
-				C934082E2E0BE85600DC7477 /* KeyDerivation.swift */,
-				C934082F2E0BE85600DC7477 /* LICENSE */,
-				C93408302E0BE85600DC7477 /* Random.swift */,
-				C93408312E0BE85600DC7477 /* SSLPointerTricks.swift */,
-				C93408322E0BE85600DC7477 /* Status.swift */,
-				C93408332E0BE85600DC7477 /* StreamCryptor.swift */,
-				C93408342E0BE85600DC7477 /* Updatable.swift */,
-				C93408352E0BE85600DC7477 /* Utilities.swift */,
-			);
-			path = Cryptor;
-			sourceTree = "<group>";
-		};
-		C934083A2E0BE85600DC7477 /* SwCrypt */ = {
-			isa = PBXGroup;
-			children = (
-				C93408372E0BE85600DC7477 /* LICENSE */,
-				C93408382E0BE85600DC7477 /* SwCrypt.h */,
-				C93408392E0BE85600DC7477 /* SwCrypt.swift */,
-			);
-			path = SwCrypt;
-			sourceTree = "<group>";
-		};
 		C934083D2E0BE85600DC7477 /* XS2AiOSNetService */ = {
 			isa = PBXGroup;
 			children = (
-				C93408292E0BE85600DC7477 /* aes-everywhere-swift */,
-				C93408362E0BE85600DC7477 /* Cryptor */,
-				C934083A2E0BE85600DC7477 /* SwCrypt */,
 				C934083B2E0BE85600DC7477 /* README.md */,
 				C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */,
 			);
@@ -384,7 +316,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */,
-				C934084C2E0BE85600DC7477 /* SwCrypt.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +341,8 @@
 				DC684834278EDAAA00A5054F /* NVActivityIndicatorView */,
 				DCEFBD8727F459ED009E71CC /* KeychainAccess */,
 				25E9570C2B6BDA7F001146E0 /* XS2AiOSNetService */,
+				C93408542E0BF0C900DC7477 /* SwCrypt */,
+				C93408572E0BF0E300DC7477 /* AesEverywhere */,
 			);
 			productName = XS2AiOS;
 			productReference = DC6847B7278EDA2400A5054F /* XS2AiOS.framework */;
@@ -446,6 +379,8 @@
 				DC684833278EDAAA00A5054F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
 				DCEFBD8627F459ED009E71CC /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				25E9570B2B6BDA7E001146E0 /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */,
+				C93408532E0BF0C900DC7477 /* XCRemoteSwiftPackageReference "SwCrypt" */,
+				C93408562E0BF0E300DC7477 /* XCRemoteSwiftPackageReference "aes-everywhere-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DC6847B8278EDA2400A5054F /* Products */;
@@ -526,20 +461,7 @@
 				DC684806278EDA5200A5054F /* TextLine.swift in Sources */,
 				DC684826278EDA5200A5054F /* Font.swift in Sources */,
 				DC68481D278EDA5200A5054F /* Animation.swift in Sources */,
-				C934083E2E0BE85600DC7477 /* Status.swift in Sources */,
-				C934083F2E0BE85600DC7477 /* AES256.swift in Sources */,
-				C93408402E0BE85600DC7477 /* Updatable.swift in Sources */,
-				C93408412E0BE85600DC7477 /* StreamCryptor.swift in Sources */,
 				C93408422E0BE85600DC7477 /* XS2AiOSNetService.swift in Sources */,
-				C93408432E0BE85600DC7477 /* HMAC.swift in Sources */,
-				C93408442E0BE85600DC7477 /* SSLPointerTricks.swift in Sources */,
-				C93408452E0BE85600DC7477 /* KeyDerivation.swift in Sources */,
-				C93408462E0BE85600DC7477 /* Crypto.swift in Sources */,
-				C93408472E0BE85600DC7477 /* SwCrypt.swift in Sources */,
-				C93408482E0BE85600DC7477 /* Cryptor.swift in Sources */,
-				C93408492E0BE85600DC7477 /* Random.swift in Sources */,
-				C934084A2E0BE85600DC7477 /* Utilities.swift in Sources */,
-				C934084B2E0BE85600DC7477 /* Digest.swift in Sources */,
 				DC684803278EDA5200A5054F /* SelectTextfield.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -780,6 +702,22 @@
 				minimumVersion = 1.0.7;
 			};
 		};
+		C93408532E0BF0C900DC7477 /* XCRemoteSwiftPackageReference "SwCrypt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soyersoyer/SwCrypt";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.4;
+			};
+		};
+		C93408562E0BF0E300DC7477 /* XCRemoteSwiftPackageReference "aes-everywhere-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mervick/aes-everywhere-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
@@ -811,6 +749,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 25E9570B2B6BDA7E001146E0 /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */;
 			productName = XS2AiOSNetService;
+		};
+		C93408542E0BF0C900DC7477 /* SwCrypt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C93408532E0BF0C900DC7477 /* XCRemoteSwiftPackageReference "SwCrypt" */;
+			productName = SwCrypt;
+		};
+		C93408572E0BF0E300DC7477 /* AesEverywhere */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C93408562E0BF0E300DC7477 /* XCRemoteSwiftPackageReference "aes-everywhere-swift" */;
+			productName = AesEverywhere;
 		};
 		DC684831278EDA9900A5054F /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;

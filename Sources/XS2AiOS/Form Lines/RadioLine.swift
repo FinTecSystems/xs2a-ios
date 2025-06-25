@@ -1,5 +1,5 @@
 import UIKit
-import SwiftyJSON
+internal import SwiftyJSON
 
 class RadioLine: UIViewController, FormLine, ExposableFormElement {
 	var actionDelegate: ActionDelegate?

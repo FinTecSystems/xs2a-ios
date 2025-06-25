@@ -1,5 +1,5 @@
 import UIKit
-import NVActivityIndicatorView
+internal import NVActivityIndicatorView
 
 class AutosubmitLine: UIViewController, FormLine {
 	var actionDelegate: ActionDelegate?

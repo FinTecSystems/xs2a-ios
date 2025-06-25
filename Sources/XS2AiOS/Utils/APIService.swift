@@ -1,5 +1,5 @@
 import Foundation
-import SwiftyJSON
+internal import SwiftyJSON
 
 /// The different Types of Responses from the API
 enum APIResponseType {
