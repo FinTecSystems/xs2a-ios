@@ -1,5 +1,5 @@
 import UIKit
-internal import NVActivityIndicatorView
+import NVActivityIndicatorView
 
 struct ProgressDialog {
 	static var alert = UIAlertController()

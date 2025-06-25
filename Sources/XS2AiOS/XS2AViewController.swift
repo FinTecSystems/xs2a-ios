@@ -1,5 +1,5 @@
 import UIKit
-internal import KeychainAccess
+import KeychainAccess
 import LocalAuthentication
 import SafariServices
 import Network

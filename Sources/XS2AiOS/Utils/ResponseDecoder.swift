@@ -1,4 +1,4 @@
-internal import SwiftyJSON
+import SwiftyJSON
 
 enum FormLineTypes: String {
 	case text
