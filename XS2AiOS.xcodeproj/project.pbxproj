@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		25E9570D2B6BDA7F001146E0 /* XS2AiOSNetService in Frameworks */ = {isa = PBXBuildFile; productRef = 25E9570C2B6BDA7F001146E0 /* XS2AiOSNetService */; };
 		25E9570F2B6BDB22001146E0 /* LoadingStateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */; };
 		C934083E2E0BE85600DC7477 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408322E0BE85600DC7477 /* Status.swift */; };
 		C934083F2E0BE85600DC7477 /* AES256.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408272E0BE85600DC7477 /* AES256.swift */; };
@@ -173,7 +172,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCEFBD8827F459ED009E71CC /* KeychainAccess in Frameworks */,
-				25E9570D2B6BDA7F001146E0 /* XS2AiOSNetService in Frameworks */,
 				DC684835278EDAAA00A5054F /* NVActivityIndicatorView in Frameworks */,
 				DC684832278EDA9900A5054F /* SwiftyJSON in Frameworks */,
 			);
@@ -409,7 +407,6 @@
 				DC684831278EDA9900A5054F /* SwiftyJSON */,
 				DC684834278EDAAA00A5054F /* NVActivityIndicatorView */,
 				DCEFBD8727F459ED009E71CC /* KeychainAccess */,
-				25E9570C2B6BDA7F001146E0 /* XS2AiOSNetService */,
 			);
 			productName = XS2AiOS;
 			productReference = DC6847B7278EDA2400A5054F /* XS2AiOS.framework */;
@@ -445,7 +442,6 @@
 				DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				DC684833278EDAAA00A5054F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
 				DCEFBD8627F459ED009E71CC /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				25E9570B2B6BDA7E001146E0 /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DC6847B8278EDA2400A5054F /* Products */;
@@ -782,14 +778,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		25E9570B2B6BDA7E001146E0 /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FinTecSystems/xs2a-ios-netservice";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.7;
-			};
-		};
 		DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
@@ -817,11 +805,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		25E9570C2B6BDA7F001146E0 /* XS2AiOSNetService */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 25E9570B2B6BDA7E001146E0 /* XCRemoteSwiftPackageReference "xs2a-ios-netservice" */;
-			productName = XS2AiOSNetService;
-		};
 		DC684831278EDA9900A5054F /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
