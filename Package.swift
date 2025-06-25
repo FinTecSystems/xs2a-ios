@@ -17,20 +17,12 @@ let package = Package(
 	dependencies: [
 		.package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
 		.package(url: "https://github.com/ninjaprox/NVActivityIndicatorView.git", from: "5.1.1"),
-		.package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.2"),
-		.package(url: "https://github.com/soyersoyer/SwCrypt.git", from: "5.1.4"),
-		.package(url: "https://github.com/mervick/aes-everywhere-swift.git", from: "1.2.0"),
+		.package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.2")
 	],
 	targets: [
 		.target(
 			name: "XS2AiOS",
-			dependencies: [
-				"SwiftyJSON",
-				"NVActivityIndicatorView",
-				"KeychainAccess",
-				"SwCrypt",
-				.product(name: "AesEverywhere", package: "aes-everywhere-swift") 
-			],
+			dependencies: ["SwiftyJSON", "NVActivityIndicatorView", "KeychainAccess"],
 			resources: [
 				.process("Resources")
 			]
