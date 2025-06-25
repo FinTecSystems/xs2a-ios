@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.dependency		'NVActivityIndicatorView', '5.1.1'
   s.dependency		'KeychainAccess', '4.2.2'
   s.dependency		'SwCrypt', '5.1.4'
-  s.dependency		'AesEverywhere', '1.2.0'
+  s.dependency		'AesEverywhere'
 
   s.cocoapods_version = '>= 1.10.0'
 
