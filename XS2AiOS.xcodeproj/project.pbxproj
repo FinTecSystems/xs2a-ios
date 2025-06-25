@@ -24,10 +24,7 @@
 		C934084A2E0BE85600DC7477 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408352E0BE85600DC7477 /* Utilities.swift */; };
 		C934084B2E0BE85600DC7477 /* Digest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934082C2E0BE85600DC7477 /* Digest.swift */; };
 		C934084C2E0BE85600DC7477 /* SwCrypt.h in Headers */ = {isa = PBXBuildFile; fileRef = C93408382E0BE85600DC7477 /* SwCrypt.h */; };
-		C934084D2E0BE85600DC7477 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C934082F2E0BE85600DC7477 /* LICENSE */; };
-		C934084E2E0BE85600DC7477 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C93408372E0BE85600DC7477 /* LICENSE */; };
 		C934084F2E0BE85600DC7477 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C934083B2E0BE85600DC7477 /* README.md */; };
-		C93408502E0BE85600DC7477 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C93408282E0BE85600DC7477 /* LICENSE */; };
 		C93408522E0BE8AD00DC7477 /* XS2AResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408512E0BE8AD00DC7477 /* XS2AResult.swift */; };
 		DC5228E1281C175300B607C7 /* TriggerTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E0281C175300B607C7 /* TriggerTextfield.swift */; };
 		DC5228E3281C178D00B607C7 /* XS2ATextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */; };
@@ -468,10 +465,7 @@
 				DC684819278EDA5200A5054F /* Localizable.strings in Resources */,
 				DC68481B278EDA5200A5054F /* ResultCell.xib in Resources */,
 				E6E3820A2BAC356C0099F710 /* PrivacyInfo.xcprivacy in Resources */,
-				C934084D2E0BE85600DC7477 /* LICENSE in Resources */,
-				C934084E2E0BE85600DC7477 /* LICENSE in Resources */,
 				C934084F2E0BE85600DC7477 /* README.md in Resources */,
-				C93408502E0BE85600DC7477 /* LICENSE in Resources */,
 				DC68481A278EDA5200A5054F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
