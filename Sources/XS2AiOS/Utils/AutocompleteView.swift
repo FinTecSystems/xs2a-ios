@@ -96,7 +96,9 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = resultTable.dequeueReusableCell(withIdentifier: "resultCell") as! ResultCell
+        let reuseldentifier = "resultCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseldentifier)
+            ?? UITableViewCell(style: .subtitle, reuseIdentifier: reuseldentifier)
 
 		let attributedStringLine1 = NSMutableAttributedString(string: "\(results[indexPath.row].object.name)")
 		
@@ -150,10 +152,41 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 					break
 				}
 			}
-			
-			cell.resultLabelLine1.attributedText = attributedStringLine1
-			cell.resultLabelLine2.attributedText = attributedStringLine2
-		}
+            
+            if #available(iOS 14.0, *) {
+                var content = cell.defaultContentConfiguration()
+                
+                content.attributedText = attributedStringLine1
+                content.textProperties.color = XS2A.shared.styleProvider.textColor
+                content.textProperties.numberOfLines = 1
+                content.textProperties.font = XS2A.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: nil)
+                
+                content.secondaryAttributedText = attributedStringLine2
+                content.secondaryTextProperties.color = XS2A.shared.styleProvider.textColor
+                content.secondaryTextProperties.numberOfLines = 1
+                content.secondaryTextProperties.font = XS2A.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
+                
+                cell.contentConfiguration = content
+            } else {
+                if let textLabel = cell.textLabel {
+                    textLabel.attributedText = attributedStringLine1
+                    textLabel.textColor = XS2A.shared.styleProvider.textColor
+                    textLabel.translatesAutoresizingMaskIntoConstraints = false
+                    textLabel.numberOfLines = 1
+                    textLabel.baselineAdjustment = .alignCenters
+                    textLabel.font = XS2A.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: nil)
+                }
+                
+                if let detailTextLabel = cell.detailTextLabel {
+                    detailTextLabel.attributedText = attributedStringLine2
+                    detailTextLabel.textColor = XS2A.shared.styleProvider.textColor
+                    detailTextLabel.translatesAutoresizingMaskIntoConstraints = false
+                    detailTextLabel.numberOfLines = 1
+                    detailTextLabel.baselineAdjustment = .alignCenters
+                    detailTextLabel.font = XS2A.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
+                }
+            }
+        }
 
 		return cell
 	}
@@ -225,8 +258,6 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 			resultTable.isHidden = true
 		}
 
-		let nib = UINib(nibName: "ResultCell", bundle: .current)
-		resultTable.register(nib, forCellReuseIdentifier: "resultCell")
 		resultTable.delegate = self
 		resultTable.dataSource = self
 		
