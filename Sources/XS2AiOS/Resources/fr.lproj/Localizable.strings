@@ -57,3 +57,4 @@
 "SelectLine.Done" = "Terminé";
 "SelectLine.Hint" = "Appuyez deux fois pour ouvrir, puis sélectionnez l’option ci-dessous";
 "SelectLine.PickerHint" = "Utilisez le bouton Terminé en haut pour fermer";
+"Input.Required" = "*obligatoire";
