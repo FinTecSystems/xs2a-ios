@@ -14,6 +14,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement = Textfield()
+    let subTextContainer: SubTextContainer
 	
 	/**
 	 - Parameters:
@@ -39,6 +40,8 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 				NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor
 			]
 		)
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        // TODO: Show subtext if applicable
 		
 		super.init(nibName: nil, bundle: nil)
 
@@ -102,7 +105,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+        let stackView = UIStackView(arrangedSubviews: [labelElement, subTextContainer])
 		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
@@ -134,6 +137,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
     private func setupAccessibility() {
         labelElement.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "PasswordLine.Textfield"))"
@@ -152,6 +156,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
         let textFieldValue = textfieldElement.isSecureTextEntry
             ? getStringForKey(key: "PasswordLine.Textfield.ValueHidden")
             : textfieldElement.text
+        // TODO: Implement validation error / required message
         
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textFieldValue : placeholder
     }

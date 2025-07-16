@@ -10,6 +10,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	private var imageViewElement: UIImageView
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement = Textfield()
+    let subTextContainer: SubTextContainer
 	
     private let placeholder: String
     private let invalid: Bool
@@ -34,6 +35,9 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
         self.label = label
 		imageElement = UIImage()
 		imageViewElement = UIImageView()
+        
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        // TODO: Show subtext if applicable
 
 		super.init(nibName: nil, bundle: nil)
 		
@@ -72,7 +76,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 		
 		imageViewElement = UIImageView(image: imageElement)
 		
-		let stackView = UIStackView(arrangedSubviews: [labelElement, imageViewElement, textfieldElement])
+		let stackView = UIStackView(arrangedSubviews: [labelElement, imageViewElement, subTextContainer])
 		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
@@ -119,6 +123,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
         view.isAccessibilityElement = true
         view.accessibilityLabel = labelElement.text
         labelElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = true
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
         updateAccessibilityValue()
@@ -134,6 +139,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
     
     private func updateAccessibilityValue() {
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
+        // TODO: Implement validation error / required message
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

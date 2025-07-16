@@ -24,6 +24,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement: XS2ATextfield
+    let subTextContainer: SubTextContainer
 	
 	/**
 	 - Parameters:
@@ -51,6 +52,9 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		} else {
 			textfieldElement = Textfield()
 		}
+        
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        // TODO: Show subtext if applicable
 		
 		textfieldElement.text = value
 		textfieldElement.attributedPlaceholder = NSAttributedString(
@@ -134,7 +138,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+        let stackView = UIStackView(arrangedSubviews: [labelElement, subTextContainer])
 		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
@@ -171,6 +175,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
     private func setupAccessibility() {
         labelElement.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
@@ -178,6 +183,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
     }
     
     private func updateAccessibilityValue() {
+        // TODO: Implement validation error / required message
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
     }
 }

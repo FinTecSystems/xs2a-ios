@@ -12,6 +12,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
     private let labelElement = UILabel.make(size: .large)
     private let pickerElement = UIPickerView()
     let textfieldElement = SelectTextfield()
+    let subTextContainer: SubTextContainer
     let toolbar = UIToolbar()
     
     /**
@@ -49,6 +50,9 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
             textfieldElement.styleTextfield(style: .error)
         }
         
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        // TODO: Show subtext if applicable
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -65,7 +69,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
             pickerElement.selectRow(selectedIndex, inComponent: 0, animated: false)
         }
         
-        let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+        let stackView = UIStackView(arrangedSubviews: [labelElement, subTextContainer])
         stackView.addCustomSpacing(5, after: labelElement)
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -146,6 +150,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
     }
     
     private func setupAccessibility() {
+        subTextContainer.isAccessibilityElement = false
         view.isAccessibilityElement = true
         view.accessibilityTraits = .adjustable
         view.accessibilityLabel = label
@@ -155,6 +160,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         pickerElement.accessibilityTraits = .adjustable
         pickerElement.accessibilityLabel = label
         pickerElement.accessibilityHint = getStringForKey(key: "SelectLine.PickerHint")
+        // TODO: Implement validation error / required message
 
         toolbar.sizeToFit()
         let done = UIBarButtonItem(

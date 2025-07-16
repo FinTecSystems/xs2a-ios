@@ -28,6 +28,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	private var flickerSizeAnchor: NSLayoutConstraint?
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement = Textfield()
+    let subTextContainer: SubTextContainer
 	
 	/**
 	 - Parameters:
@@ -43,6 +44,8 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		self.index = index
         self.placeholder = placeholder
 
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        // TODO: Show subtext if applicable
 		labelElement.text = label
 		super.init(nibName: nil, bundle: nil)
 		
@@ -275,7 +278,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			
 			flickerStackView.backgroundColor = .black
 			
-			let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, textfieldElement])
+            let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, subTextContainer])
 			stackView.addCustomSpacing(5, after: labelElement)
 			stackView.addCustomSpacing(10, after: buttonStackView)
 			stackView.addCustomSpacing(10, after: flickerViewContainer)
@@ -321,7 +324,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			
 			flickerStackView.backgroundColor = .black
 			
-			let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, textfieldElement])
+            let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, subTextContainer])
 			stackView.addCustomSpacing(5, after: labelElement)
 			stackView.addCustomSpacing(10, after: buttonStackView)
 			stackView.addCustomSpacing(10, after: flickerViewContainer)
@@ -374,6 +377,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
     private func setupAccessibility() {
         flickerStackView.isAccessibilityElement = false
         labelElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = true
         textfieldElement.accessibilityLabel = "\(labelElement.text ?? "")."
         
@@ -388,6 +392,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
     
     private func updateAccessibilityValue() {
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
+        // TODO: Implement validation error / required message
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

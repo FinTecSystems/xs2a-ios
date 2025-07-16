@@ -30,6 +30,8 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 
 		return label
 	}()
+    
+    let subTextContainer: SubTextContainer
 	
 	func setValue(value: String) {
 		checked = true
@@ -82,6 +84,9 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 				button.setImage(uncheckedDisabledImage, for: .normal)
 			}
 		}
+        
+        subTextContainer =  SubTextContainer(contentView: labelElement)
+        // TODO: Implement required/validation error subText
 		
 		super.init(nibName: nil, bundle: nil)
 		labelElement.openLinkDelegate = self
@@ -135,13 +140,12 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 			labelElement.addGestureRecognizer(labelTap)
 			button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
 		}
-		
-		let stackView = UIStackView(arrangedSubviews: [button, labelElement])
-		stackView.addCustomSpacing(7, after: button)
-		stackView.axis = .horizontal
-		
-		stackView.alignment = .top
-		stackView.distribution = .fill
+        
+		let stackView = UIStackView(arrangedSubviews: [button, subTextContainer])
+        stackView.addCustomSpacing(7, after: button)
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.distribution = .fill
 		
 		view.addSubview(stackView)
 		
@@ -179,5 +183,6 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
         } else {
             view.accessibilityValue = ""
         }
+        // TODO: Implement validation error / required message
     }
 }
