@@ -19,11 +19,14 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	private let label: String
     private let placeholder: String
 	private let autocompleteAction: String?
+    private let isRequired: Bool
+    private let errorMessage: String?
 	let index: Int
 	let isLoginCredential: Bool
 
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement: XS2ATextfield
+    let subTextContainer: SubTextContainer
 	
 	/**
 	 - Parameters:
@@ -36,8 +39,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	   - placeholder: The placeholder for this text field
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - isLoginCredential: If this field is a login credential
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool) {
+    init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool, isRequired: Bool, errorMessage: String?) {
 		self.name = name
 		self.label = label
         self.placeholder = placeholder
@@ -45,12 +50,20 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		self.autocompleteAction = autocompleteAction
 		self.index = index
 		self.isLoginCredential = isLoginCredential
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 				
 		if self.autocompleteAction?.isEmpty == false {
 			textfieldElement = TriggerTextfield()
 		} else {
 			textfieldElement = Textfield()
 		}
+        
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        if (isRequired) {
+            // TODO: Show error if applicable
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+        }
 		
 		textfieldElement.text = value
 		textfieldElement.attributedPlaceholder = NSAttributedString(
@@ -134,7 +147,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+        let stackView = UIStackView(arrangedSubviews: [labelElement, subTextContainer])
 		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
@@ -171,6 +184,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
     private func setupAccessibility() {
         labelElement.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
@@ -178,6 +192,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
     }
     
     private func updateAccessibilityValue() {
+        // TODO: Implement validation error / required message
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
     }
 }

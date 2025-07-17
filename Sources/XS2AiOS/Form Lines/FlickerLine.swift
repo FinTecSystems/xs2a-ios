@@ -11,6 +11,8 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	internal let name: String
 	private let index: Int
     private let placeholder: String
+    private let isRequired: Bool
+    private let errorMessage: String?
 	
 	/**
 	An array of arrays that contain 5 integers each, indicating on/white (1) or off/black (0) for the flickerContainers.
@@ -28,6 +30,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	private var flickerSizeAnchor: NSLayoutConstraint?
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement = Textfield()
+    let subTextContainer: SubTextContainer
 	
 	/**
 	 - Parameters:
@@ -36,13 +39,23 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	   - label: The label for the input element
 	   - invalid:If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-    init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int, placeholder: String) {
+    init(name: String, code: Array<Array<Int>>, label: String, invalid: Bool, index: Int, placeholder: String, isRequired: Bool, errorMessage: String?) {
 		self.name = name
 		self.code = code
 		self.index = index
         self.placeholder = placeholder
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        if (isRequired) {
+            // TODO: Show error if applicable
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+        }
+        
 		labelElement.text = label
 		super.init(nibName: nil, bundle: nil)
 		
@@ -275,7 +288,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			
 			flickerStackView.backgroundColor = .black
 			
-			let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, textfieldElement])
+            let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, subTextContainer])
 			stackView.addCustomSpacing(5, after: labelElement)
 			stackView.addCustomSpacing(10, after: buttonStackView)
 			stackView.addCustomSpacing(10, after: flickerViewContainer)
@@ -321,7 +334,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 			
 			flickerStackView.backgroundColor = .black
 			
-			let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, textfieldElement])
+            let stackView = UIStackView(arrangedSubviews: [buttonStackView, flickerViewContainer, labelElement, subTextContainer])
 			stackView.addCustomSpacing(5, after: labelElement)
 			stackView.addCustomSpacing(10, after: buttonStackView)
 			stackView.addCustomSpacing(10, after: flickerViewContainer)
@@ -374,6 +387,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
     private func setupAccessibility() {
         flickerStackView.isAccessibilityElement = false
         labelElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = true
         textfieldElement.accessibilityLabel = "\(labelElement.text ?? "")."
         
@@ -388,6 +402,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
     
     private func updateAccessibilityValue() {
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
+        // TODO: Implement validation error / required message
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {
