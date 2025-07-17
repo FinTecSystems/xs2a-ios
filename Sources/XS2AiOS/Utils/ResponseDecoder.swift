@@ -63,7 +63,9 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							value: formElement["value"].stringValue,
 							placeholder: formElement["placeholder"].stringValue,
 							index: formElementIndex,
-							isLoginCredential: formElement["login_credential"].boolValue
+							isLoginCredential: formElement["login_credential"].boolValue,
+                            isRequired: formElement["validation"].stringValue.contains("required") == true,
+                            errorMessage: formElement["validation_error"].stringValue
 						)
 					)
 				case .select:
@@ -87,7 +89,9 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							options: optionsDic, label: formElement["label"].stringValue,
 							selected: formElement["selected"].stringValue,
 							name: formElement["name"].stringValue,
-							invalid: formElement["invalid"].boolValue
+							invalid: formElement["invalid"].boolValue,
+                            isRequired: formElement["validation"].stringValue.contains("required") == true,
+                            errorMessage: formElement["validation_error"].stringValue
 						)
 					)
 				case .description:
@@ -143,7 +147,9 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							placeholder: formElement["placeholder"].stringValue,
 							invalid: formElement["invalid"].boolValue,
 							index: formElementIndex,
-							isLoginCredential: formElement["login_credential"].boolValue
+							isLoginCredential: formElement["login_credential"].boolValue,
+                            isRequired: formElement["validation"].stringValue.contains("required") == true,
+                            errorMessage: formElement["validation_error"].stringValue
 						)
 					)
 				case .captcha:
@@ -154,7 +160,9 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							imageData: formElement["data"].stringValue,
 							placeholder: formElement["placeholder"].stringValue,
 							invalid: formElement["invalid"].boolValue,
-							index: formElementIndex
+							index: formElementIndex,
+                            isRequired: formElement["validation"].stringValue.contains("required") == true,
+                            errorMessage: formElement["validation_error"].stringValue
 						)
 					)
 				case .redirect:
@@ -188,7 +196,9 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							checked: formElement["checked"].boolValue,
 							name: formElement["name"].stringValue,
 							disabled: formElement["disabled"].boolValue,
-							isLoginCredential: formElement["name"].stringValue == "privacy_policy"
+							isLoginCredential: formElement["name"].stringValue == "privacy_policy",
+                            isRequired: formElement["required"].boolValue,
+                            errorMessage: formElement["validation_error"].stringValue
 						)
 					)
 				case .flicker:
@@ -206,7 +216,9 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							label: formElement["label"].stringValue,
 							invalid: formElement["invalid"].boolValue,
 							index: formElementIndex,
-                            placeholder: formElement["placeholder"].stringValue
+                            placeholder: formElement["placeholder"].stringValue,
+                            isRequired: formElement["validation"].stringValue.contains("required") == true,
+                            errorMessage: formElement["validation_error"].stringValue
 						)
 					)
 				case .radio:

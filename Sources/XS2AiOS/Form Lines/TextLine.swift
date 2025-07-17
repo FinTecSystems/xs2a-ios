@@ -19,6 +19,8 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	private let label: String
     private let placeholder: String
 	private let autocompleteAction: String?
+    private let isRequired: Bool
+    private let errorMessage: String?
 	let index: Int
 	let isLoginCredential: Bool
 
@@ -37,8 +39,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	   - placeholder: The placeholder for this text field
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - isLoginCredential: If this field is a login credential
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool) {
+    init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool, isRequired: Bool, errorMessage: String?) {
 		self.name = name
 		self.label = label
         self.placeholder = placeholder
@@ -46,6 +50,8 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		self.autocompleteAction = autocompleteAction
 		self.index = index
 		self.isLoginCredential = isLoginCredential
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 				
 		if self.autocompleteAction?.isEmpty == false {
 			textfieldElement = TriggerTextfield()
@@ -54,7 +60,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		}
         
         subTextContainer = SubTextContainer(contentView: textfieldElement)
-        // TODO: Show subtext if applicable
+        if (isRequired) {
+            // TODO: Show error if applicable
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+        }
 		
 		textfieldElement.text = value
 		textfieldElement.attributedPlaceholder = NSAttributedString(

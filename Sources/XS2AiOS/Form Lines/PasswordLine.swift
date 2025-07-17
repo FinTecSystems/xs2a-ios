@@ -9,6 +9,9 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 
     private let placeholder: String
     
+    private let isRequired: Bool
+    private let errorMessage: String?
+    
 	let index: Int
 	let isLoginCredential: Bool
 
@@ -25,8 +28,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - isLoginCredential: If this field is a login credential
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, isLoginCredential: Bool) {
+	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, isLoginCredential: Bool, isRequired: Bool, errorMessage: String?) {
 		self.name = name
         self.label = label
 		self.labelElement.text = label
@@ -34,6 +39,8 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
         self.placeholder = placeholder
 		self.index = index
 		self.isLoginCredential = isLoginCredential
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(
 			string: placeholder,
 			attributes: [
@@ -41,7 +48,10 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 			]
 		)
         subTextContainer = SubTextContainer(contentView: textfieldElement)
-        // TODO: Show subtext if applicable
+        if (isRequired) {
+            // TODO: Show error if applicable
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+        }
 		
 		super.init(nibName: nil, bundle: nil)
 

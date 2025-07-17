@@ -15,6 +15,8 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
     private let placeholder: String
     private let invalid: Bool
     private let label: String
+    private let isRequired: Bool
+    private let errorMessage: String?
     
 	/**
 	 - Parameters:
@@ -24,8 +26,10 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	   - placeholder: The placeholder for the input field
 	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int) {
+	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int, isRequired: Bool, errorMessage: String?) {
 		self.name = name
 		self.labelElement.text = label
 		self.index = index
@@ -33,11 +37,16 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
         self.placeholder = placeholder
         self.invalid = invalid
         self.label = label
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 		imageElement = UIImage()
 		imageViewElement = UIImageView()
         
         subTextContainer = SubTextContainer(contentView: textfieldElement)
-        // TODO: Show subtext if applicable
+        if (isRequired) {
+            // TODO: Show error if applicable
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+        }
 
 		super.init(nibName: nil, bundle: nil)
 		

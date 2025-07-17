@@ -14,6 +14,8 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	
 	/// Boolean indicating whether the element is disabled
 	private let disabled: Bool
+    private let isRequired: Bool
+    private let errorMessage: String?
 	
 	let checkedImage = UIImage(named: "checkmark_ticked", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 	let uncheckedImage = UIImage(named: "checkmark", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -57,10 +59,14 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	   - name: The name of the checkbox line
 	   - disabled: Boolean indicating whether the element is disabled (if true, `checked` can not be changed)
 	   - isLoginCredential: If this is a LoginCredential
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool) {
+	init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool, isRequired: Bool, errorMessage: String?) {
 		self.checked = checked
 		self.name = name
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 		
 		let attributedString = constructLabelString(stringToTest: label)
 		
@@ -86,7 +92,10 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 		}
         
         subTextContainer =  SubTextContainer(contentView: labelElement)
-        // TODO: Implement required/validation error subText
+        if (isRequired) {
+            // TODO: Show error if applicable
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+        }
 		
 		super.init(nibName: nil, bundle: nil)
 		labelElement.openLinkDelegate = self

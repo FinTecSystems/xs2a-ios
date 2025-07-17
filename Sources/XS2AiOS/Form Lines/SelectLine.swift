@@ -7,6 +7,8 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
     var selectedElementId: String? = nil
     
     private let label: String
+    private let isRequired: Bool
+    private let errorMessage: String?
     internal let name: String
 
     private let labelElement = UILabel.make(size: .large)
@@ -22,8 +24,10 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
        - selected: The key of the (pre)selected option
        - name: The name for this select line
        - invalid: If this select is invalid
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
     */
-    init(options: Dictionary<String, Any>, label: String, selected: String, name: String, invalid: Bool) {
+    init(options: Dictionary<String, Any>, label: String, selected: String, name: String, invalid: Bool, isRequired: Bool, errorMessage: String?) {
         /// Add default disabled row
         self.options.append((id: "disabled", label: Strings.choose))
 
@@ -34,6 +38,8 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         self.label = label
         self.selectedElementId = selected
         self.name = name
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
         
         if !selected.isEmpty {
             self.textfieldElement.text = options[selected] as? String
@@ -51,7 +57,10 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         }
         
         subTextContainer = SubTextContainer(contentView: textfieldElement)
-        // TODO: Show subtext if applicable
+        if (isRequired) {
+            // TODO: Show error if applicable
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+        }
         
         super.init(nibName: nil, bundle: nil)
     }
