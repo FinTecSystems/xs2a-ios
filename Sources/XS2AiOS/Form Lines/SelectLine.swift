@@ -168,11 +168,10 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         view.accessibilityLabel = label
         
         if (invalid) {
-            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? ""). \(getStringForKey(key: "SelectLine.Hint"))"
         } else if (isRequired) {
-            view.accessibilityHint = getStringForKey(key: "Input.Required")
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Required")). \(getStringForKey(key: "SelectLine.Hint"))"
         } else {
-            // TODO: Check if we always need to communicate this?
             view.accessibilityHint = getStringForKey(key: "SelectLine.Hint")
         }
         
