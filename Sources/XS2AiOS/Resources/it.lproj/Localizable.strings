@@ -57,4 +57,5 @@
 "SelectLine.Done" = "Fatto";
 "SelectLine.Hint" = "Tocca due volte per aprire e poi seleziona l’opzione sottostante";
 "SelectLine.PickerHint" = "Usa il pulsante Fine in alto per chiudere";
-"Input.Required" = "*richiesto";
+"Input.Required" = "richiesto";
+"Input.Error" = "Errore";
