@@ -1,17 +1,21 @@
 import UIKit
 
-class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerViewDelegate, UIPickerViewDataSource {
+class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerViewDelegate, UIPickerViewDataSource, ErrorableFormLine {
     var actionDelegate: ActionDelegate?
     
     private var options: [(id: String, label: Any)] = []
     var selectedElementId: String? = nil
     
     private let label: String
+    private let isRequired: Bool
+    internal let invalid: Bool
+    internal let errorMessage: String?
     internal let name: String
 
     private let labelElement = UILabel.make(size: .large)
     private let pickerElement = UIPickerView()
     let textfieldElement = SelectTextfield()
+    let subTextContainer: SubTextContainer
     let toolbar = UIToolbar()
     
     /**
@@ -21,8 +25,10 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
        - selected: The key of the (pre)selected option
        - name: The name for this select line
        - invalid: If this select is invalid
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
     */
-    init(options: Dictionary<String, Any>, label: String, selected: String, name: String, invalid: Bool) {
+    init(options: Dictionary<String, Any>, label: String, selected: String, name: String, invalid: Bool, isRequired: Bool, errorMessage: String?) {
         /// Add default disabled row
         self.options.append((id: "disabled", label: Strings.choose))
 
@@ -33,6 +39,9 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         self.label = label
         self.selectedElementId = selected
         self.name = name
+        self.invalid = invalid
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
         
         if !selected.isEmpty {
             self.textfieldElement.text = options[selected] as? String
@@ -43,10 +52,17 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
             )
         }
         
-        labelElement.text = label
+        labelElement.text = label + (isRequired ? "*" : "")
         
         if invalid {
             textfieldElement.styleTextfield(style: .error)
+        }
+        
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        if (invalid) {
+            subTextContainer.showMessage(errorMessage, isError: true)
+        } else if (isRequired) {
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false, prefix: "*")
         }
         
         super.init(nibName: nil, bundle: nil)
@@ -65,7 +81,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
             pickerElement.selectRow(selectedIndex, inComponent: 0, animated: false)
         }
         
-        let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+        let stackView = UIStackView(arrangedSubviews: [labelElement, subTextContainer])
         stackView.addCustomSpacing(5, after: labelElement)
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -146,10 +162,19 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
     }
     
     private func setupAccessibility() {
+        subTextContainer.isAccessibilityElement = false
         view.isAccessibilityElement = true
         view.accessibilityTraits = .adjustable
         view.accessibilityLabel = label
-        view.accessibilityHint = getStringForKey(key: "SelectLine.Hint")
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? ""). \(getStringForKey(key: "SelectLine.Hint"))"
+        } else if (isRequired) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Required")). \(getStringForKey(key: "SelectLine.Hint"))"
+        } else {
+            view.accessibilityHint = getStringForKey(key: "SelectLine.Hint")
+        }
+        
         view.accessibilityValue = textfieldElement.text ?? Strings.choose
         pickerElement.isAccessibilityElement = true
         pickerElement.accessibilityTraits = .adjustable

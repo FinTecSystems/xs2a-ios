@@ -163,7 +163,8 @@ extension XS2A {
 		var tintColor: UIColor
 		var logoVariation: LogoVariation
 		var backgroundColor: UIColor
-		var textColor: UIColor
+        var textColor: UIColor
+		var errorColor: UIColor
 		
 		/// Textfield Styles
 		var inputBackgroundColor: UIColor
@@ -201,6 +202,7 @@ extension XS2A {
 			logoVariation: LogoVariation = .standard,
 			backgroundColor: UIColor = .white,
             textColor: UIColor = UIColor(hex: "#262626"),
+            errorColor: UIColor = UIColor(hex: "#DB271A"),
 			inputBackgroundColor: UIColor = UIColor(hex: "#F5F5F5"),
 			inputBorderRadius: CGFloat = 6,
 			inputBorderColor: UIColor = .clear,
@@ -224,6 +226,7 @@ extension XS2A {
 			self.logoVariation = logoVariation
 			self.backgroundColor = backgroundColor
 			self.textColor = textColor
+            self.errorColor = errorColor
 			self.inputBackgroundColor = inputBackgroundColor
 			self.inputBorderRadius = inputBorderRadius
 			self.inputBorderColor = inputBorderColor

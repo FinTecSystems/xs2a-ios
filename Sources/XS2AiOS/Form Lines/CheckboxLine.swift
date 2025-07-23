@@ -4,7 +4,7 @@ protocol OpenLinkDelegate {
 	func openLink(url: URL)
 }
 
-class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialLoginCredentialFormLine, OpenLinkDelegate {
+class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialLoginCredentialFormLine, OpenLinkDelegate, ErrorableFormLine {
 	var isLoginCredential: Bool
 	
 	var actionDelegate: ActionDelegate?
@@ -14,6 +14,9 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	
 	/// Boolean indicating whether the element is disabled
 	private let disabled: Bool
+    private let isRequired: Bool
+    internal let invalid: Bool
+    internal let errorMessage: String?
 	
 	let checkedImage = UIImage(named: "checkmark_ticked", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 	let uncheckedImage = UIImage(named: "checkmark", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -30,6 +33,8 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 
 		return label
 	}()
+    
+    let subTextContainer: SubTextContainer
 	
 	func setValue(value: String) {
 		checked = true
@@ -55,10 +60,16 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	   - name: The name of the checkbox line
 	   - disabled: Boolean indicating whether the element is disabled (if true, `checked` can not be changed)
 	   - isLoginCredential: If this is a LoginCredential
+       - invalid: Boolean indicating whether the text field is invalid
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool) {
+    init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool, invalid: Bool, isRequired: Bool, errorMessage: String?) {
 		self.checked = checked
 		self.name = name
+        self.invalid = invalid
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 		
 		let attributedString = constructLabelString(stringToTest: label)
 		
@@ -82,6 +93,13 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 				button.setImage(uncheckedDisabledImage, for: .normal)
 			}
 		}
+        
+        subTextContainer =  SubTextContainer(contentView: labelElement)
+        if (invalid) {
+            subTextContainer.showMessage(errorMessage, isError: true)
+        } else if (isRequired) {
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false, prefix: "*")
+        }
 		
 		super.init(nibName: nil, bundle: nil)
 		labelElement.openLinkDelegate = self
@@ -135,13 +153,12 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 			labelElement.addGestureRecognizer(labelTap)
 			button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
 		}
-		
-		let stackView = UIStackView(arrangedSubviews: [button, labelElement])
-		stackView.addCustomSpacing(7, after: button)
-		stackView.axis = .horizontal
-		
-		stackView.alignment = .top
-		stackView.distribution = .fill
+        
+		let stackView = UIStackView(arrangedSubviews: [button, subTextContainer])
+        stackView.addCustomSpacing(7, after: button)
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.distribution = .fill
 		
 		view.addSubview(stackView)
 		
@@ -171,6 +188,14 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
         //        let stringRequired = required ? getStringForKey(key: "CheckboxLine.Required") : ""
         
         view.accessibilityLabel = "\(getStringForKey(key: "CheckboxLine.Checkbox")): \(stringDisabled). \(labelElement.text ?? "")"
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
     }
     
     private func setCheckedAccessibilityValue() {

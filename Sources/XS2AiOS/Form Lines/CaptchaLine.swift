@@ -1,6 +1,6 @@
 import UIKit
 
-class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextFieldDelegate, TextfieldParentDelegate {
+class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextFieldDelegate, TextfieldParentDelegate, ErrorableFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	internal let name: String
@@ -10,10 +10,13 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	private var imageViewElement: UIImageView
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement = Textfield()
+    let subTextContainer: SubTextContainer
 	
     private let placeholder: String
-    private let invalid: Bool
     private let label: String
+    private let isRequired: Bool
+    internal let invalid: Bool
+    internal let errorMessage: String?
     
 	/**
 	 - Parameters:
@@ -23,17 +26,28 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	   - placeholder: The placeholder for the input field
 	   - invalid: If this element is invalid
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int) {
+	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int, isRequired: Bool, errorMessage: String?) {
 		self.name = name
-		self.labelElement.text = label
+		self.labelElement.text = label + (isRequired ? "*" : "")
 		self.index = index
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor])
         self.placeholder = placeholder
         self.invalid = invalid
         self.label = label
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 		imageElement = UIImage()
 		imageViewElement = UIImageView()
+        
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        if (invalid) {
+            subTextContainer.showMessage(errorMessage, isError: true)
+        } else if (isRequired) {
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false, prefix: "*")
+        }
 
 		super.init(nibName: nil, bundle: nil)
 		
@@ -72,7 +86,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 		
 		imageViewElement = UIImageView(image: imageElement)
 		
-		let stackView = UIStackView(arrangedSubviews: [labelElement, imageViewElement, textfieldElement])
+		let stackView = UIStackView(arrangedSubviews: [labelElement, imageViewElement, subTextContainer])
 		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
@@ -119,8 +133,18 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
         view.isAccessibilityElement = true
         view.accessibilityLabel = labelElement.text
         labelElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = true
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
+        
         updateAccessibilityValue()
         
         // Observe when VoiceOver focuses this element
