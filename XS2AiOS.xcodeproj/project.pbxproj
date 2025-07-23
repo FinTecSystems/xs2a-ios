@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		25E9570F2B6BDB22001146E0 /* LoadingStateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */; };
+		C91321CE2E3117A8009F2305 /* ErrorableFormLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */; };
 		C934083E2E0BE85600DC7477 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408322E0BE85600DC7477 /* Status.swift */; };
 		C934083F2E0BE85600DC7477 /* AES256.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408272E0BE85600DC7477 /* AES256.swift */; };
 		C93408402E0BE85600DC7477 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408342E0BE85600DC7477 /* Updatable.swift */; };
@@ -26,7 +27,6 @@
 		C934084F2E0BE85600DC7477 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C934083B2E0BE85600DC7477 /* README.md */; };
 		C93408522E0BE8AD00DC7477 /* XS2AResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408512E0BE8AD00DC7477 /* XS2AResult.swift */; };
 		C9368DBC2E31170E006D7FF8 /* SubTextContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9368DBB2E31170E006D7FF8 /* SubTextContainer.swift */; };
-		C9368DBE2E311736006D7FF8 /* ErrorableFormLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9368DBD2E311736006D7FF8 /* ErrorableFormLine.swift */; };
 		DC5228E1281C175300B607C7 /* TriggerTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E0281C175300B607C7 /* TriggerTextfield.swift */; };
 		DC5228E3281C178D00B607C7 /* XS2ATextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */; };
 		DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -85,6 +85,7 @@
 
 /* Begin PBXFileReference section */
 		25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingStateProvider.swift; sourceTree = "<group>"; };
+		C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorableFormLine.swift; sourceTree = "<group>"; };
 		C93408272E0BE85600DC7477 /* AES256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AES256.swift; sourceTree = "<group>"; };
 		C93408282E0BE85600DC7477 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C934082A2E0BE85600DC7477 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
@@ -106,7 +107,6 @@
 		C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AiOSNetService.swift; sourceTree = "<group>"; };
 		C93408512E0BE8AD00DC7477 /* XS2AResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AResult.swift; sourceTree = "<group>"; };
 		C9368DBB2E31170E006D7FF8 /* SubTextContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTextContainer.swift; sourceTree = "<group>"; };
-		C9368DBD2E311736006D7FF8 /* ErrorableFormLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorableFormLine.swift; sourceTree = "<group>"; };
 		DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = XS2AiOSNetService.xcframework; path = Carthage/Build/XS2AiOSNetService.xcframework; sourceTree = "<group>"; };
 		DC5228E0281C175300B607C7 /* TriggerTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriggerTextfield.swift; sourceTree = "<group>"; };
 		DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2ATextfield.swift; sourceTree = "<group>"; };
@@ -258,7 +258,6 @@
 		DC6847C1278EDA5200A5054F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				C9368DBD2E311736006D7FF8 /* ErrorableFormLine.swift */,
 				DC6847C2278EDA5200A5054F /* XS2AiOS */,
 			);
 			path = Sources;
@@ -364,6 +363,7 @@
 		DC6847FB278EDA5200A5054F /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */,
 				25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */,
 				DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */,
 				DC6847FC278EDA5200A5054F /* FormLine.swift */,
@@ -472,7 +472,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9368DBE2E311736006D7FF8 /* ErrorableFormLine.swift in Sources */,
+				C91321CE2E3117A8009F2305 /* ErrorableFormLine.swift in Sources */,
 				DC68480C278EDA5200A5054F /* CaptchaLine.swift in Sources */,
 				DC68481E278EDA5200A5054F /* APIService.swift in Sources */,
 				DC68482F278EDA5200A5054F /* ExposableFormElement.swift in Sources */,
