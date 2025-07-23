@@ -14,9 +14,9 @@ class SubTextContainer: UIView {
         return label
     }()
 
-    func showMessage(_ message: String?, isError: Bool = true) {
+    func showMessage(_ message: String?, isError: Bool = true, prefix: String = "") {
         if let message = message {
-            messageLabel.text = message
+            messageLabel.text = "\(prefix)\(message)"
             messageLabel.textColor =
                 isError
                 ? XS2A.shared.styleProvider.errorColor

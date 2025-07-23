@@ -54,7 +54,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
         if (invalid) {
             subTextContainer.showMessage(errorMessage, isError: true)
         } else if (isRequired) {
-            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false, prefix: "*")
         }
         
 		labelElement.text = label

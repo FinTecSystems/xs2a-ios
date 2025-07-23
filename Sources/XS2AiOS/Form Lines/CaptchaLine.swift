@@ -46,7 +46,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
         if (invalid) {
             subTextContainer.showMessage(errorMessage, isError: true)
         } else if (isRequired) {
-            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false, prefix: "*")
         }
 
 		super.init(nibName: nil, bundle: nil)
