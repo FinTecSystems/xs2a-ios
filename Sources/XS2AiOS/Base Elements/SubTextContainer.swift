@@ -1,9 +1,9 @@
 import UIKit
 
 class SubTextContainer: UIView {
-    var contentView: UIView
+    private let contentView: UIView
 
-    let messageLabel: UILabel = {
+    private let messageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = XS2A.shared.styleProvider.font.getFont(
@@ -14,9 +14,11 @@ class SubTextContainer: UIView {
         return label
     }()
 
-    func showMessage(_ message: String?, isError: Bool = true, prefix: String = "") {
+    func showMessage(
+        _ message: String?, isError: Bool = true, prefix: String = ""
+    ) {
         if let message = message {
-            messageLabel.text = "\(prefix)\(message)"
+            messageLabel.text = prefix + message
             messageLabel.textColor =
                 isError
                 ? XS2A.shared.styleProvider.errorColor
@@ -49,10 +51,8 @@ class SubTextContainer: UIView {
 
             messageLabel.topAnchor.constraint(
                 equalTo: contentView.bottomAnchor, constant: 4),
-            messageLabel.leadingAnchor.constraint(
-                equalTo: leadingAnchor, constant: 4),
-            messageLabel.trailingAnchor.constraint(
-                equalTo: trailingAnchor, constant: -4),
+            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
