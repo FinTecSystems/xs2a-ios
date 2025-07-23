@@ -59,10 +59,11 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	   - name: The name of the checkbox line
 	   - disabled: Boolean indicating whether the element is disabled (if true, `checked` can not be changed)
 	   - isLoginCredential: If this is a LoginCredential
+       - invalid: Boolean indicating whether the text field is invalid
        - isRequired: If this field is required
        - errorMessage: If this field contains a validation error
 	*/
-	init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool, isRequired: Bool, errorMessage: String?) {
+    init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool, invalid: Bool, isRequired: Bool, errorMessage: String?) {
 		self.checked = checked
 		self.name = name
         self.isRequired = isRequired
@@ -92,8 +93,9 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 		}
         
         subTextContainer =  SubTextContainer(contentView: labelElement)
-        if (isRequired) {
-            // TODO: Show error if applicable
+        if (invalid) {
+            subTextContainer.showMessage(errorMessage, isError: true)
+        } else if (isRequired) {
             subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
         }
 		

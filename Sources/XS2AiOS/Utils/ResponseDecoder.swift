@@ -197,6 +197,7 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 							name: formElement["name"].stringValue,
 							disabled: formElement["disabled"].boolValue,
 							isLoginCredential: formElement["name"].stringValue == "privacy_policy",
+                            invalid: formElement["invalid"].boolValue,
                             isRequired: formElement["required"].boolValue,
                             errorMessage: formElement["validation_error"].stringValue
 						)

@@ -60,8 +60,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		}
         
         subTextContainer = SubTextContainer(contentView: textfieldElement)
-        if (isRequired) {
-            // TODO: Show error if applicable
+        
+        if (invalid) {
+            subTextContainer.showMessage(errorMessage, isError: true)
+        } else if (isRequired) {
             subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
         }
 		

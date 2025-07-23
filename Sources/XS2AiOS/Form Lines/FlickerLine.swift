@@ -51,8 +51,9 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
         self.errorMessage = errorMessage
 
         subTextContainer = SubTextContainer(contentView: textfieldElement)
-        if (isRequired) {
-            // TODO: Show error if applicable
+        if (invalid) {
+            subTextContainer.showMessage(errorMessage, isError: true)
+        } else if (isRequired) {
             subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false)
         }
         
