@@ -35,7 +35,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 	init(name: String, label: String, disabled: Bool, placeholder: String, invalid: Bool, index: Int, isLoginCredential: Bool, isRequired: Bool, errorMessage: String?) {
 		self.name = name
         self.label = label
-		self.labelElement.text = label
+		self.labelElement.text = label + (isRequired ? "*" : "")
 		self.disabled = disabled
         self.placeholder = placeholder
 		self.index = index

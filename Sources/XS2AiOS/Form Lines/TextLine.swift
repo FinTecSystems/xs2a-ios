@@ -47,7 +47,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		self.name = name
 		self.label = label
         self.placeholder = placeholder
-		self.labelElement.text = label
+        self.labelElement.text = label + (isRequired ? "*" : "")
         self.autocompleteAction = autocompleteAction
 		self.index = index
 		self.isLoginCredential = isLoginCredential

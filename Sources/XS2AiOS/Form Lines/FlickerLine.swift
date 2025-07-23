@@ -59,7 +59,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
             subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false, prefix: "*")
         }
         
-		labelElement.text = label
+		labelElement.text = label + (isRequired ? "*" : "")
 		super.init(nibName: nil, bundle: nil)
 		
 		textfieldElement.parentDelegate = self

@@ -31,7 +31,7 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
 	*/
 	init(name: String, label: String, imageData: String, placeholder: String, invalid: Bool, index: Int, isRequired: Bool, errorMessage: String?) {
 		self.name = name
-		self.labelElement.text = label
+		self.labelElement.text = label + (isRequired ? "*" : "")
 		self.index = index
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: XS2A.shared.styleProvider.placeholderColor])
         self.placeholder = placeholder

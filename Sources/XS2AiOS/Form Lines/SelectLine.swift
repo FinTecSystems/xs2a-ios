@@ -52,7 +52,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
             )
         }
         
-        labelElement.text = label
+        labelElement.text = label + (isRequired ? "*" : "")
         
         if invalid {
             textfieldElement.styleTextfield(style: .error)
