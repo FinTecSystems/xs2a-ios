@@ -136,6 +136,15 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
         subTextContainer.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = true
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
+        
         updateAccessibilityValue()
         
         // Observe when VoiceOver focuses this element
@@ -149,7 +158,6 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
     
     private func updateAccessibilityValue() {
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
-        // TODO: Implement validation error / required message
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

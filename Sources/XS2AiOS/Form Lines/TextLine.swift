@@ -19,6 +19,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	private let label: String
     private let placeholder: String
 	private let autocompleteAction: String?
+    private let invalid: Bool
     private let isRequired: Bool
     private let errorMessage: String?
 	let index: Int
@@ -47,9 +48,10 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 		self.label = label
         self.placeholder = placeholder
 		self.labelElement.text = label
-		self.autocompleteAction = autocompleteAction
+        self.autocompleteAction = autocompleteAction
 		self.index = index
 		self.isLoginCredential = isLoginCredential
+        self.invalid = invalid
         self.isRequired = isRequired
         self.errorMessage = errorMessage
 				
@@ -190,11 +192,19 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
+        
         updateAccessibilityValue()
     }
     
     private func updateAccessibilityValue() {
-        // TODO: Implement validation error / required message
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
     }
 }

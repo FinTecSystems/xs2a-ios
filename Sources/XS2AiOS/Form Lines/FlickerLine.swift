@@ -11,6 +11,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 	internal let name: String
 	private let index: Int
     private let placeholder: String
+    private let invalid: Bool
     private let isRequired: Bool
     private let errorMessage: String?
 	
@@ -47,6 +48,7 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
 		self.code = code
 		self.index = index
         self.placeholder = placeholder
+        self.invalid = invalid
         self.isRequired = isRequired
         self.errorMessage = errorMessage
 
@@ -392,6 +394,14 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
         textfieldElement.isAccessibilityElement = true
         textfieldElement.accessibilityLabel = "\(labelElement.text ?? "")."
         
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
+        
         // Observe when VoiceOver focuses this element
         NotificationCenter.default.addObserver(
             self,
@@ -403,7 +413,6 @@ class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldPa
     
     private func updateAccessibilityValue() {
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textfieldElement.text : placeholder
-        // TODO: Implement validation error / required message
     }
     
     @objc private func handleAccessibilityFocus(_ notification: Notification) {

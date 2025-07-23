@@ -7,6 +7,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
     var selectedElementId: String? = nil
     
     private let label: String
+    private let invalid: Bool
     private let isRequired: Bool
     private let errorMessage: String?
     internal let name: String
@@ -38,6 +39,7 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         self.label = label
         self.selectedElementId = selected
         self.name = name
+        self.invalid = invalid
         self.isRequired = isRequired
         self.errorMessage = errorMessage
         
@@ -164,13 +166,21 @@ class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerView
         view.isAccessibilityElement = true
         view.accessibilityTraits = .adjustable
         view.accessibilityLabel = label
-        view.accessibilityHint = getStringForKey(key: "SelectLine.Hint")
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            // TODO: Check if we always need to communicate this?
+            view.accessibilityHint = getStringForKey(key: "SelectLine.Hint")
+        }
+        
         view.accessibilityValue = textfieldElement.text ?? Strings.choose
         pickerElement.isAccessibilityElement = true
         pickerElement.accessibilityTraits = .adjustable
         pickerElement.accessibilityLabel = label
         pickerElement.accessibilityHint = getStringForKey(key: "SelectLine.PickerHint")
-        // TODO: Implement validation error / required message
 
         toolbar.sizeToFit()
         let done = UIBarButtonItem(

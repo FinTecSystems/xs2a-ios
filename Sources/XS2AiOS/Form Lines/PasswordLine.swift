@@ -9,6 +9,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 
     private let placeholder: String
     
+    private let invalid: Bool
     private let isRequired: Bool
     private let errorMessage: String?
     
@@ -39,6 +40,7 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
         self.placeholder = placeholder
 		self.index = index
 		self.isLoginCredential = isLoginCredential
+        self.invalid = invalid
         self.isRequired = isRequired
         self.errorMessage = errorMessage
 		self.textfieldElement.attributedPlaceholder = NSAttributedString(
@@ -152,6 +154,15 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "PasswordLine.Textfield"))"
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
+        
         updateAccessibilityValue()
         
         // Observe when VoiceOver focuses this element
@@ -167,7 +178,6 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
         let textFieldValue = textfieldElement.isSecureTextEntry
             ? getStringForKey(key: "PasswordLine.Textfield.ValueHidden")
             : textfieldElement.text
-        // TODO: Implement validation error / required message
         
         view.accessibilityValue = textfieldElement.text?.isEmpty == false ? textFieldValue : placeholder
     }

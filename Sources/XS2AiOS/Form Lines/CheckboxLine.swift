@@ -14,6 +14,7 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	
 	/// Boolean indicating whether the element is disabled
 	private let disabled: Bool
+    private let invalid: Bool
     private let isRequired: Bool
     private let errorMessage: String?
 	
@@ -66,6 +67,7 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
     init(label: String, checked: Bool, name: String, disabled: Bool, isLoginCredential: Bool, invalid: Bool, isRequired: Bool, errorMessage: String?) {
 		self.checked = checked
 		self.name = name
+        self.invalid = invalid
         self.isRequired = isRequired
         self.errorMessage = errorMessage
 		
@@ -186,6 +188,14 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
         //        let stringRequired = required ? getStringForKey(key: "CheckboxLine.Required") : ""
         
         view.accessibilityLabel = "\(getStringForKey(key: "CheckboxLine.Checkbox")): \(stringDisabled). \(labelElement.text ?? "")"
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
     }
     
     private func setCheckedAccessibilityValue() {
@@ -194,6 +204,5 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
         } else {
             view.accessibilityValue = ""
         }
-        // TODO: Implement validation error / required message
     }
 }
