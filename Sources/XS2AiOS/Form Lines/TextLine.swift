@@ -12,16 +12,16 @@ protocol TextfieldParentDelegate {
 	func textFieldDidEndEditing(_ textField: UITextField)
 }
 
-class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, PotentialLoginCredentialFormLine {
+class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, PotentialLoginCredentialFormLine, ErrorableFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	internal let name: String
 	private let label: String
     private let placeholder: String
 	private let autocompleteAction: String?
-    private let invalid: Bool
     private let isRequired: Bool
-    private let errorMessage: String?
+    internal let invalid: Bool
+    internal let errorMessage: String?
 	let index: Int
 	let isLoginCredential: Bool
 

@@ -288,5 +288,28 @@ func decodeJSON(json: JSON, indexOffset: Int? = 0) -> [FormLine] {
 		}
 	}
 
-	return formClasses
+    return filterFormElements(formClasses)
+}
+
+/**
+ Function for filtering out duplicate validation error messages.
+*/
+private func filterFormElements(_ formElements: [FormLine]) -> [FormLine] {
+    return formElements.filter { formElement in
+        if let paragraphLine = formElement as? ParagraphLine {
+            if (!paragraphLine.isError()) {
+                return true
+            }
+            
+            return !formElements.contains {
+                if let errorableFormLine = $0 as? ErrorableFormLine {
+                    return errorableFormLine.errorMessage == paragraphLine.paragraphText
+                }
+                
+                return false
+            }
+        }
+        
+        return true
+    }
 }

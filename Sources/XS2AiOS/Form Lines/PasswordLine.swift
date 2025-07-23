@@ -1,6 +1,6 @@
 import UIKit
 
-class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate, PotentialLoginCredentialFormLine {
+class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate, PotentialLoginCredentialFormLine, ErrorableFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	let name: String
@@ -9,9 +9,9 @@ class PasswordLine: UIViewController, FormLine, ExposableFormElement, TextfieldP
 
     private let placeholder: String
     
-    private let invalid: Bool
     private let isRequired: Bool
-    private let errorMessage: String?
+    internal let invalid: Bool
+    internal let errorMessage: String?
     
 	let index: Int
 	let isLoginCredential: Bool

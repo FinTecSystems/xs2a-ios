@@ -12,7 +12,7 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 	
 	private var severity: Severity
 	private let paragraphTitle: String
-	private let paragraphText: String
+	internal let paragraphText: String
 
 	private let titleLabel = UILabel.makeInteractive()
 	private let textLabel = UILabel.makeInteractive()
@@ -38,6 +38,10 @@ class ParagraphLine: UIViewController, FormLine, OpenLinkDelegate {
 
 		super.init(nibName: nil, bundle: nil)
 	}
+    
+    func isError() -> Bool {
+        return severity == .error
+    }
 	
 	/// Function for opening webview in case the paragraph contains a tappable link
 	func openLink(url: URL) {

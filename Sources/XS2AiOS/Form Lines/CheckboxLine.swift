@@ -4,7 +4,7 @@ protocol OpenLinkDelegate {
 	func openLink(url: URL)
 }
 
-class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialLoginCredentialFormLine, OpenLinkDelegate {
+class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialLoginCredentialFormLine, OpenLinkDelegate, ErrorableFormLine {
 	var isLoginCredential: Bool
 	
 	var actionDelegate: ActionDelegate?
@@ -14,9 +14,9 @@ class CheckboxLine: UIViewController, FormLine, ExposableFormElement, PotentialL
 	
 	/// Boolean indicating whether the element is disabled
 	private let disabled: Bool
-    private let invalid: Bool
     private let isRequired: Bool
-    private let errorMessage: String?
+    internal let invalid: Bool
+    internal let errorMessage: String?
 	
 	let checkedImage = UIImage(named: "checkmark_ticked", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 	let uncheckedImage = UIImage(named: "checkmark", in: .images, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)

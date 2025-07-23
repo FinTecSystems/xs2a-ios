@@ -1,15 +1,15 @@
 import UIKit
 
-class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerViewDelegate, UIPickerViewDataSource {
+class SelectLine: UIViewController, FormLine, ExposableFormElement, UIPickerViewDelegate, UIPickerViewDataSource, ErrorableFormLine {
     var actionDelegate: ActionDelegate?
     
     private var options: [(id: String, label: Any)] = []
     var selectedElementId: String? = nil
     
     private let label: String
-    private let invalid: Bool
     private let isRequired: Bool
-    private let errorMessage: String?
+    internal let invalid: Bool
+    internal let errorMessage: String?
     internal let name: String
 
     private let labelElement = UILabel.make(size: .large)

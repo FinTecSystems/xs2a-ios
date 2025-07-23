@@ -1,6 +1,6 @@
 import UIKit
 
-class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextFieldDelegate, TextfieldParentDelegate {
+class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextFieldDelegate, TextfieldParentDelegate, ErrorableFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	internal let name: String
@@ -13,10 +13,10 @@ class CaptchaLine: UIViewController, FormLine, ExposableFormElement, UITextField
     let subTextContainer: SubTextContainer
 	
     private let placeholder: String
-    private let invalid: Bool
     private let label: String
     private let isRequired: Bool
-    private let errorMessage: String?
+    internal let invalid: Bool
+    internal let errorMessage: String?
     
 	/**
 	 - Parameters:

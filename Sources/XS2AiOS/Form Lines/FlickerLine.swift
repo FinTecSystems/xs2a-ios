@@ -5,15 +5,15 @@ enum FlickerAlignment {
 	case horizontal
 }
 
-class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate {
+class FlickerLine: UIViewController, FormLine, ExposableFormElement, TextfieldParentDelegate, ErrorableFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	internal let name: String
 	private let index: Int
     private let placeholder: String
-    private let invalid: Bool
     private let isRequired: Bool
-    private let errorMessage: String?
+    internal let invalid: Bool
+    internal let errorMessage: String?
 	
 	/**
 	An array of arrays that contain 5 integers each, indicating on/white (1) or off/black (0) for the flickerContainers.
