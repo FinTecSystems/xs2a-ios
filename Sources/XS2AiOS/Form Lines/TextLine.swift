@@ -12,18 +12,22 @@ protocol TextfieldParentDelegate {
 	func textFieldDidEndEditing(_ textField: UITextField)
 }
 
-class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, PotentialLoginCredentialFormLine {
+class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDelegate, TextfieldParentDelegate, PotentialLoginCredentialFormLine, ErrorableFormLine {
 	var actionDelegate: ActionDelegate?
 	
 	internal let name: String
 	private let label: String
     private let placeholder: String
 	private let autocompleteAction: String?
+    private let isRequired: Bool
+    internal let invalid: Bool
+    internal let errorMessage: String?
 	let index: Int
 	let isLoginCredential: Bool
 
 	private let labelElement = UILabel.make(size: .large)
 	let textfieldElement: XS2ATextfield
+    let subTextContainer: SubTextContainer
 	
 	/**
 	 - Parameters:
@@ -36,21 +40,34 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	   - placeholder: The placeholder for this text field
 	   - index: Index of this element relative to all other input fields in the current parent view. Used for finding next responder.
 	   - isLoginCredential: If this field is a login credential
+       - isRequired: If this field is required
+       - errorMessage: If this field contains a validation error
 	*/
-	init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool) {
+    init(name: String, label: String, disabled: Bool, invalid: Bool, autocompleteAction: String?, value: String, placeholder: String, index: Int, isLoginCredential: Bool, isRequired: Bool, errorMessage: String?) {
 		self.name = name
 		self.label = label
         self.placeholder = placeholder
-		self.labelElement.text = label
-		self.autocompleteAction = autocompleteAction
+        self.labelElement.text = label + (isRequired ? "*" : "")
+        self.autocompleteAction = autocompleteAction
 		self.index = index
 		self.isLoginCredential = isLoginCredential
+        self.invalid = invalid
+        self.isRequired = isRequired
+        self.errorMessage = errorMessage
 				
 		if self.autocompleteAction?.isEmpty == false {
 			textfieldElement = TriggerTextfield()
 		} else {
 			textfieldElement = Textfield()
 		}
+        
+        subTextContainer = SubTextContainer(contentView: textfieldElement)
+        
+        if (invalid) {
+            subTextContainer.showMessage(errorMessage, isError: true)
+        } else if (isRequired) {
+            subTextContainer.showMessage(getStringForKey(key: "Input.Required"), isError: false, prefix: "*")
+        }
 		
 		textfieldElement.text = value
 		textfieldElement.attributedPlaceholder = NSAttributedString(
@@ -134,7 +151,7 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		let stackView = UIStackView(arrangedSubviews: [labelElement, textfieldElement])
+        let stackView = UIStackView(arrangedSubviews: [labelElement, subTextContainer])
 		stackView.addCustomSpacing(5, after: labelElement)
 		stackView.axis = .vertical
 		stackView.distribution = .fill
@@ -171,9 +188,19 @@ class TextLine: UIViewController, FormLine, ExposableFormElement, NotificationDe
     private func setupAccessibility() {
         labelElement.isAccessibilityElement = false
         textfieldElement.isAccessibilityElement = false
+        subTextContainer.isAccessibilityElement = false
         view.isAccessibilityElement = true
         view.accessibilityTraits = .none
         view.accessibilityLabel = "\(label). \(getStringForKey(key: "TextLine.Textfield"))"
+        
+        if (invalid) {
+            view.accessibilityHint = "\(getStringForKey(key: "Input.Error")): \(errorMessage ?? "")"
+        } else if (isRequired) {
+            view.accessibilityHint = getStringForKey(key: "Input.Required")
+        } else {
+            view.accessibilityHint = nil
+        }
+        
         updateAccessibilityValue()
     }
     

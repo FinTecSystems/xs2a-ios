@@ -57,3 +57,5 @@
 "SelectLine.Done" = "Done";
 "SelectLine.Hint" = "Double-tap to open and then select the option below";
 "SelectLine.PickerHint" = "Use the Done button above to close";
+"Input.Required" = "required";
+"Input.Error" = "Error";

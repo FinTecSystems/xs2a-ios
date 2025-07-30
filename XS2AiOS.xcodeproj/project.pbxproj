@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		25E9570F2B6BDB22001146E0 /* LoadingStateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */; };
+		C91321CE2E3117A8009F2305 /* ErrorableFormLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */; };
 		C934083E2E0BE85600DC7477 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408322E0BE85600DC7477 /* Status.swift */; };
 		C934083F2E0BE85600DC7477 /* AES256.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408272E0BE85600DC7477 /* AES256.swift */; };
 		C93408402E0BE85600DC7477 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408342E0BE85600DC7477 /* Updatable.swift */; };
@@ -25,6 +26,7 @@
 		C934084C2E0BE85600DC7477 /* SwCrypt.h in Headers */ = {isa = PBXBuildFile; fileRef = C93408382E0BE85600DC7477 /* SwCrypt.h */; };
 		C934084F2E0BE85600DC7477 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C934083B2E0BE85600DC7477 /* README.md */; };
 		C93408522E0BE8AD00DC7477 /* XS2AResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93408512E0BE8AD00DC7477 /* XS2AResult.swift */; };
+		C9368DBC2E31170E006D7FF8 /* SubTextContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9368DBB2E31170E006D7FF8 /* SubTextContainer.swift */; };
 		DC5228E1281C175300B607C7 /* TriggerTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E0281C175300B607C7 /* TriggerTextfield.swift */; };
 		DC5228E3281C178D00B607C7 /* XS2ATextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */; };
 		DC6847BB278EDA2400A5054F /* XS2AiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6847BA278EDA2400A5054F /* XS2AiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,12 +57,10 @@
 		DC684818278EDA5200A5054F /* XS2A.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847DE278EDA5200A5054F /* XS2A.swift */; };
 		DC684819278EDA5200A5054F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC6847E0278EDA5200A5054F /* Localizable.strings */; };
 		DC68481A278EDA5200A5054F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC6847E5278EDA5200A5054F /* Images.xcassets */; };
-		DC68481B278EDA5200A5054F /* ResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC6847E7278EDA5200A5054F /* ResultCell.xib */; };
 		DC68481C278EDA5200A5054F /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847E9278EDA5200A5054F /* Strings.swift */; };
 		DC68481D278EDA5200A5054F /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847EA278EDA5200A5054F /* Animation.swift */; };
 		DC68481E278EDA5200A5054F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847EB278EDA5200A5054F /* APIService.swift */; };
 		DC68481F278EDA5200A5054F /* BundleFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847EC278EDA5200A5054F /* BundleFinder.swift */; };
-		DC684820278EDA5200A5054F /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847ED278EDA5200A5054F /* ResultCell.swift */; };
 		DC684821278EDA5200A5054F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847EE278EDA5200A5054F /* Helpers.swift */; };
 		DC684823278EDA5200A5054F /* ResponseDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847F0278EDA5200A5054F /* ResponseDecoder.swift */; };
 		DC684824278EDA5200A5054F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6847F1278EDA5200A5054F /* WebViewController.swift */; };
@@ -85,6 +85,7 @@
 
 /* Begin PBXFileReference section */
 		25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingStateProvider.swift; sourceTree = "<group>"; };
+		C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorableFormLine.swift; sourceTree = "<group>"; };
 		C93408272E0BE85600DC7477 /* AES256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AES256.swift; sourceTree = "<group>"; };
 		C93408282E0BE85600DC7477 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C934082A2E0BE85600DC7477 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
@@ -105,6 +106,7 @@
 		C934083B2E0BE85600DC7477 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AiOSNetService.swift; sourceTree = "<group>"; };
 		C93408512E0BE8AD00DC7477 /* XS2AResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AResult.swift; sourceTree = "<group>"; };
+		C9368DBB2E31170E006D7FF8 /* SubTextContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTextContainer.swift; sourceTree = "<group>"; };
 		DC43DDCF2795801200FCE9A1 /* XS2AiOSNetService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = XS2AiOSNetService.xcframework; path = Carthage/Build/XS2AiOSNetService.xcframework; sourceTree = "<group>"; };
 		DC5228E0281C175300B607C7 /* TriggerTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriggerTextfield.swift; sourceTree = "<group>"; };
 		DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XS2ATextfield.swift; sourceTree = "<group>"; };
@@ -141,12 +143,10 @@
 		DC6847E4278EDA5200A5054F /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DC6847E5278EDA5200A5054F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DC6847E6278EDA5200A5054F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DC6847E7278EDA5200A5054F /* ResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultCell.xib; sourceTree = "<group>"; };
 		DC6847E9278EDA5200A5054F /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DC6847EA278EDA5200A5054F /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		DC6847EB278EDA5200A5054F /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		DC6847EC278EDA5200A5054F /* BundleFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleFinder.swift; sourceTree = "<group>"; };
-		DC6847ED278EDA5200A5054F /* ResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultCell.swift; sourceTree = "<group>"; };
 		DC6847EE278EDA5200A5054F /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		DC6847F0278EDA5200A5054F /* ResponseDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDecoder.swift; sourceTree = "<group>"; };
 		DC6847F1278EDA5200A5054F /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +283,7 @@
 		DC6847C4278EDA5200A5054F /* Base Elements */ = {
 			isa = PBXGroup;
 			children = (
+				C9368DBB2E31170E006D7FF8 /* SubTextContainer.swift */,
 				DC5228E0281C175300B607C7 /* TriggerTextfield.swift */,
 				DC6847C5278EDA5200A5054F /* FlickerContainer.swift */,
 				DC6847C6278EDA5200A5054F /* RadioButtonController.swift */,
@@ -324,7 +325,6 @@
 				E6E382092BAC356C0099F710 /* PrivacyInfo.xcprivacy */,
 				DC6847E0278EDA5200A5054F /* Localizable.strings */,
 				DC6847E5278EDA5200A5054F /* Images.xcassets */,
-				DC6847E7278EDA5200A5054F /* ResultCell.xib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -337,7 +337,6 @@
 				DC6847EA278EDA5200A5054F /* Animation.swift */,
 				DC6847EB278EDA5200A5054F /* APIService.swift */,
 				DC6847EC278EDA5200A5054F /* BundleFinder.swift */,
-				DC6847ED278EDA5200A5054F /* ResultCell.swift */,
 				DC6847EE278EDA5200A5054F /* Helpers.swift */,
 				DC6847F0278EDA5200A5054F /* ResponseDecoder.swift */,
 				DC6847F1278EDA5200A5054F /* WebViewController.swift */,
@@ -364,6 +363,7 @@
 		DC6847FB278EDA5200A5054F /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */,
 				25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */,
 				DC5228E2281C178D00B607C7 /* XS2ATextfield.swift */,
 				DC6847FC278EDA5200A5054F /* FormLine.swift */,
@@ -459,7 +459,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC684819278EDA5200A5054F /* Localizable.strings in Resources */,
-				DC68481B278EDA5200A5054F /* ResultCell.xib in Resources */,
 				E6E3820A2BAC356C0099F710 /* PrivacyInfo.xcprivacy in Resources */,
 				C934084F2E0BE85600DC7477 /* README.md in Resources */,
 				DC68481A278EDA5200A5054F /* Images.xcassets in Resources */,
@@ -473,8 +472,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C91321CE2E3117A8009F2305 /* ErrorableFormLine.swift in Sources */,
 				DC68480C278EDA5200A5054F /* CaptchaLine.swift in Sources */,
-				DC684820278EDA5200A5054F /* ResultCell.swift in Sources */,
 				DC68481E278EDA5200A5054F /* APIService.swift in Sources */,
 				DC68482F278EDA5200A5054F /* ExposableFormElement.swift in Sources */,
 				DC68482B278EDA5200A5054F /* LoadingDialog+ViewContoller.swift in Sources */,
@@ -509,6 +508,7 @@
 				DC684825278EDA5200A5054F /* AutocompleteView.swift in Sources */,
 				DC684802278EDA5200A5054F /* InteractiveLinkLabel.swift in Sources */,
 				DCEFBD8C27F45B6B009E71CC /* PotentialLoginCredentialFormLine.swift in Sources */,
+				C9368DBC2E31170E006D7FF8 /* SubTextContainer.swift in Sources */,
 				DC684816278EDA5200A5054F /* RadioLine.swift in Sources */,
 				DC684817278EDA5200A5054F /* AutosubmitLine.swift in Sources */,
 				DC6847FF278EDA5200A5054F /* XS2AViewController.swift in Sources */,
