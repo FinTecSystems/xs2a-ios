@@ -88,7 +88,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 54
+		return UITableView.automaticDimension
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -154,7 +154,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 			}
             
             if #available(iOS 14.0, *) {
-                var content = cell.defaultContentConfiguration()
+                var content = UIListContentConfiguration.subtitleCell()
                 
                 content.attributedText = attributedStringLine1
                 content.textProperties.color = XS2A.shared.styleProvider.textColor
@@ -260,6 +260,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 
 		resultTable.delegate = self
 		resultTable.dataSource = self
+		resultTable.estimatedRowHeight = 54
 		
 		/// Hides empty cells on load
 		resultTable.tableFooterView = UIView()
