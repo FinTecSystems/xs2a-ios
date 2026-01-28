@@ -274,14 +274,9 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		view.addSubview(stackView)
 		
 		stackView.translatesAutoresizingMaskIntoConstraints = false
-		
-		var topPadding: CGFloat = 0
-		if modalPresentationStyle == .pageSheet {
-			topPadding = 20
-		}
 
 		NSLayoutConstraint.activate([
-			stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topPadding),
+			stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
 			stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
 			stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
 			resultTable.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height),
