@@ -17,7 +17,14 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build using Swift Package Manager
+      - name: Validate Swift Package Manager integration
+        run: swift package resolve
+
+  xcode-build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build using Xcode
         run: |
           xcodebuild build \
             -project XS2AiOS.xcodeproj \

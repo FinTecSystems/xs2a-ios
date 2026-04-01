@@ -197,8 +197,7 @@ public class XS2ANetService {
 
 		let attributes: [CFString: Any] = [
 			kSecAttrKeyType: kSecAttrKeyTypeRSA,
-			kSecAttrKeyClass: kSecAttrKeyClassPublic,
-			kSecAttrKeySizeInBits: 2048
+			kSecAttrKeyClass: kSecAttrKeyClassPublic
 		]
 
 		var error: Unmanaged<CFError>?
@@ -246,13 +245,16 @@ public class XS2ANetService {
 		guard idx < bytes.count, bytes[idx] == 0x30 else { return nil }
 		idx += 1
 		guard let algIdLen = readLength() else { return nil }
+		guard idx + algIdLen <= bytes.count else { return nil }
 		idx += algIdLen
 
 		// BIT STRING — skip tag + length, then the 0x00 "unused bits" padding byte
 		guard idx < bytes.count, bytes[idx] == 0x03 else { return nil }
 		idx += 1
-		guard readLength() != nil else { return nil }
-		idx += 1
+		guard let bitStringLen = readLength() else { return nil }
+		guard bitStringLen > 0, idx + bitStringLen <= bytes.count else { return nil }
+		idx += 1 // skip unused-bits indicator byte
+		guard idx <= bytes.count else { return nil }
 
 		return Data(bytes[idx...])
 	}
