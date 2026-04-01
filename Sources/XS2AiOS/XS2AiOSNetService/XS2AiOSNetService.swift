@@ -131,16 +131,24 @@ public class XS2ANetService {
 		var buffer = [UInt8](repeating: 0, count: bufferSize)
 		var numBytesEncrypted = 0
 
-		let status = CCCrypt(
-			CCOperation(kCCEncrypt),
-			CCAlgorithm(kCCAlgorithmAES),
-			CCOptions(kCCOptionPKCS7Padding),
-			key, kCCKeySizeAES256,
-			iv,
-			inputBytes, inputBytes.count,
-			&buffer, bufferSize,
-			&numBytesEncrypted
-		)
+		let status: CCCryptorStatus = key.withUnsafeBytes { keyBytes in
+			iv.withUnsafeBytes { ivBytes in
+				inputBytes.withUnsafeBytes { inputBytesRaw in
+					buffer.withUnsafeMutableBytes { bufferRaw in
+						CCCrypt(
+							CCOperation(kCCEncrypt),
+							CCAlgorithm(kCCAlgorithmAES),
+							CCOptions(kCCOptionPKCS7Padding),
+							keyBytes.baseAddress, kCCKeySizeAES256,
+							ivBytes.baseAddress,
+							inputBytesRaw.baseAddress, inputBytes.count,
+							bufferRaw.baseAddress, bufferSize,
+							&numBytesEncrypted
+						)
+					}
+				}
+			}
+		}
 
 		guard status == kCCSuccess else {
 			throw XS2ANetError.networkError
@@ -217,7 +225,7 @@ public class XS2ANetService {
 		}
 
 		// Outer SEQUENCE
-		guard bytes[idx] == 0x30 else { return nil }
+		guard idx < bytes.count, bytes[idx] == 0x30 else { return nil }
 		idx += 1
 		guard readLength() != nil else { return nil }
 
