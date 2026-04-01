@@ -50,8 +50,8 @@ In case you want to integrate the module as XCFramework via Carthage, add the fo
 
 ```
 github "FinTecSystems/xs2a-ios"
-github "ninjaprox/NVActivityIndicatorView" ~> 5.1.1
-github "SwiftyJSON/SwiftyJSON" ~> 5.0.1
+github "ninjaprox/NVActivityIndicatorView" ~> 5.2.0
+github "SwiftyJSON/SwiftyJSON" ~> 5.0.2
 github "kishikawakatsumi/KeychainAccess" ~> 4.2.2
 ```
 
