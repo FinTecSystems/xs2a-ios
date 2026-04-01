@@ -43,6 +43,11 @@ public class XS2ANetService {
 		send(body: body, endpoint: endpoint, sessionKey: sessionKey, completion: completion)
 	}
 
+	@available(*, deprecated, renamed: "post(body:sessionKey:completion:)")
+	public func postCustom(body: [String: Any], sessionKey: String, completion: @escaping (Result<Data, Error>) -> Void) {
+		post(body: body, sessionKey: sessionKey, completion: completion)
+	}
+
 	// MARK: - Private Networking
 
 	private func send(body: [String: Any], endpoint: String, sessionKey: String, completion: @escaping (Result<Data, Error>) -> Void) {
@@ -168,7 +173,15 @@ public class XS2ANetService {
 		for _ in 0..<3 {
 			var input = di + pass + salt
 			var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
-			CC_MD5(&input, CC_LONG(input.count), &digest)
+			input.withUnsafeBytes { inputBuffer in
+				digest.withUnsafeMutableBytes { digestBuffer in
+					guard let inputPtr = inputBuffer.baseAddress,
+						  let digestPtr = digestBuffer.bindMemory(to: UInt8.self).baseAddress else {
+						return
+					}
+					CC_MD5(inputPtr, CC_LONG(input.count), digestPtr)
+				}
+			}
 			di = digest
 			dx += di
 		}
