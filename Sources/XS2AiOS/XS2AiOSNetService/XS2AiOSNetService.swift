@@ -26,32 +26,94 @@ private let publicKey = """
 
 public class XS2ANetService {
 	private var task = URLSessionDataTask()
-	
+
 	public init() {}
-	
-	private static func getPw() throws -> String {
-		/// Uses cryptographically secure random number generator according to Apple Docs:
-		/// https://developer.apple.com/documentation/security/1399291-secrandomcopybytes
-		var bytes = [UInt8](repeating: 0, count: 100)
-		let status = SecRandomCopyBytes(kSecRandomDefault, 100, &bytes)
-		if status == errSecSuccess {
-			return Data(bytes).base64EncodedString()
-		} else {
-			throw XS2ANetError.networkError
+
+	// MARK: - Public API
+
+	public func cancelTask() {
+		task.cancel()
+	}
+
+	public func post(body: [String: Any], sessionKey: String, completion: @escaping (Result<Data, Error>) -> Void) {
+		send(body: body, endpoint: "https://api.xs2a.com/jsonp", sessionKey: sessionKey, completion: completion)
+	}
+
+	public func postCustom(body: [String: Any], endpoint: String, sessionKey: String, completion: @escaping (Result<Data, Error>) -> Void) {
+		send(body: body, endpoint: endpoint, sessionKey: sessionKey, completion: completion)
+	}
+
+	// MARK: - Private Networking
+
+	private func send(body: [String: Any], endpoint: String, sessionKey: String, completion: @escaping (Result<Data, Error>) -> Void) {
+		do {
+			let request = try buildEncryptedRequest(body: body, endpoint: endpoint, sessionKey: sessionKey)
+			task = URLSession.shared.dataTask(with: request) { data, response, error in
+				guard let httpResponse = response as? HTTPURLResponse,
+					  (200..<300).contains(httpResponse.statusCode),
+					  let data = data else {
+					if let urlError = error as? URLError, urlError.code == .cancelled {
+						return
+					}
+					completion(.failure(error ?? XS2ANetError.networkError))
+					return
+				}
+				completion(.success(data))
+			}
+			task.resume()
+		} catch {
+			completion(.failure(error))
 		}
 	}
 
-	private static func encryptData(stringToEncrypt: String) throws -> String {
-		guard let pw = try? getPw() else {
+	private func buildEncryptedRequest(body: [String: Any], endpoint: String, sessionKey: String) throws -> URLRequest {
+		let jsonEncoded = try JSONSerialization.data(withJSONObject: body)
+
+		guard let jsonString = String(data: jsonEncoded, encoding: .utf8) else {
 			throw XS2ANetError.networkError
 		}
 
-		let publicKeyDER = Data(base64Encoded: publicKey, options: [.ignoreUnknownCharacters])!
-		let cipherKey = try rsaEncrypt(data: pw.data(using: .utf8)!, spkiDerKey: publicKeyDER)
+		let encryptedBody = try XS2ANetService.encryptData(stringToEncrypt: jsonString)
+		let payloadJSON = try JSONSerialization.data(withJSONObject: ["data": encryptedBody, "key": sessionKey])
+
+		guard let url = URL(string: endpoint) else {
+			throw XS2ANetError.networkError
+		}
+
+		var request = URLRequest(url: url)
+		request.httpMethod = "POST"
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.httpBody = payloadJSON
+		request.timeoutInterval = 180
+		return request
+	}
+
+	// MARK: - Private Crypto
+
+	private static func encryptData(stringToEncrypt: String) throws -> String {
+		let pw = try generatePassphrase()
+
+		guard let publicKeyDER = Data(base64Encoded: publicKey, options: [.ignoreUnknownCharacters]),
+			  let pwData = pw.data(using: .utf8) else {
+			throw XS2ANetError.networkError
+		}
+
+		let cipherKey = try rsaEncrypt(data: pwData, spkiDerKey: publicKeyDER)
 		let crypted = try aesEncrypt(input: stringToEncrypt, passphrase: pw)
 
 		let keyHex = cipherKey.map { String(format: "%02x", $0) }.joined()
 		return "\(keyHex)::\(crypted)"
+	}
+
+	/// Generates a cryptographically random 100-byte passphrase encoded as Base64.
+	/// Uses SecRandomCopyBytes per Apple Docs:
+	/// https://developer.apple.com/documentation/security/1399291-secrandomcopybytes
+	private static func generatePassphrase() throws -> String {
+		var bytes = [UInt8](repeating: 0, count: 100)
+		guard SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes) == errSecSuccess else {
+			throw XS2ANetError.networkError
+		}
+		return Data(bytes).base64EncodedString()
 	}
 
 	/// Encrypts `input` with AES-256-CBC using an OpenSSL-compatible EVP_BytesToKey key derivation
@@ -59,7 +121,7 @@ public class XS2ANetService {
 	/// server expects.
 	private static func aesEncrypt(input: String, passphrase: String) throws -> String {
 		var salt = [UInt8](repeating: 0, count: 8)
-		guard SecRandomCopyBytes(kSecRandomDefault, 8, &salt) == errSecSuccess else {
+		guard SecRandomCopyBytes(kSecRandomDefault, salt.count, &salt) == errSecSuccess else {
 			throw XS2ANetError.networkError
 		}
 
@@ -173,112 +235,4 @@ public class XS2ANetService {
 
 		return Data(bytes[idx...])
 	}
-	
-	public func cancelTask() {
-		self.task.cancel()
-	}
-
-	public func post(body: Dictionary<String, Any>, sessionKey: String, completion: @escaping ((Result<Data, Error>) -> Void)) {
-		let endpoint = "https://api.xs2a.com/jsonp"
-
-		do {
-			guard let jsonEncoded = try? JSONSerialization.data(withJSONObject: body) else {
-				throw XS2ANetError.networkError
-			}
-			
-			let jsonEncodedString = String(data: jsonEncoded, encoding: String.Encoding.utf8)
-			
-			guard let encryptedBodyData = try? XS2ANetService.encryptData(stringToEncrypt: jsonEncodedString!) else {
-				throw XS2ANetError.networkError
-			}
-
-			let payload = [
-				"data": encryptedBodyData,
-				"key": sessionKey
-			]
-			
-			guard let payloadJSON = try? JSONSerialization.data(withJSONObject: payload) else {
-				throw XS2ANetError.networkError
-			}
-			
-			var request = URLRequest(url: URL(string: endpoint)!)
-			request.httpMethod = "POST"
-			request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-			request.httpBody = payloadJSON
-			request.timeoutInterval = 180
-
-			task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-				guard let response = response as? HTTPURLResponse,
-					  (200 ..< 300) ~= response.statusCode,
-					  let data = data else {
-						  if let urlError = error as? URLError {
-							  if urlError.code == .cancelled {
-								  return
-							  }
-						  }
-						  completion(.failure(error ?? XS2ANetError.networkError))
-
-						  return
-				}
-
-				completion(.success(data))
-			}
-			
-			task.resume()
-		} catch {
-			completion(.failure(error))
-		}
-	}
-	
-	public func postCustom(body: Dictionary<String, Any>, endpoint: String = "http://192.168.178.44:8080/jsonp", sessionKey: String, completion: @escaping ((Result<Data, Error>) -> Void)) {
-		do {
-			guard let jsonEncoded = try? JSONSerialization.data(withJSONObject: body) else {
-				throw XS2ANetError.networkError
-			}
-			
-			let jsonEncodedString = String(data: jsonEncoded, encoding: String.Encoding.utf8)
-			
-			guard let encryptedBodyData = try? XS2ANetService.encryptData(stringToEncrypt: jsonEncodedString!) else {
-				throw XS2ANetError.networkError
-			}
-
-			let payload = [
-				"data": encryptedBodyData,
-				"key": sessionKey
-			]
-			
-			guard let payloadJSON = try? JSONSerialization.data(withJSONObject: payload) else {
-				throw XS2ANetError.networkError
-			}
-			
-			var request = URLRequest(url: URL(string: endpoint)!)
-			request.httpMethod = "POST"
-			request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-			request.httpBody = payloadJSON
-			request.timeoutInterval = 180
-
-			task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-				guard let response = response as? HTTPURLResponse,
-					  (200 ..< 300) ~= response.statusCode,
-					  let data = data else {
-						  if let urlError = error as? URLError {
-							  if urlError.code == .cancelled {
-								  return
-							  }
-						  }
-
-						  completion(.failure(error ?? XS2ANetError.networkError))
-
-						  return
-				}
-
-				completion(.success(data))
-			}
-
-			task.resume()
-		} catch {
-			completion(.failure(error))
-		}
-	}
 }
-
