@@ -9,21 +9,21 @@ jobs:
   cocoapods:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build using CocoaPods
         run: pod lib lint XS2AiOS.podspec --allow-warnings
 
   swift-package-manager:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Validate Swift Package Manager integration
         run: swift package resolve
 
   xcode-build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build using Xcode
         run: |
           xcodebuild build \
@@ -37,6 +37,6 @@ jobs:
   carthage:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build using Carthage
         run: carthage build --no-skip-current --use-xcframeworks --platform iOS
