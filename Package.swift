@@ -15,8 +15,8 @@ let package = Package(
 			targets: ["XS2AiOS"]),
 	],
 	dependencies: [
-		.package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
-		.package(url: "https://github.com/ninjaprox/NVActivityIndicatorView.git", from: "5.1.1"),
+		.package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.2"),
+		.package(url: "https://github.com/ninjaprox/NVActivityIndicatorView.git", from: "5.2.0"),
 		.package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.2")
 	],
 	targets: [

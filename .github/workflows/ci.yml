@@ -6,10 +6,37 @@ on:
     branches: [ "master", "develop" ]
     
 jobs:
-  build:
-    runs-on: macOS-latest
+  cocoapods:
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Build using Cocoapods
+      - uses: actions/checkout@v6
+      - name: Build using CocoaPods
+        run: pod lib lint XS2AiOS.podspec --allow-warnings
+
+  swift-package-manager:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate Swift Package Manager integration
+        run: swift package resolve
+
+  xcode-build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build using Xcode
         run: |
-          pod lib lint XS2AiOS.podspec --allow-warnings
+          xcodebuild build \
+            -project XS2AiOS.xcodeproj \
+            -scheme xs2a-ios \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+  carthage:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build using Carthage
+        run: carthage build --no-skip-current --use-xcframeworks --platform iOS

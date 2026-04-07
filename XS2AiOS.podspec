@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'XS2AiOS'
-  s.version          = '2.3.1'
+  s.version          = '2.3.2'
   s.summary          = 'Native integration of Tink Germany XS2A API for your iOS apps.'
 
   s.homepage         = 'https://github.com/FinTecSystems/xs2a-ios'
@@ -8,8 +8,8 @@ Pod::Spec.new do |s|
   s.author           = { 'Tink Germany GmbH' => 'support@tink-germany.com' }
   s.source           = { :git => 'https://github.com/FinTecSystems/xs2a-ios.git', :tag => s.version.to_s }
 
-  s.dependency		'SwiftyJSON', '5.0.1'
-  s.dependency		'NVActivityIndicatorView', '5.1.1'
+  s.dependency		'SwiftyJSON', '5.0.2'
+  s.dependency		'NVActivityIndicatorView', '5.2.0'
   s.dependency		'KeychainAccess', '4.2.2'
 
   s.cocoapods_version = '>= 1.10.0'
