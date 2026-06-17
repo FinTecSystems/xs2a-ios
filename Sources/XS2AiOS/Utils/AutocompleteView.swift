@@ -210,9 +210,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		self.nextButton.setTitle(Strings.next, for: .normal)
 
 		
-		let font = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
-		let italicFont = UIFont(descriptor: font.fontDescriptor.withSymbolicTraits(.traitItalic)!, size: 14)
-		
+        let italicFont = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: .traitItalic)
 		self.infoLabel.font = italicFont
 
 		super.init(nibName: nil, bundle: nil)
