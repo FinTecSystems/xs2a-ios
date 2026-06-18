@@ -128,13 +128,16 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 			
 			var searchRangeLine2 = NSRange(location: 0, length: line2Text.count)
 			var foundRangeLine2 = NSRange()
+            
+            let line1BoldFont = XS2A.shared.styleProvider.font.getFont(ofSize: 15, ofWeight: .traitBold)
+            let line2BoldFont = XS2A.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: .traitBold)
 
 			while searchRangeLine1.location < line1Text.count {
 				searchRangeLine1.length = line1Text.count - searchRangeLine1.location
 				foundRangeLine1 = (line1Text as NSString).range(of: searchFieldText, options: .caseInsensitive, range: searchRangeLine1)
 				if foundRangeLine1.location != NSNotFound {
 					searchRangeLine1.location = foundRangeLine1.location + foundRangeLine1.length
-					attributedStringLine1.setAttributes([.font: UIFont.boldSystemFont(ofSize: 15)], range: foundRangeLine1)
+					attributedStringLine1.setAttributes([.font: line1BoldFont], range: foundRangeLine1)
 				}
 				else {
 					break
@@ -146,7 +149,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 				foundRangeLine2 = (line2Text as NSString).range(of: searchFieldText, options: .caseInsensitive, range: searchRangeLine2)
 				if foundRangeLine2.location != NSNotFound {
 					searchRangeLine2.location = foundRangeLine2.location + foundRangeLine2.length
-					attributedStringLine2.setAttributes([.font: UIFont.boldSystemFont(ofSize: 12)], range: foundRangeLine2)
+					attributedStringLine2.setAttributes([.font: line2BoldFont], range: foundRangeLine2)
 				}
 				else {
 					break
@@ -210,9 +213,7 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
 		self.nextButton.setTitle(Strings.next, for: .normal)
 
 		
-		let font = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: nil)
-		let italicFont = UIFont(descriptor: font.fontDescriptor.withSymbolicTraits(.traitItalic)!, size: 14)
-		
+        let italicFont = XS2A.shared.styleProvider.font.getFont(ofSize: 14, ofWeight: .traitItalic)
 		self.infoLabel.font = italicFont
 
 		super.init(nibName: nil, bundle: nil)
