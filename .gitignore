@@ -6,3 +6,4 @@ DerivedData/
 .swiftpm/
 Package.resolved
 Carthage/*
+.superpowers/
