@@ -50,7 +50,7 @@ jobs:
           xcodebuild test \
             -project XS2AiOS.xcodeproj \
             -scheme xs2a-ios \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,OS=latest' \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
