@@ -1,0 +1,56 @@
+name: Record Screenshots
+
+# Manually triggered to (re-)record golden screenshot images on a specific branch.
+# Run this whenever an intentional UI change requires updating the golden baselines.
+#
+# Workflow:
+#   1. Trigger this workflow targeting the branch that contains the UI change.
+#   2. The workflow records new goldens on macos-latest (matching the verify environment).
+#   3. Updated images are committed back to the branch automatically.
+#   4. The snapshot-tests CI job will then pass on the next push.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to record golden screenshots on'
+        required: true
+        default: 'develop'
+
+jobs:
+  record-screenshots:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.branch }}
+          lfs: true
+
+      - name: Set up Git LFS
+        run: git lfs install
+
+      - name: Record golden screenshots
+        run: |
+          xcodebuild test \
+            -project XS2AiOS.xcodeproj \
+            -scheme XS2AiOSSnapshotTests \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            -testenv IS_RECORDING_SNAPSHOTS=YES
+
+      - name: Commit updated golden images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Tests/XS2AiOSSnapshotTests/
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit."
+          else
+            git commit -m "chore: update screenshot golden images [skip ci]"
+            git push origin ${{ github.event.inputs.branch }}
+          fi
