@@ -29,7 +29,7 @@ let package = Package(
 		),
 		.testTarget(
 			name: "XS2AiOSTests",
-			dependencies: ["XS2AiOS"]),
+			dependencies: ["XS2AiOS", "SwiftyJSON"]),
 	],
 	swiftLanguageVersions: [SwiftVersion.v5]
 )
