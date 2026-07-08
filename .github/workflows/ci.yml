@@ -47,11 +47,9 @@ jobs:
       - uses: actions/checkout@v7
       - name: Run unit tests
         run: |
-          # Move the Xcode project aside so xcodebuild resolves the test scheme
-          # from Package.swift instead of from the Xcode project (which has no test target).
-          mv XS2AiOS.xcodeproj XS2AiOS.xcodeproj.disabled
           xcodebuild test \
-            -scheme XS2AiOS \
+            -project XS2AiOS.xcodeproj \
+            -scheme xs2a-ios \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \

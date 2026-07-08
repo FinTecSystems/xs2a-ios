@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		25E9570F2B6BDB22001146E0 /* LoadingStateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */; };
+		AA0000112E000000000AA001 /* XS2AiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012E000000000AA001 /* XS2AiOSTests.swift */; };
+		AA0000122E000000000AA001 /* HelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000022E000000000AA001 /* HelpersTests.swift */; };
+		AA0000132E000000000AA001 /* UIColorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000032E000000000AA001 /* UIColorExtensionTests.swift */; };
+		AA0000142E000000000AA001 /* ConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000042E000000000AA001 /* ConfigurationTests.swift */; };
+		AA0000152E000000000AA001 /* XS2AResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000052E000000000AA001 /* XS2AResultTests.swift */; };
+		AA0000162E000000000AA001 /* ResponseDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000062E000000000AA001 /* ResponseDecoderTests.swift */; };
+		AA0000172E000000000AA001 /* XS2AiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6847B7278EDA2400A5054F /* XS2AiOS.framework */; };
+		AA0000182E000000000AA001 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000292E000000000AA001 /* SwiftyJSON */; };
 		C91321CE2E3117A8009F2305 /* ErrorableFormLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */; };
 		C93408422E0BE85600DC7477 /* XS2AiOSNetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */; };
 		C934084F2E0BE85600DC7477 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C934083B2E0BE85600DC7477 /* README.md */; };
@@ -71,6 +79,13 @@
 
 /* Begin PBXFileReference section */
 		25E9570E2B6BDB22001146E0 /* LoadingStateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingStateProvider.swift; sourceTree = "<group>"; };
+		AA0000012E000000000AA001 /* XS2AiOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AiOSTests.swift; sourceTree = "<group>"; };
+		AA0000022E000000000AA001 /* HelpersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpersTests.swift; sourceTree = "<group>"; };
+		AA0000032E000000000AA001 /* UIColorExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensionTests.swift; sourceTree = "<group>"; };
+		AA0000042E000000000AA001 /* ConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
+		AA0000052E000000000AA001 /* XS2AResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AResultTests.swift; sourceTree = "<group>"; };
+		AA0000062E000000000AA001 /* ResponseDecoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDecoderTests.swift; sourceTree = "<group>"; };
+		AA0000302E000000000AA001 /* XS2AiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XS2AiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorableFormLine.swift; sourceTree = "<group>"; };
 		C934083B2E0BE85600DC7477 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XS2AiOSNetService.swift; sourceTree = "<group>"; };
@@ -148,6 +163,16 @@
 		};
 /* End PBXFrameworksBuildPhase section */
 
+/* Begin PBXContainerItemProxy section */
+		AA0000272E000000000AA001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC6847AE278EDA2400A5054F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC6847B6278EDA2400A5054F;
+			remoteInfo = XS2AiOS;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXGroup section */
 		C934083D2E0BE85600DC7477 /* XS2AiOSNetService */ = {
 			isa = PBXGroup;
@@ -170,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				DC6847C1278EDA5200A5054F /* Sources */,
+				AA0000202E000000000AA001 /* Tests */,
 				DC6847B8278EDA2400A5054F /* Products */,
 				DC43DDC02795725E00FCE9A1 /* Frameworks */,
 			);
@@ -179,9 +205,23 @@
 			isa = PBXGroup;
 			children = (
 				DC6847B7278EDA2400A5054F /* XS2AiOS.framework */,
+				AA0000302E000000000AA001 /* XS2AiOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		AA0000202E000000000AA001 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000012E000000000AA001 /* XS2AiOSTests.swift */,
+				AA0000022E000000000AA001 /* HelpersTests.swift */,
+				AA0000032E000000000AA001 /* UIColorExtensionTests.swift */,
+				AA0000042E000000000AA001 /* ConfigurationTests.swift */,
+				AA0000052E000000000AA001 /* XS2AResultTests.swift */,
+				AA0000062E000000000AA001 /* ResponseDecoderTests.swift */,
+			);
+			path = Tests/XS2AiOSTests;
+			sourceTree = SOURCE_ROOT;
 		};
 		DC6847C1278EDA5200A5054F /* Sources */ = {
 			isa = PBXGroup;
@@ -341,6 +381,29 @@
 		};
 /* End PBXNativeTarget section */
 
+/* Begin PBXNativeTarget section (XS2AiOSTests) */
+		AA0000232E000000000AA001 /* XS2AiOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000262E000000000AA001 /* Build configuration list for PBXNativeTarget "XS2AiOSTests" */;
+			buildPhases = (
+				AA0000212E000000000AA001 /* Sources */,
+				AA0000222E000000000AA001 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA0000282E000000000AA001 /* PBXTargetDependency */,
+			);
+			name = XS2AiOSTests;
+			packageProductDependencies = (
+				AA0000292E000000000AA001 /* SwiftyJSON */,
+			);
+			productName = XS2AiOSTests;
+			productReference = AA0000302E000000000AA001 /* XS2AiOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section (XS2AiOSTests) */
+
 /* Begin PBXProject section */
 		DC6847AE278EDA2400A5054F /* Project object */ = {
 			isa = PBXProject;
@@ -350,6 +413,10 @@
 				TargetAttributes = {
 					DC6847B6278EDA2400A5054F = {
 						CreatedOnToolsVersion = 13.2.1;
+					};
+					AA0000232E000000000AA001 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = DC6847B6278EDA2400A5054F;
 					};
 				};
 			};
@@ -376,6 +443,7 @@
 			projectRoot = "";
 			targets = (
 				DC6847B6278EDA2400A5054F /* XS2AiOS */,
+				AA0000232E000000000AA001 /* XS2AiOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -455,6 +523,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section (XS2AiOSTests) */
+		AA0000212E000000000AA001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000112E000000000AA001 /* XS2AiOSTests.swift in Sources */,
+				AA0000122E000000000AA001 /* HelpersTests.swift in Sources */,
+				AA0000132E000000000AA001 /* UIColorExtensionTests.swift in Sources */,
+				AA0000142E000000000AA001 /* ConfigurationTests.swift in Sources */,
+				AA0000152E000000000AA001 /* XS2AResultTests.swift in Sources */,
+				AA0000162E000000000AA001 /* ResponseDecoderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section (XS2AiOSTests) */
+
+/* Begin PBXFrameworksBuildPhase section (XS2AiOSTests) */
+		AA0000222E000000000AA001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000172E000000000AA001 /* XS2AiOS.framework in Frameworks */,
+				AA0000182E000000000AA001 /* SwiftyJSON in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section (XS2AiOSTests) */
+
+/* Begin PBXTargetDependency section */
+		AA0000282E000000000AA001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC6847B6278EDA2400A5054F /* XS2AiOS */;
+			targetProxy = AA0000272E000000000AA001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DC6847E0278EDA5200A5054F /* Localizable.strings */ = {
@@ -670,6 +774,49 @@
 		};
 /* End XCBuildConfiguration section */
 
+/* Begin XCBuildConfiguration section (XS2AiOSTests) */
+		AA0000242E000000000AA001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fintecsystems.XS2AiOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
+			};
+			name = Debug;
+		};
+		AA0000252E000000000AA001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fintecsystems.XS2AiOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section (XS2AiOSTests) */
+
 /* Begin XCConfigurationList section */
 		DC6847B1278EDA2400A5054F /* Build configuration list for PBXProject "XS2AiOS" */ = {
 			isa = XCConfigurationList;
@@ -690,6 +837,18 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCConfigurationList section (XS2AiOSTests) */
+		AA0000262E000000000AA001 /* Build configuration list for PBXNativeTarget "XS2AiOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000242E000000000AA001 /* Debug */,
+				AA0000252E000000000AA001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section (XS2AiOSTests) */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
@@ -735,6 +894,14 @@
 			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCSwiftPackageProductDependency section (XS2AiOSTests) */
+		AA0000292E000000000AA001 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC684830278EDA9900A5054F /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section (XS2AiOSTests) */
 	};
 	rootObject = DC6847AE278EDA2400A5054F /* Project object */;
 }
