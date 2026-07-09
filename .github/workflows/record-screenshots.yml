@@ -44,6 +44,7 @@ jobs:
             TEST_RUNNER_IS_RECORDING_SNAPSHOTS=YES
 
       - name: Commit updated golden images
+        if: always()
         env:
           BRANCH: ${{ github.event.inputs.branch }}
         run: |
