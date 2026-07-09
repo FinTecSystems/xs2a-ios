@@ -41,7 +41,7 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            -testenv IS_RECORDING_SNAPSHOTS=YES
+            TEST_RUNNER_IS_RECORDING_SNAPSHOTS=YES
 
       - name: Commit updated golden images
         env:

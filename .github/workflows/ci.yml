@@ -62,6 +62,7 @@ jobs:
         with:
           lfs: true
       - name: Run snapshot tests
+        id: run-snapshots
         run: |
           xcodebuild test \
             -project XS2AiOS.xcodeproj \
@@ -70,3 +71,25 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
+      - name: Generate snapshot diffs
+        if: failure() && steps.run-snapshots.conclusion == 'failure'
+        run: |
+          find Tests/XS2AiOSSnapshotTests -path "*/__Snapshots__/__Failures__/*.png" | while read actual; do
+            # Derive the golden path by removing __Failures__/ from the path
+            golden="${actual/__Snapshots__\/__Failures__/__Snapshots__}"
+            if [ -f "$golden" ]; then
+              dir=$(dirname "$actual")
+              name=$(basename "$actual" .png)
+              # Generate side-by-side: golden | actual | diff-highlight
+              compare -metric AE "$golden" "$actual" "${dir}/${name}_diff.png" 2>/dev/null || true
+              convert +append "$golden" "$actual" "${dir}/${name}_diff.png" "${dir}/${name}_comparison.png" 2>/dev/null || true
+              rm -f "${dir}/${name}_diff.png"
+            fi
+          done
+      - name: Upload snapshot diffs on failure
+        if: failure() && steps.run-snapshots.conclusion == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-diffs
+          path: Tests/XS2AiOSSnapshotTests/**/__Snapshots__/__Failures__/
+          retention-days: 7
