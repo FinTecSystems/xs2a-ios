@@ -27,9 +27,6 @@ let package = Package(
 				.process("Resources")
 			]
 		),
-		.testTarget(
-			name: "XS2AiOSTests",
-			dependencies: ["XS2AiOS"]),
 	],
 	swiftLanguageVersions: [SwiftVersion.v5]
 )
