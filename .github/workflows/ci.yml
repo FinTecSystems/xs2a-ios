@@ -88,7 +88,7 @@ jobs:
           done
       - name: Upload snapshot diffs on failure
         if: failure() && steps.run-snapshots.conclusion == 'failure'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: snapshot-diffs
           path: Tests/XS2AiOSSnapshotTests/**/__Snapshots__/__Failures__/
