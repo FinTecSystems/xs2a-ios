@@ -34,6 +34,12 @@ jobs:
 
       - name: Record golden screenshots
         run: |
+          # Delete existing references so SnapshotTesting unconditionally
+          # auto-records fresh ones — this is more reliable than relying on
+          # isRecording, which requires env-var forwarding into the simulator
+          # process that xcodebuild does not guarantee.
+          find Tests -name "__Snapshots__" -type d -exec rm -rf {} + 2>/dev/null || true
+
           xcodebuild test \
             -project XS2AiOS.xcodeproj \
             -scheme XS2AiOSSnapshotTests \
@@ -41,7 +47,7 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            TEST_RUNNER_IS_RECORDING_SNAPSHOTS=YES
+          || true  # tests will fail (no references yet) — that is expected
 
       - name: Commit updated golden images
         if: always()
@@ -54,6 +60,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No screenshot changes to commit."
           else
-            git commit -m "chore: update screenshot golden images [skip ci]"
+            git commit -m "chore: update screenshot golden images"
             git push origin "$BRANCH"
           fi

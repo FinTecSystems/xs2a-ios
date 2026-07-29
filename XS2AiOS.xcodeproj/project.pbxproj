@@ -30,6 +30,7 @@
 		AA0000172E000000000AA001 /* XS2AiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6847B7278EDA2400A5054F /* XS2AiOS.framework */; };
 		AA0000182E000000000AA001 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000292E000000000AA001 /* SwiftyJSON */; };
 		C54389D825D9F63AFAF17CB7 /* SnapshotTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471A7D36F13E4A9C12C6B9EF /* SnapshotTestCase.swift */; };
+		25C9A9A757DE43BCB1098C79 /* AutocompleteViewSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC420DA8B9E4E2D858FC038 /* AutocompleteViewSnapshotTests.swift */; };
 		C91321CE2E3117A8009F2305 /* ErrorableFormLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91321CD2E3117A8009F2305 /* ErrorableFormLine.swift */; };
 		C93408422E0BE85600DC7477 /* XS2AiOSNetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934083C2E0BE85600DC7477 /* XS2AiOSNetService.swift */; };
 		C934084F2E0BE85600DC7477 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C934083B2E0BE85600DC7477 /* README.md */; };
@@ -120,6 +121,7 @@
 		362F770177C37F1D2C710F03 /* RestartLineSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RestartLineSnapshotTests.swift; sourceTree = "<group>"; };
 		37AF8DA05FE39BCDEBF3944F /* RedirectLineSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RedirectLineSnapshotTests.swift; sourceTree = "<group>"; };
 		471A7D36F13E4A9C12C6B9EF /* SnapshotTestCase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SnapshotTestCase.swift; sourceTree = "<group>"; };
+		BCC420DA8B9E4E2D858FC038 /* AutocompleteViewSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AutocompleteViewSnapshotTests.swift; sourceTree = "<group>"; };
 		4CBDD6DDB65008941315D818 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		538010FD8B80E1E4CEF09B32 /* TabLineSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TabLineSnapshotTests.swift; sourceTree = "<group>"; };
 		5ED6A9160E83B7E3F220B09C /* CheckboxLineSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CheckboxLineSnapshotTests.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				FD8FAA87A16F8001F9DDF9B7 /* FormLines */,
 				471A7D36F13E4A9C12C6B9EF /* SnapshotTestCase.swift */,
 				2E1962896E8D574B6D0C6A2C /* Themes.swift */,
+				BCC420DA8B9E4E2D858FC038 /* AutocompleteViewSnapshotTests.swift */,
 			);
 			name = XS2AiOSSnapshotTests;
 			path = XS2AiOSSnapshotTests;
@@ -624,6 +627,7 @@
 				798F47C1EE154D38AF31DC7F /* TabLineSnapshotTests.swift in Sources */,
 				0C60896B1677A8F59CD15935 /* RestartLineSnapshotTests.swift in Sources */,
 				8817F8134F533741D04AE4B5 /* RedirectLineSnapshotTests.swift in Sources */,
+				25C9A9A757DE43BCB1098C79 /* AutocompleteViewSnapshotTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

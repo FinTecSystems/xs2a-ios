@@ -20,7 +20,7 @@ class SnapshotTestCase: XCTestCase {
     ) {
         for theme in snapshotThemes {
             XS2A.configure(
-                withConfig: XS2A.Configuration(wizardSessionKey: "snapshot-test"),
+                withConfig: XS2A.Configuration(wizardSessionKey: "snapshot-test", baseURL: "http://localhost:0"),
                 withStyle: theme.style
             )
 
@@ -43,6 +43,59 @@ class SnapshotTestCase: XCTestCase {
             ).height
 
             let size = CGSize(width: 390, height: max(fittingHeight, 1))
+            let config = ViewImageConfig(
+                safeArea: .zero,
+                size: size,
+                traits: UITraitCollection()
+            )
+
+            assertSnapshot(
+                matching: vc,
+                as: .image(on: config),
+                named: "\(testName)_\(theme.name)",
+                file: file,
+                line: line
+            )
+        }
+    }
+
+    /// Variant of `assertSnapshots` for view controllers that need a fixed snapshot
+    /// size and/or post-load state injection.
+    ///
+    /// - Parameters:
+    ///   - size: Fixed size used for every snapshot. Use this when a view controller
+    ///     contains fixed-height constraints (e.g. a full-screen table view) that would
+    ///     make the auto-computed height unwieldy.
+    ///   - postLoad: Called after `loadViewIfNeeded()` and `layoutIfNeeded()` but before
+    ///     the snapshot is taken. Use this to inject state without going through the
+    ///     network (e.g. calling `reloadTable(with:)` on a search controller).
+    func assertSnapshots(
+        named testName: String,
+        size: CGSize,
+        postLoad: ((UIViewController) -> Void)? = nil,
+        file: StaticString = #file,
+        line: UInt = #line,
+        factory: () -> UIViewController
+    ) {
+        for theme in snapshotThemes {
+            XS2A.configure(
+                withConfig: XS2A.Configuration(wizardSessionKey: "snapshot-test", baseURL: "http://localhost:0"),
+                withStyle: theme.style
+            )
+
+            let vc = factory()
+
+            // Embed in a window so UIKit hierarchy is complete
+            let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 390, height: 2000))
+            window.rootViewController = vc
+            window.makeKeyAndVisible()
+
+            vc.loadViewIfNeeded()
+            vc.view.setNeedsLayout()
+            vc.view.layoutIfNeeded()
+
+            postLoad?(vc)
+
             let config = ViewImageConfig(
                 safeArea: .zero,
                 size: size,
