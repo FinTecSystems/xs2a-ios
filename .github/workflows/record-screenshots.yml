@@ -1,0 +1,65 @@
+name: Record Screenshots
+
+# Manually triggered to (re-)record golden screenshot images on a specific branch.
+# Run this whenever an intentional UI change requires updating the golden baselines.
+#
+# Workflow:
+#   1. Trigger this workflow targeting the branch that contains the UI change.
+#   2. The workflow records new goldens on macos-latest (matching the verify environment).
+#   3. Updated images are committed back to the branch automatically.
+#   4. The snapshot-tests CI job will then pass on the next push.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to record golden screenshots on'
+        required: true
+        default: 'develop'
+
+jobs:
+  record-screenshots:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.branch }}
+          lfs: true
+
+      - name: Set up Git LFS
+        run: git lfs install
+
+      - name: Record golden screenshots
+        run: |
+          # Delete existing references so SnapshotTesting unconditionally
+          # auto-records fresh ones — this is more reliable than relying on
+          # isRecording, which requires env-var forwarding into the simulator
+          # process that xcodebuild does not guarantee.
+          find Tests -name "__Snapshots__" -type d -exec rm -rf {} + 2>/dev/null || true
+
+          xcodebuild test \
+            -project XS2AiOS.xcodeproj \
+            -scheme XS2AiOSSnapshotTests \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+          || true  # tests will fail (no references yet) — that is expected
+
+      - name: Commit updated golden images
+        if: always()
+        env:
+          BRANCH: ${{ github.event.inputs.branch }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Tests/XS2AiOSSnapshotTests/
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit."
+          else
+            git commit -m "chore: update screenshot golden images"
+            git push origin "$BRANCH"
+          fi

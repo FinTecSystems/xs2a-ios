@@ -170,6 +170,10 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
                 content.secondaryTextProperties.font = XS2A.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
                 
                 cell.contentConfiguration = content
+
+                var bgConfig = UIBackgroundConfiguration.listPlainCell()
+                bgConfig.backgroundColor = XS2A.shared.styleProvider.backgroundColor
+                cell.backgroundConfiguration = bgConfig
             } else {
                 if let textLabel = cell.textLabel {
                     textLabel.attributedText = attributedStringLine1
@@ -188,6 +192,8 @@ class AutocompleteView: UIViewController, UITableViewDelegate, UITableViewDataSo
                     detailTextLabel.baselineAdjustment = .alignCenters
                     detailTextLabel.font = XS2A.shared.styleProvider.font.getFont(ofSize: 12, ofWeight: nil)
                 }
+
+                cell.backgroundColor = XS2A.shared.styleProvider.backgroundColor
             }
         }
 

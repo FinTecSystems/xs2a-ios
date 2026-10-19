@@ -9,21 +9,21 @@ jobs:
   cocoapods:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build using CocoaPods
         run: pod lib lint XS2AiOS.podspec --allow-warnings
 
   swift-package-manager:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Validate Swift Package Manager integration
         run: swift package resolve
 
   xcode-build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build using Xcode
         run: |
           xcodebuild build \
@@ -37,6 +37,59 @@ jobs:
   carthage:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build using Carthage
         run: carthage build --no-skip-current --use-xcframeworks --platform iOS
+
+  unit-tests:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run unit tests
+        run: |
+          xcodebuild test \
+            -project XS2AiOS.xcodeproj \
+            -scheme xs2a-ios \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+  snapshot-tests:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: true
+      - name: Run snapshot tests
+        id: run-snapshots
+        run: |
+          xcodebuild test \
+            -project XS2AiOS.xcodeproj \
+            -scheme XS2AiOSSnapshotTests \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+      - name: Generate snapshot diffs
+        if: failure() && steps.run-snapshots.conclusion == 'failure'
+        run: |
+          find Tests/XS2AiOSSnapshotTests -path "*/__Snapshots__/__Failures__/*.png" | while read actual; do
+            # Derive the golden path by removing __Failures__/ from the path
+            golden="${actual/__Snapshots__\/__Failures__/__Snapshots__}"
+            if [ -f "$golden" ]; then
+              dir=$(dirname "$actual")
+              name=$(basename "$actual" .png)
+              # Generate side-by-side: golden | actual | diff-highlight
+              compare -metric AE "$golden" "$actual" "${dir}/${name}_diff.png" 2>/dev/null || true
+              convert +append "$golden" "$actual" "${dir}/${name}_diff.png" "${dir}/${name}_comparison.png" 2>/dev/null || true
+              rm -f "${dir}/${name}_diff.png"
+            fi
+          done
+      - name: Upload snapshot diffs on failure
+        if: failure() && steps.run-snapshots.conclusion == 'failure'
+        uses: actions/upload-artifact@v7
+        with:
+          name: snapshot-diffs
+          path: Tests/XS2AiOSSnapshotTests/**/__Snapshots__/__Failures__/
+          retention-days: 7

@@ -18,7 +18,7 @@ class TabLine: UIViewController, FormLine {
 
 		var index = 0
 
-		for (key, value) in tabs {
+		for (key, value) in tabs.sorted(by: { $0.key < $1.key }) {
 			tabBtn.insertSegment(withTitle: value, at: index, animated: false)
 			tabOptions.append(key)
 
